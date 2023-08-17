@@ -1,24 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--LoginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController storyboardIdentifier="LoginViewController" title="LoginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LoginViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="lIR-YX-AeV">
+                                <rect key="frame" x="147" y="188" width="136" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="IXa-8f-RlU"/>
+                                    <constraint firstAttribute="width" constant="136" id="RxI-8H-FCz"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="함께라면 할 수 있어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCn-F4-MU2">
+                                <rect key="frame" x="161" y="232" width="108" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="09D-HZ-ofO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="14"/>
+                                <color key="textColor" name="neutral500"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AE-ii-6UQ">
+                                <rect key="frame" x="20" y="826" width="390" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="tKv-rY-PaN"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="KakaoLogin"/>
+                                <connections>
+                                    <action selector="kakaoLoginButtontapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="upr-UL-wXG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fti-gd-VsN">
+                                <rect key="frame" x="20" y="766" width="390" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="wfZ-7s-7ln"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="AppleLogin"/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Fti-gd-VsN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="1qF-Wo-BC6"/>
+                            <constraint firstItem="lIR-YX-AeV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2Td-ei-mdS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Fti-gd-VsN" secondAttribute="trailing" constant="20" id="2Zk-q8-Dhw"/>
+                            <constraint firstItem="kCn-F4-MU2" firstAttribute="top" secondItem="lIR-YX-AeV" secondAttribute="bottom" constant="16" id="Mk7-QX-RQ4"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="6AE-ii-6UQ" secondAttribute="bottom" constant="58" id="Mp9-Kq-Atc"/>
+                            <constraint firstItem="lIR-YX-AeV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="188" id="Znk-ba-OH8"/>
+                            <constraint firstItem="6AE-ii-6UQ" firstAttribute="top" secondItem="Fti-gd-VsN" secondAttribute="bottom" constant="12" id="aCm-94-Bif"/>
+                            <constraint firstItem="Fti-gd-VsN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cCv-WX-AR6"/>
+                            <constraint firstItem="kCn-F4-MU2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gw3-cF-H5d"/>
+                            <constraint firstItem="6AE-ii-6UQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jwA-fI-bKx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6AE-ii-6UQ" secondAttribute="trailing" constant="20" id="lli-tT-7gj"/>
+                            <constraint firstItem="6AE-ii-6UQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="oti-w3-g6g"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="kakaoLoginButton" destination="6AE-ii-6UQ" id="XW3-iu-4XS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140" y="-2"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="AppleLogin" width="335" height="48"/>
+        <image name="KakaoLogin" width="335" height="48"/>
+        <image name="Logo" width="136" height="28"/>
+        <namedColor name="neutral500">
+            <color red="0.47099998593330383" green="0.45899999141693115" blue="0.47499999403953552" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>
