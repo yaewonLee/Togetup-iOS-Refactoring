@@ -78,33 +78,6 @@
             </objects>
             <point key="canvasLocation" x="140" y="-2"/>
         </scene>
-        <!--ViewController-->
-        <scene sceneID="bSQ-Fa-itN">
-            <objects>
-                <viewController storyboardIdentifier="ViewController" title="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JZU-G2-Y8t" customClass="AlarmListViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZdB-uh-wNO">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wn7-7g-6Zs">
-                                <rect key="frame" x="196.66666666666666" y="455.66666666666669" width="36.666666666666657" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="O2a-cd-mic"/>
-                        <color key="backgroundColor" name="primary100"/>
-                        <constraints>
-                            <constraint firstItem="Wn7-7g-6Zs" firstAttribute="centerY" secondItem="ZdB-uh-wNO" secondAttribute="centerY" id="fu0-70-0KM"/>
-                            <constraint firstItem="Wn7-7g-6Zs" firstAttribute="centerX" secondItem="ZdB-uh-wNO" secondAttribute="centerX" id="lqn-LM-FHf"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="o5f-Sa-f0i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1169" y="-3"/>
-        </scene>
         <!--TabBarViewController-->
         <scene sceneID="7sI-9F-KOo">
             <objects>
@@ -193,16 +166,13 @@
         <image name="Logo" width="136" height="28"/>
         <image name="tabbarSelection" width="63" height="40"/>
         <namedColor name="neutral025">
-            <color red="1" green="0.98431372549019602" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.98400002717971802" blue="0.98400002717971802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="neutral500">
-            <color red="0.47099998593330383" green="0.45899999141693115" blue="0.47499999403953552" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.47058823529411764" green="0.45882352941176469" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary025">
             <color red="0.96470588235294119" green="0.97647058823529409" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="primary100">
-            <color red="0.72549019607843135" green="0.792156862745098" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
