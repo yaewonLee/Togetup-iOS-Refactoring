@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 case .authorized:
                     DispatchQueue.main.async {
                         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController")
 
                         self.window?.rootViewController = viewController
                         self.window?.makeKeyAndVisible()
@@ -42,14 +42,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 case .revoked, .notFound:
                     DispatchQueue.main.async {
                         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let loginNavigationController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                        let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 
-                        self.window?.rootViewController = loginNavigationController
+                        self.window?.rootViewController = loginViewController
                         self.window?.makeKeyAndVisible()
                     }
 
                 default:
-                    print(error?.localizedDescription)
+                    print(error?.localizedDescription as Any)
                 }
             }
         if (AuthApi.hasToken()) {
@@ -57,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .subscribe(onSuccess:{ (_) in
                     DispatchQueue.main.async {
                         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController")
 
                         self.window?.rootViewController = viewController
                         self.window?.makeKeyAndVisible()
@@ -66,9 +66,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
                         DispatchQueue.main.async {
                             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let loginNavigationController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController") as! LoginViewController
 
-                            self.window?.rootViewController = loginNavigationController
+                            self.window?.rootViewController = loginViewController
                             self.window?.makeKeyAndVisible()
                         }
                     }
@@ -81,9 +81,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else {
             DispatchQueue.main.async {
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let loginNavigationController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 
-                self.window?.rootViewController = loginNavigationController
+                self.window?.rootViewController = loginViewController
                 self.window?.makeKeyAndVisible()
             }
         }
