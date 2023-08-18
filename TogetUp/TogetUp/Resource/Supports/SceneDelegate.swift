@@ -6,17 +6,87 @@
 //
 
 import UIKit
+import RxKakaoSDKAuth
+import KakaoSDKAuth
+import AuthenticationServices
+import RxSwift
+import KakaoSDKUser
+import RxKakaoSDKUser
+import KakaoSDKCommon
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    let disposeBag = DisposeBag()
     var window: UIWindow?
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+          if let url = URLContexts.first?.url {
+              if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                  _ = AuthController.rx.handleOpenUrl(url: url)
+              }
+          }
+      }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: KeyChainManager.shared.getUserIdentifier()!) { (credentialState, error) in
+                switch credentialState {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController")
+
+                        self.window?.rootViewController = viewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                    
+                case .revoked, .notFound:
+                    DispatchQueue.main.async {
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+
+                        self.window?.rootViewController = loginViewController
+                        self.window?.makeKeyAndVisible()
+                    }
+
+                default:
+                    print(error?.localizedDescription as Any)
+                }
+            }
+        if (AuthApi.hasToken()) {
+            UserApi.shared.rx.accessTokenInfo()
+                .subscribe(onSuccess:{ (_) in
+                    DispatchQueue.main.async {
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController")
+
+                        self.window?.rootViewController = viewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                }, onFailure: {error in
+                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                        DispatchQueue.main.async {
+                            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewController") as! LoginViewController
+
+                            self.window?.rootViewController = loginViewController
+                            self.window?.makeKeyAndVisible()
+                        }
+                    }
+                    else {
+                        print(error.localizedDescription)
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
+        else {
+            DispatchQueue.main.async {
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+
+                self.window?.rootViewController = loginViewController
+                self.window?.makeKeyAndVisible()
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -34,11 +104,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
