@@ -13,6 +13,10 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.selectedIndex = 1
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.navigationController?.isNavigationBarHidden = true
