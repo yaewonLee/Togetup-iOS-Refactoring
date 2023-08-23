@@ -12,6 +12,8 @@ import RxKakaoSDKUser
 import AuthenticationServices
 import KeychainAccess
 
+
+
 class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     let disposeBag = DisposeBag()
     
@@ -25,16 +27,31 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let authorizationCode = appleIDCredential.authorizationCode
-            let identityToken = appleIDCredential.identityToken
+//            let authorizationCode = appleIDCredential.authorizationCode
+//            let identityToken = appleIDCredential.identityToken
             let userIdentifier = appleIDCredential.user
+            let name = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            
+            print(name, email)
+            UserDefaults.standard.set("Apple", forKey: "loginMethod")
 
             KeyChainManager.shared.saveUserIdentifier(userIdentifier)
             switchView()
-
-            print("authorizationCode: \(authorizationCode)")
-            print("identityToken: \(identityToken)")
-            print("user: \(userIdentifier)")
+            
+          //  print("=============authorizationCode: \(authorizationCode)==================")
+          //  print("===============identityToken: \(identityToken)============")
+            print("==========user: \(userIdentifier)==========")
+   
+            if  let authorizationCode = appleIDCredential.authorizationCode,
+                            let identityToken = appleIDCredential.identityToken,
+                            let authString = String(data: authorizationCode, encoding: .utf8),
+                            let tokenString = String(data: identityToken, encoding: .utf8) {
+                            print("authorizationCode: \(authorizationCode)")
+                            print("identityToken: \(identityToken)")
+                            print("authString: \(authString)")
+                            print("tokenString: \(tokenString)")
+                        }
         }
     }
     
@@ -43,7 +60,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }
     
     private func switchView() {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") else {
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
             return
         }
         vc.modalPresentationStyle = .fullScreen
@@ -56,7 +73,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     @IBAction func appleLoginButtonTapped(_ sender: UIButton) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName]
+        request.requestedScopes = [.fullName, .email]
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
@@ -68,8 +85,9 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.rx.loginWithKakaoTalk()
                 .subscribe(onNext:{ (oauthToken) in
-                    print("loginWithKakaoTalk() success.")
+                    print("===========loginWithKakaoTalk() success.=============")
                     print(oauthToken)
+                    UserDefaults.standard.set("Kakao", forKey: "loginMethod")
                     self.switchView()
                 }, onError: {error in
                     print(error.localizedDescription)
