@@ -7,12 +7,14 @@
 
 import UIKit
 import RxKakaoSDKCommon
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
+        FirebaseApp.configure()
         return true
     }
 
