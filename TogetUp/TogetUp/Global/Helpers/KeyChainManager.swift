@@ -10,7 +10,7 @@ import KeychainAccess
 
 class KeyChainManager {
     static let shared = KeyChainManager()
-    private let keychain = Keychain(service: "com.yaewon.TogetUp") 
+    private let keychain = Keychain(service: "com.yaewon.TogetUp")
 
     private init() {}
 
@@ -32,4 +32,23 @@ class KeyChainManager {
             return nil
         }
     }
+
+    func saveToken(_ token: String) {
+       do{
+           try keychain.set(token, key:"jwtToken")
+           print("JWT Token이 키체인에 저장되었습니다.")
+       } catch let error {
+           print("JWT Token 저장 실패 : \(error.localizedDescription)")
+       }
+   }
+
+   func getToken() -> String? {
+      do {
+          let token = try keychain.get("jwtToken")
+          return token
+      } catch let error {
+          print("JWT Token 읽기 실패 : \(error.localizedDescription)")
+          return nil
+      }
+  }
 }
