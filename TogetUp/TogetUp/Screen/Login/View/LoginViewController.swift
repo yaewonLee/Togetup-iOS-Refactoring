@@ -61,7 +61,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }
     
     private func switchView() {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") else {
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
             return
         }
         vc.modalPresentationStyle = .fullScreen
