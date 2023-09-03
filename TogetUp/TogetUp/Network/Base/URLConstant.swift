@@ -14,6 +14,9 @@ struct URLConstant {
     // MARK: - Auth 로그인
     static let login = "/app/auth/login"
     
+    // MARK: - User
+    static let withdrawl = "/app/users"
+    
     // MARK: - 알람
     static let getAlarmList = "/app/alarm"
     static let createAlarm = "/app/alarm"
