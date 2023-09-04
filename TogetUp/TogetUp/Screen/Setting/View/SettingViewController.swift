@@ -14,8 +14,8 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var withdrawlButton: UIButton!
     
-    let viewModel = SettingViewModel()
-    let disposeBag = DisposeBag()
+    private let viewModel = SettingViewModel()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

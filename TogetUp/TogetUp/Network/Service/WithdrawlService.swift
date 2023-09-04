@@ -23,21 +23,23 @@ extension WithdrawlService: TargetType {
             return URLConstant.withdrawl
         }
     }
+    
     var method: Moya.Method {
         switch self {
         case .deleteUser:
             return .delete
         }
     }
+    
     var task: Task {
         switch self {
         case .deleteUser:
             return .requestPlain
         }
     }
+    
     var headers: [String : String]? {
        let token = KeyChainManager.shared.getToken()
        return ["Authorization": "Bearer \(token ?? "")"]
    }
-
 }
