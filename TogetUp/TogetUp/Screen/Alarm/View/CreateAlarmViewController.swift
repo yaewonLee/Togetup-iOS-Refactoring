@@ -7,8 +7,9 @@
 
 import UIKit
 import RxSwift
+import MCEmojiPicker
 
-class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate {
+class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MCEmojiPickerDelegate, UITextFieldDelegate {
     // MARK: - UI Components
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var missionView: UIView!
@@ -16,15 +17,21 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var dayOfWeekButtons: [UIButton]!
     @IBOutlet weak var missionIconLabel: UILabel!
     @IBOutlet weak var missionTitleLabel: UILabel!
+    @IBOutlet weak var alarmNameTextField: UITextField!
+    @IBOutlet weak var alarmIconLabel: UILabel!
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
+    private var missionId = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
         setUpRepeatButtons()
+        alarmNameTextField.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: NSNotification.Name("objectMissionSelected"), object: nil)
     }
@@ -47,7 +54,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate {
         missionView.layer.cornerRadius = 12
         missionView.layer.borderWidth = 2
         missionView.layer.borderColor = UIColor.black.cgColor
-                
+        
         deleteAlarmBtn.layer.cornerRadius = 12
     }
     
@@ -66,6 +73,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate {
             
             self.missionTitleLabel.text = title
             self.missionIconLabel.text = icon
+            self.missionId = id
         }
     }
     
@@ -78,13 +86,14 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func missionEditButton(_ sender: Any) {
-    guard let vc = storyboard?.instantiateViewController(identifier: "MissionListViewController") as? MissionListViewController else { return }
+        guard let vc = storyboard?.instantiateViewController(identifier: "MissionListViewController") as? MissionListViewController else { return }
         
         vc.customMissionDataHandler = {[weak self] title, id, icon in
             self?.missionTitleLabel.text = title
             self?.missionIconLabel.text = icon
+            self?.missionId = id
         }
-
+        
         vc.modalPresentationStyle = .fullScreen
         navigationController?.isNavigationBarHidden = false
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
