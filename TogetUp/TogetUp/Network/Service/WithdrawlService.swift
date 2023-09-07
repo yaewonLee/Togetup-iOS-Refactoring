@@ -41,5 +41,5 @@ extension WithdrawlService: TargetType {
     var headers: [String : String]? {
        let token = KeyChainManager.shared.getToken()
        return ["Authorization": "Bearer \(token ?? "")"]
-   }
+   } 
 }
