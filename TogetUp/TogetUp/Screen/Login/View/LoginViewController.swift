@@ -96,6 +96,17 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                     print("카카오톡 설치 필요")
                 })
                 .disposed(by: disposeBag)
+        } else {
+            UserApi.shared.rx.loginWithKakaoAccount()
+                .subscribe(onNext:{ (oauthToken) in
+                    print("===========loginWithKakaoAccount() success.===========")
+                    let loginRequest = KakaoLoginRequest(oauthAccessToken : oauthToken.accessToken,
+                                                         loginType : "KAKAO")
+                    self.sendLoginRequest(with : loginRequest)
+                }, onError: {error in
+                    print(error.localizedDescription)
+                })
+                .disposed(by: disposeBag)
         }
     }
     
