@@ -27,7 +27,7 @@ struct CreateAlarmResponse: Codable {
     let httpStatusCode: Int
     let httpReasonPhrase: String
     let message: String
-    let result: CreateAlarmResult
+    let result: CreateAlarmResult?
 }
 
 struct CreateAlarmResult: Codable {

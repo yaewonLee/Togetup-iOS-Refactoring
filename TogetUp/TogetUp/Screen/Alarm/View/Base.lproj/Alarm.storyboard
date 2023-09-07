@@ -98,6 +98,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="215" id="6JC-KR-iKY"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="datePickerChanged:" destination="5JN-bL-AHe" eventType="valueChanged" id="6XP-mI-9wk"/>
+                                                </connections>
                                             </datePicker>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="exW-68-5bm">
                                                 <rect key="frame" x="0.0" y="486" width="393" height="516"/>
@@ -480,9 +483,19 @@
                         <outlet property="alarmNameTextField" destination="fNc-g4-mhU" id="VZG-z8-V5b"/>
                         <outlet property="deleteAlarmBtn" destination="TI5-Xl-Ydi" id="bao-14-K9A"/>
                         <outlet property="emptyView" destination="exW-68-5bm" id="xiW-tc-GFY"/>
+                        <outlet property="friday" destination="cRX-yB-13g" id="mWd-25-8qN"/>
+                        <outlet property="isRepeat" destination="Chs-gD-SmR" id="eX4-be-bmS"/>
+                        <outlet property="isVibrate" destination="mX6-Tv-Mgq" id="a2f-5Q-xRD"/>
                         <outlet property="missionIconLabel" destination="3xo-pT-KEj" id="4eb-1C-0fK"/>
                         <outlet property="missionTitleLabel" destination="Igz-4O-PIC" id="cD0-4J-yCs"/>
                         <outlet property="missionView" destination="B7Q-B6-MHL" id="lEJ-4l-VHS"/>
+                        <outlet property="monday" destination="Y3c-pO-fCe" id="aE4-4p-Vi2"/>
+                        <outlet property="saturday" destination="Ccb-Yw-Yxw" id="vEW-nV-Dmg"/>
+                        <outlet property="sunday" destination="EvP-wA-ikw" id="F8r-0P-XBj"/>
+                        <outlet property="thursday" destination="eSh-ns-iCb" id="h8i-4d-ve7"/>
+                        <outlet property="timePicker" destination="gs7-pg-BWD" id="cYx-Pk-zEB"/>
+                        <outlet property="tuesday" destination="9MM-EE-Sxa" id="QsW-KA-bEU"/>
+                        <outlet property="wednesday" destination="aKU-Wq-E5Y" id="GIU-TM-RRD"/>
                         <outletCollection property="dayOfWeekButtons" destination="Ccb-Yw-Yxw" collectionClass="NSMutableArray" id="Kuu-3u-oPV"/>
                         <outletCollection property="dayOfWeekButtons" destination="cRX-yB-13g" collectionClass="NSMutableArray" id="Ad7-Yd-XXZ"/>
                         <outletCollection property="dayOfWeekButtons" destination="eSh-ns-iCb" collectionClass="NSMutableArray" id="qC0-ap-y1f"/>

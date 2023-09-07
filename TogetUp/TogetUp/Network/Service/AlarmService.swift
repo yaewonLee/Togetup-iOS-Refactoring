@@ -43,7 +43,11 @@ extension AlarmService: TargetType {
         switch self {
         case .createAlarm:
             let token = KeyChainManager.shared.getToken()
-            return ["X-ACCESS-TOKEN": "Bearer \(token ?? "")"]
+            print(token!)
+            return [
+                "Authorization": "Bearer \(token ?? "")",
+                "Content-Type": "application/json"
+            ]
         }
         
     }
