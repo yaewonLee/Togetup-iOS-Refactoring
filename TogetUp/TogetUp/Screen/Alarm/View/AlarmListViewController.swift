@@ -36,9 +36,15 @@ class AlarmListViewController: UIViewController {
     
     
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateAlarmViewController") as? CreateAlarmViewController else { return }
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
+        guard let vc = storyboard?.instantiateViewController(identifier: "CreateAlarmViewController") as? CreateAlarmViewController else { return }
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.isNavigationBarHidden = true
+        navigationController.navigationBar.backgroundColor = .clear
+        navigationController.interactivePopGestureRecognizer?.isEnabled = true
+
+
+        present(navigationController, animated: true)
     }
     
 }

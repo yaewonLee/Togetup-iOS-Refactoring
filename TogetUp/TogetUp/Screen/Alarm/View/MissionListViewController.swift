@@ -7,7 +7,9 @@
 
 import UIKit
 
-class MissionListViewController: UIViewController {
+class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    var customMissionDataHandler: ((String, Int, String) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +24,20 @@ class MissionListViewController: UIViewController {
     
     @IBAction func objectMissionBtn(_ sender: UIButton) {
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? ObjectMissionListViewController else { return }
+        
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func back(_ sender: UIButton) {
-        self.presentingViewController?.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @IBAction func customMissionSelected(_ sender: Any) {
+        customMissionDataHandler?("직접 등록 미션", 1, "📷")
+        self.navigationController?.popViewController(animated: true)
     }
 }

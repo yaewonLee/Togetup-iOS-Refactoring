@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import RxSwift
 
-class ObjectMissionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ObjectMissionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
-    
-    var objectMissionArray = ["사람", "자전거", "자동차", "오토바이", "버스", "기차",
+        
+    private var objectMissionArray = ["사람", "자전거", "자동차", "오토바이", "버스", "기차",
                               "신호등", "고양이", "강아지", "백팩", "핸드백", "넥타이",
                               "스케이트보드", "테니스 라켓", "병", "와인잔", "컵", "포크", "나이프", "숟가락", "그릇", "바나나", "사과", "샌드위치", "오렌지", "브로콜리", "당근", "핫도그", "피자", "도넛", "케이크", "의자", "소파", "화분에 심은 식물", "침대", "식탁", "화장실", "텔레비전", "노트", "마우스", "리모컨", "키보드", "휴대전화", "전자레인지", "오븐", "토스터","싱크대", "냉장고", "책", "시계", "꽃병", "헤어 드라이어", "칫솔"]
-    let emojis = ["👤", "🚲", "🚗", "🛵", "🚌", "🚂", "🚥", "🐱", "🐶", "🎒", "👜", "👔", "🛹", "🎾", "🍾", "🍷", "☕️", "🍴", "🔪", "🥄", "🍽", "🍌", "🍎", "🥪", "🍊", "🥦", "🥕", "🌭", "🍕", "🍩", "🎂", "🪑", "🛋️", "🪴", "🛏️", "🍽", "🚽", "📺", "📓", "🖱️", "📱", "⌨️", "📱", "🍲", "🧁", "🍞", "🚰", "🧊", "📚", "⏰", "🌷", "💇‍♀️", "🪥"]
+    private let emojis = ["👤", "🚲", "🚗", "🛵", "🚌", "🚂", "🚥", "🐱", "🐶", "🎒", "👜", "👔", "🛹", "🎾", "🍾", "🍷", "☕️", "🍴", "🔪", "🥄", "🍽", "🍌", "🍎", "🥪", "🍊", "🥦", "🥕", "🌭", "🍕", "🍩", "🎂", "🪑", "🛋️", "🪴", "🛏️", "🍽", "🚽", "📺", "📓", "🖱️", "📱", "⌨️", "📱", "🍲", "🧁", "🍞", "🚰", "🧊", "📚", "⏰", "🌷", "💇‍♀️", "🪥"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +23,11 @@ class ObjectMissionListViewController: UIViewController, UITableViewDataSource, 
         if #available(iOS 15, *) {
             tableView.sectionHeaderTopPadding = 0
         }
+        
         let leftBarButton = UIBarButtonItem(image: UIImage(named: "chevron-left"), style: .plain, target: self, action: #selector(back(_ :)))
         self.navigationItem.leftBarButtonItem = leftBarButton
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+
     }
     
     @objc func back(_ sender: UIButton) {
@@ -39,7 +43,7 @@ class ObjectMissionListViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 0 : 12
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -49,7 +53,12 @@ class ObjectMissionListViewController: UIViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //  delegate?.missionData(missionTitle: objectMissionArray[indexPath.section], missionId: indexPath.section, missionIcon: emojis[indexPath.section])
+        let missionTitle = objectMissionArray[indexPath.section]
+        let missionId = indexPath.section + 2
+        let missionIcon = emojis[indexPath.section]
+        
+        NotificationCenter.default.post(name: NSNotification.Name("objectMissionSelected"), object: nil, userInfo: ["title": missionTitle, "id": missionId, "icon": missionIcon])
+
         self.navigationController?.popToRootViewController(animated: true)
     }
     
