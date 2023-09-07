@@ -12,8 +12,6 @@ struct CreateAlarmRequest: Codable {
     let name: String
     let icon: String
     let isVibrate: Bool
-    let snoozeInterval: Int
-    let snoozeCnt: Int
     let alarmTime: String
     let monday: Bool
     let tuesday: Bool
@@ -39,8 +37,6 @@ struct CreateAlarmResult: Codable {
     let name: String
     let icon: String
     let isVibrate: Bool
-    let snoozeInterval: Int
-    let snoozeCnt: Int
     let alarmTime: String
     let monday: Bool
     let tuesday: Bool
