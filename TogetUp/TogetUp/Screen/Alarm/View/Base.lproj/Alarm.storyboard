@@ -31,17 +31,48 @@
                                     <segue destination="5JN-bL-AHe" kind="show" id="U8W-bh-DKW"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-eE-74O">
+                                <rect key="frame" x="20" y="115" width="353" height="57"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="BJD-rO-kXg"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="개인"/>
+                                    <segment title="그룹"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlTapped:" destination="Y6W-OH-hqX" eventType="valueChanged" id="WsL-k8-952"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알람" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K7-A0-IUO">
+                                <rect key="frame" x="20" y="71" width="45" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="aLe-hU-9v7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="primary025"/>
                         <constraints>
+                            <constraint firstItem="Frb-eE-74O" firstAttribute="top" secondItem="2K7-A0-IUO" secondAttribute="bottom" constant="12" id="Ctx-ka-wmh"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Frb-eE-74O" secondAttribute="trailing" constant="20" id="IOA-T1-uX6"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="l2E-G5-faD" secondAttribute="bottom" constant="20" id="Sec-87-u6L"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="l2E-G5-faD" secondAttribute="trailing" constant="20" id="YbA-8o-JRN"/>
+                            <constraint firstItem="2K7-A0-IUO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="kWB-te-AdE"/>
+                            <constraint firstItem="2K7-A0-IUO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="pdW-fz-lLs"/>
+                            <constraint firstItem="Frb-eE-74O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="rIf-OV-322"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="alarm-clock" selectedImage="alarm_selected" id="Lg4-ty-MWX"/>
                     <navigationItem key="navigationItem" id="H87-Dw-74P"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="Frb-eE-74O" id="MUU-pv-k7b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -818,6 +849,9 @@
         </namedColor>
         <namedColor name="neutral700">
             <color red="0.28200000524520874" green="0.27500000596046448" blue="0.28600001335144043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primary025">
+            <color red="0.96470588235294119" green="0.97647058823529409" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary050">
             <color red="0.88599997758865356" green="0.9179999828338623" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

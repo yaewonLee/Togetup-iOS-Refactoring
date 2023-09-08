@@ -10,16 +10,26 @@ import UIKit
 class AlarmListViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    private lazy var leadingDistance: NSLayoutConstraint = {
+        return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
+    }()
+    
+    private lazy var underLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primary300")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // customUI()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpNavigationBar()
+        customSegmentedControl()
     }
     
     private func setUpNavigationBar() {
@@ -31,7 +41,40 @@ class AlarmListViewController: UIViewController {
         
     }
     
-    private func customUI() {
+    private func customSegmentedControl() {
+        segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
+        segmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor(named: "neutral400")!,
+            NSAttributedString.Key.font: UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16)!
+        ], for: .normal)
+        segmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.black,
+            NSAttributedString.Key.font: UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16)!
+        ], for: .selected)
+        
+        // 오토레이아웃
+        self.view.addSubview(underLineView)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        underLineView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            underLineView.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+            underLineView.heightAnchor.constraint(equalToConstant: 2),
+            leadingDistance,
+            underLineView.widthAnchor.constraint(equalTo: segmentedControl.widthAnchor, multiplier: 1 / CGFloat(segmentedControl.numberOfSegments))
+        ])
+    }
+    
+    
+    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
+        let segmentIndex = CGFloat(sender.selectedSegmentIndex)
+                let segmentWidth = sender.frame.width / CGFloat(sender.numberOfSegments)
+                let leadingDistance = segmentWidth * segmentIndex
+                UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                    self?.leadingDistance.constant = leadingDistance
+                    self?.view.layoutIfNeeded()
+                })
     }
     
     
@@ -42,8 +85,8 @@ class AlarmListViewController: UIViewController {
         navigationController.isNavigationBarHidden = true
         navigationController.navigationBar.backgroundColor = .clear
         navigationController.interactivePopGestureRecognizer?.isEnabled = true
-
-
+        
+        
         present(navigationController, animated: true)
     }
     
