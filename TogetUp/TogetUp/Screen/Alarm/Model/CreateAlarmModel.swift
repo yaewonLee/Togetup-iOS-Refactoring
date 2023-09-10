@@ -9,6 +9,8 @@ import Foundation
 
 struct CreateAlarmRequest: Codable {
     let missionId: Int
+    let missionObjectId: Int
+    let isSnoozeActivated: Bool
     let name: String
     let icon: String
     let isVibrate: Bool
