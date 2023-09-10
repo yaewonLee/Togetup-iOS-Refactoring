@@ -8,12 +8,16 @@
 import UIKit
 
 class AlarmListViewController: UIViewController {
+    // MARK: - UI Components
+    @IBOutlet weak var segmentedControl: UISegmentedControl!    
+    @IBOutlet weak var groupView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var addAlarmButton: UIButton!
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    // MARK: - Properties
     private lazy var leadingDistance: NSLayoutConstraint = {
         return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
     }()
-    
     private lazy var underLineView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "primary300")
@@ -21,10 +25,11 @@ class AlarmListViewController: UIViewController {
         return view
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.groupView.layer.cornerRadius = 12
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -32,6 +37,7 @@ class AlarmListViewController: UIViewController {
         customSegmentedControl()
     }
     
+    // MARK: - Custom Method
     private func setUpNavigationBar() {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.black
@@ -75,6 +81,15 @@ class AlarmListViewController: UIViewController {
                     self?.leadingDistance.constant = leadingDistance
                     self?.view.layoutIfNeeded()
                 })
+        
+        if sender.selectedSegmentIndex == 0 {
+            self.groupView.isHidden = true
+            self.collectionView.isHidden = false
+        } else {
+            self.groupView.isHidden = false
+            self.collectionView.isHidden = true
+            self.addAlarmButton.isHidden = true
+        }
     }
     
     
