@@ -47,7 +47,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: NSNotification.Name("objectMissionSelected"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
         setUpDatePicker()
     }
     
@@ -125,7 +125,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
             if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
             if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
             
-            let param = CreateAlarmRequest(missionId: missionId, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true)
+            let param = CreateAlarmRequest(missionId: missionId, missionObjectId: 1, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
             
             viewModel.createAlarm(param: param)
                 .subscribe(
@@ -155,15 +155,16 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     
     @objc func missionSelected(_ notification: Notification) {
-        if let userInfo = notification.userInfo as? [String : Any],
-           let title = userInfo["title"] as? String,
-           let id = userInfo["id"] as? Int,
-           let icon = userInfo["icon"] as? String {
-            
-            self.missionTitleLabel.text = title
-            self.missionIconLabel.text = icon
-            self.missionId = id
-        }
+        guard let userInfo = notification.userInfo,
+                  let icon = userInfo["icon"] as? String,
+                  let kr = userInfo["kr"] as? String,
+                  let id = userInfo["id"] as? Int else {
+                      return
+                  }
+        
+        self.missionTitleLabel.text = kr
+        self.missionIconLabel.text = icon
+        self.missionId = id
     }
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
