@@ -11,12 +11,16 @@ import RxSwift
 import RxMoya
 
 struct LoginViewModel {
-    private let provider = MoyaProvider<LoginService>().rx
+    private let provider: MoyaProvider<LoginService>
     
-    func kakoLogin(param: KakaoLoginRequest) -> Observable<Response> {
-        return provider.request(.kakao(param: param))
-            .filterSuccessfulStatusCodes()
-            .asObservable()
+    init() {
+        self.provider = MoyaProvider<LoginService>(plugins: [NetworkLogger()])
     }
     
+    func loginReqeust(param: LoginRequest) -> Observable<LoginResponse> {
+        return provider.rx.request(.kakao(param: param))
+            .filterSuccessfulStatusCodes()
+            .map(LoginResponse.self)
+            .asObservable()
+    }
 }

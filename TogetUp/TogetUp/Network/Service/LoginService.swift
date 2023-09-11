@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum LoginService {
-    case kakao(param: KakaoLoginRequest)
+    case kakao(param: LoginRequest)
 }
 
 extension LoginService: TargetType {

@@ -30,14 +30,23 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     // MARK: - Apple Login
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            //            let authorizationCode = appleIDCredential.authorizationCode
-            //            let identityToken = appleIDCredential.identityToken
             let userIdentifier = appleIDCredential.user
-            let name = appleIDCredential.fullName
             let email = appleIDCredential.email
             
-            print(name, email)
+            guard
+                let authorizationCode = appleIDCredential.authorizationCode,
+                let identityToken = appleIDCredential.identityToken,
+                let name = appleIDCredential.fullName?.givenName,
+                let authString = String(data: authorizationCode, encoding: .utf8),
+                let tokenString = String(data: identityToken, encoding: .utf8)
+            else { return }
+            
+            print("authString: \(authString)")
+            print("tokenString: \(tokenString)")
+            
             UserDefaults.standard.set("Apple", forKey: "loginMethod")
+            let loginRequest = LoginRequest(oauthAccessToken: tokenString, loginType: "APPLE", userName: name)
+            self.sendLoginRequest(with: loginRequest)
             
             KeyChainManager.shared.saveUserIdentifier(userIdentifier)
             switchView()
@@ -46,13 +55,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             //  print("===============identityToken: \(identityToken)============")
             // print("==========user: \(userIdentifier)==========")
             
-            if  let authorizationCode = appleIDCredential.authorizationCode,
-                let identityToken = appleIDCredential.identityToken,
-                let authString = String(data: authorizationCode, encoding: .utf8),
-                let tokenString = String(data: identityToken, encoding: .utf8) {
-             //   print("authString: \(authString)")
-             //   print("tokenString: \(tokenString)")
-            }
+            
         }
     }
     
@@ -88,8 +91,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 .subscribe(onNext:{ (oauthToken) in
                     print("===========loginWithKakaoTalk() success.=============")
                     UserDefaults.standard.set("Kakao", forKey: "loginMethod")
-                    let loginRequest = KakaoLoginRequest(oauthAccessToken : oauthToken.accessToken,
-                                                         loginType : "KAKAO")
+                    let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken,
+                                                    loginType : "KAKAO")
                     self.sendLoginRequest(with : loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
@@ -100,8 +103,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             UserApi.shared.rx.loginWithKakaoAccount()
                 .subscribe(onNext:{ (oauthToken) in
                     print("===========loginWithKakaoAccount() success.===========")
-                    let loginRequest = KakaoLoginRequest(oauthAccessToken : oauthToken.accessToken,
-                                                         loginType : "KAKAO")
+                    let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken, loginType : "KAKAO")
                     self.sendLoginRequest(with : loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
@@ -110,17 +112,13 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         }
     }
     
-    private func sendLoginRequest(with request : KakaoLoginRequest){
-        viewModel.kakoLogin(param:request)
+    private func sendLoginRequest(with request : LoginRequest){
+        viewModel.loginReqeust(param:request)
             .subscribe(onNext:{ [weak self] response in
-                do {
-                    let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: response.data)
-                    print(loginResponse)
-                    KeyChainManager.shared.saveToken(loginResponse.result.accessToken)
-                    self?.switchView()
-                } catch {
-                    print("Failed to parse the login response:", error)
-                }
+                print("회원가입 성공")
+                print(response.message)
+                KeyChainManager.shared.saveToken(response.result!.accessToken)
+                self?.switchView()
             }, onError:{ error in
                 print(error.localizedDescription)
             }).disposed(by:self.disposeBag)
