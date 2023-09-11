@@ -8,16 +8,17 @@
 import Foundation
 import Moya
 
-struct KakaoLoginRequest: Codable {
+struct LoginRequest: Codable {
     var oauthAccessToken: String
     var loginType: String
+    var userName: String?
 }
 
 struct LoginResponse: Codable {
     var httpStatusCode: Int
     var httpReasonPhrase: String
-    var message: String
-    var result: LoginResult
+    var message: String?
+    var result: LoginResult?
 }
 
 struct LoginResult: Codable {
