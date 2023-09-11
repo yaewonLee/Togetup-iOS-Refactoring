@@ -16,11 +16,15 @@ struct URLConstant {
     
     // MARK: - User
     static let withdrawl = "/app/users"
+    static let appleWithdrawl = "/app/users/apple"
     
     // MARK: - 알람
     static let getAlarmList = "/app/alarm"
     static let createAlarm = "/app/alarm"
-    static let deleteAlarm = "/app/alarm/{alarmId}"
-    static let editAlarm = "/app/alarm/{alarmId}"
-
+    static let deleteAlarm = "/app/alarm/"
+    static let editAlarm = "/app/alarm/"
+    
+    // MARK: - 미션
+    static let objectDetection = "/app/mission/object-detection/"
+    static let getMissionList = "/app/mission/"
 }
