@@ -33,8 +33,8 @@ extension MissionService: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getMissionList(let missionId):
-            return .requestJSONEncodable(missionId)
+        case .getMissionList:
+            return .requestPlain
         }
     }
     

@@ -23,7 +23,19 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func objectMissionBtn(_ sender: UIButton) {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? ObjectMissionListViewController else { return }
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? MissionListDetailViewController else { return }
+        vc.missionId = 2
+        
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    @IBAction func faceMission(_ sender: UIButton) {
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? MissionListDetailViewController else { return }
+        vc.missionId = 3
         
         navigationController?.isNavigationBarHidden = false
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
