@@ -71,7 +71,7 @@
                                     <constraint firstItem="iOA-Rz-fgX" firstAttribute="centerY" secondItem="XcK-pi-UuH" secondAttribute="centerY" id="zXk-tJ-c1L"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="a2T-0K-ZQl">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="a2T-0K-ZQl">
                                 <rect key="frame" x="20" y="191" width="353" height="578"/>
                                 <color key="backgroundColor" name="primary025"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mPX-UH-WGr">
@@ -81,7 +81,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="BHi-5C-spW">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlarmListCollectionViewCell" id="BHi-5C-spW" customClass="AlarmListCollectionViewCell" customModule="TogetUp" customModuleProvider="target">
                                         <rect key="frame" x="1" y="0.0" width="351" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Bf5-pi-Zi4">
@@ -154,6 +154,12 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="351" height="100"/>
+                                        <connections>
+                                            <outlet property="alarmInfoLabel" destination="yWy-Qd-HlM" id="H9o-Xg-LG0"/>
+                                            <outlet property="iconLabel" destination="VsC-rp-pZh" id="Joc-nJ-PS3"/>
+                                            <outlet property="isActivated" destination="mTc-YJ-3T2" id="3Bw-BC-mYp"/>
+                                            <outlet property="timeLabel" destination="7DJ-co-fU0" id="4vd-KC-yrv"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -454,7 +460,7 @@
                                                                     <constraint firstAttribute="width" constant="60" id="YZS-a6-Vwv"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⏰" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xo-pT-KEj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👤" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xo-pT-KEj">
                                                                 <rect key="frame" x="24" y="21" width="40" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="40" id="sqp-HQ-c2K"/>
@@ -464,8 +470,8 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미션을 선택해주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igz-4O-PIC">
-                                                                <rect key="frame" x="86" y="19" width="129" height="24"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사람" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igz-4O-PIC">
+                                                                <rect key="frame" x="86" y="19" width="28" height="24"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="24" id="L1k-Q1-P6b"/>
                                                                 </constraints>
@@ -483,6 +489,13 @@
                                                                 <color key="textColor" name="neutral700"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_thin" translatesAutoresizingMaskIntoConstraints="NO" id="H2V-L6-SV9">
+                                                                <rect key="frame" x="313" y="29" width="24" height="24"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="24" id="2Rf-El-3Bf"/>
+                                                                    <constraint firstAttribute="height" constant="24" id="8Gg-UY-HoD"/>
+                                                                </constraints>
+                                                            </imageView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9C-KR-faE" userLabel="MissionEditBtn">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="82"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -495,8 +508,10 @@
                                                         </subviews>
                                                         <color key="backgroundColor" name="secondary050"/>
                                                         <constraints>
+                                                            <constraint firstItem="H2V-L6-SV9" firstAttribute="centerY" secondItem="B7Q-B6-MHL" secondAttribute="centerY" id="3kQ-Kr-HEw"/>
                                                             <constraint firstItem="Igz-4O-PIC" firstAttribute="leading" secondItem="0s3-sJ-bxN" secondAttribute="trailing" constant="12" id="448-dZ-Mb7"/>
                                                             <constraint firstItem="Igz-4O-PIC" firstAttribute="top" secondItem="B7Q-B6-MHL" secondAttribute="top" constant="19" id="8kS-XI-BhC"/>
+                                                            <constraint firstAttribute="trailing" secondItem="H2V-L6-SV9" secondAttribute="trailing" constant="16" id="E2m-UR-5jB"/>
                                                             <constraint firstAttribute="height" constant="82" id="EY5-jp-oAK"/>
                                                             <constraint firstItem="D9C-KR-faE" firstAttribute="top" secondItem="B7Q-B6-MHL" secondAttribute="top" id="HOI-Ab-ES0"/>
                                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5U2-of-jLp" secondAttribute="trailing" constant="20" symbolic="YES" id="Olc-Oc-caV"/>
@@ -676,7 +691,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FL8-em-VPM" userLabel="직접 등록">
-                                <rect key="frame" x="20" y="75" width="353" height="72"/>
+                                <rect key="frame" x="20" y="243" width="353" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="직접 등록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkg-MG-gYa">
                                         <rect key="frame" x="16" y="12" width="60" height="24"/>
@@ -731,7 +746,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V2N-23-oZz" userLabel="사물 인식">
-                                <rect key="frame" x="20" y="159" width="353" height="72"/>
+                                <rect key="frame" x="20" y="75" width="353" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사물 인식" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E4-Jl-VhQ">
                                         <rect key="frame" x="16" y="12" width="60" height="24"/>
@@ -786,7 +801,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Imb-Go-13C" userLabel="표정 인식">
-                                <rect key="frame" x="20" y="243" width="353" height="72"/>
+                                <rect key="frame" x="20" y="159" width="353" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="표정 인식" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5B-mH-c8j">
                                         <rect key="frame" x="16" y="12" width="60" height="24"/>
@@ -843,18 +858,23 @@
                         <viewLayoutGuide key="safeArea" id="APm-rf-n3h"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="V2N-23-oZz" firstAttribute="top" secondItem="APm-rf-n3h" secondAttribute="top" constant="16" id="2wJ-7b-iz7"/>
                             <constraint firstItem="V2N-23-oZz" firstAttribute="leading" secondItem="APm-rf-n3h" secondAttribute="leading" constant="20" id="7Nq-4B-GsW"/>
                             <constraint firstItem="FL8-em-VPM" firstAttribute="leading" secondItem="APm-rf-n3h" secondAttribute="leading" constant="20" id="FDd-Jp-pqZ"/>
-                            <constraint firstItem="FL8-em-VPM" firstAttribute="top" secondItem="APm-rf-n3h" secondAttribute="top" constant="16" id="Gq5-E3-1Gs"/>
                             <constraint firstItem="Imb-Go-13C" firstAttribute="leading" secondItem="APm-rf-n3h" secondAttribute="leading" constant="20" id="eR4-mE-C8B"/>
                             <constraint firstItem="APm-rf-n3h" firstAttribute="trailing" secondItem="FL8-em-VPM" secondAttribute="trailing" constant="20" id="fQv-6t-pOc"/>
-                            <constraint firstItem="V2N-23-oZz" firstAttribute="top" secondItem="FL8-em-VPM" secondAttribute="bottom" constant="12" id="mar-gg-eNi"/>
                             <constraint firstItem="Imb-Go-13C" firstAttribute="top" secondItem="V2N-23-oZz" secondAttribute="bottom" constant="12" id="my0-kw-NyD"/>
                             <constraint firstItem="APm-rf-n3h" firstAttribute="trailing" secondItem="Imb-Go-13C" secondAttribute="trailing" constant="20" id="rCd-Ys-Xdg"/>
                             <constraint firstItem="APm-rf-n3h" firstAttribute="trailing" secondItem="V2N-23-oZz" secondAttribute="trailing" constant="20" id="vTN-7H-QPN"/>
+                            <constraint firstItem="FL8-em-VPM" firstAttribute="top" secondItem="Imb-Go-13C" secondAttribute="bottom" constant="12" id="yap-7D-xM1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="촬영 미션" style="editor" id="Dpj-vh-M2x"/>
+                    <connections>
+                        <outlet property="customMissionView" destination="FL8-em-VPM" id="mzG-cu-VV0"/>
+                        <outlet property="faceMissionView" destination="Imb-Go-13C" id="MXp-Yz-W0s"/>
+                        <outlet property="objectMissionView" destination="V2N-23-oZz" id="4G1-zz-X8y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tG7-PW-Gqf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

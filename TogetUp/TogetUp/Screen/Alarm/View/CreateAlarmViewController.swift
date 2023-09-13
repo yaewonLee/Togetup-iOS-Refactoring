@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import MCEmojiPicker
+import RealmSwift
 
 class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MCEmojiPickerDelegate, UITextFieldDelegate {
     // MARK: - UI Components
@@ -32,11 +33,14 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private var missionId = 0
     private var alarmTime = ""
     private var alarmName = "알람"
     private var alarmIcon = "⏰"
     private var viewModel = CreateAlarmViewModel()
+    private var missionTitle = "사람"
+    private var missionIcon = "👤"
+    private var missionId = 2
+    private var missionObjectId: Int? = 1
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -87,7 +91,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     func didGetEmoji(emoji: String) {
         self.alarmIconLabel.text = emoji
     }
-
+    
     private func setUpDatePicker() {
         let selectedDate = timePicker.date
         let formatter = DateFormatter()
@@ -117,54 +121,54 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        if missionId == 0 {
-            let sheet = UIAlertController(title: "미션을 선택해주세요", message: nil, preferredStyle: .alert)
-            sheet.addAction(UIAlertAction(title: "확인", style: .cancel))
-            present(sheet, animated: true)
-        } else {
-            if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
-            if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
-            
-            let param = CreateAlarmRequest(missionId: missionId, missionObjectId: 1, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
-            
-            viewModel.createAlarm(param: param)
-                .subscribe(
-                    onSuccess:{ result in
-                        switch result {
-                        case .success(let response):
-                            print(response)
-                            self.presentingViewController?.dismiss(animated:true)
-                        case .failure(let error):
-                            switch error {
-                            case .network(let moyaError):
-                                print("Network error:", moyaError.localizedDescription)
-
-                            case .server(let statusCode):
-                                print("Server returned status code:", statusCode)
-                            }
-                        }
-                    },
-                    onFailure:{ error in
-                        print(error.localizedDescription)
-                    }
-                )
-                .disposed(by:self.disposeBag)
+        if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
+        if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
+        var paramMissionObjId: Int? = missionObjectId
+        if self.missionId == 1 && self.missionObjectId == 1 {
+            paramMissionObjId = nil
         }
+        
+        viewModel.addAlarmToRealm(missionId: self.missionId, missionObjectId: missionObjectId!, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected)
+        
+        let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
+        
+        viewModel.postAlarm(param: param)
+            .subscribe(
+                onSuccess:{ result in
+                    switch result {
+                    case .success(let response):
+                        print(response.message)
+                        self.presentingViewController?.dismiss(animated:true)
+                    case .failure(let error):
+                        switch error {
+                        case .network(let moyaError):
+                            print("Network error:", moyaError.localizedDescription)
+                            
+                        case .server(let statusCode):
+                            print("Server returned status code:", statusCode)
+                        }
+                    }
+                },
+                onFailure:{ error in
+                    print(error.localizedDescription)
+                }
+            )
+            .disposed(by:self.disposeBag)
     }
-
-    
     
     @objc func missionSelected(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-                  let icon = userInfo["icon"] as? String,
-                  let kr = userInfo["kr"] as? String,
-                  let id = userInfo["id"] as? Int else {
-                      return
-                  }
+              let icon = userInfo["icon"] as? String,
+              let kr = userInfo["kr"] as? String,
+              let missionObjectId = userInfo["missionObjectId"] as? Int,
+              let missionId = userInfo["missionId"] as? Int else {
+            return
+        }
         
         self.missionTitleLabel.text = kr
         self.missionIconLabel.text = icon
-        self.missionId = id
+        self.missionObjectId = missionObjectId
+        self.missionId = missionId
     }
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
@@ -178,10 +182,11 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     @IBAction func missionEditButton(_ sender: Any) {
         guard let vc = storyboard?.instantiateViewController(identifier: "MissionListViewController") as? MissionListViewController else { return }
         
-        vc.customMissionDataHandler = {[weak self] title, id, icon in
-            self?.missionTitleLabel.text = title
-            self?.missionIconLabel.text = icon
-            self?.missionId = id
+        vc.customMissionDataHandler = {[weak self] missionTitle, missionIcon, missionId, missionObjectId in
+            self?.missionTitleLabel.text = missionTitle
+            self?.missionIconLabel.text = missionIcon
+            self?.missionId = missionId
+            self?.missionObjectId = missionObjectId
         }
         
         vc.modalPresentationStyle = .fullScreen

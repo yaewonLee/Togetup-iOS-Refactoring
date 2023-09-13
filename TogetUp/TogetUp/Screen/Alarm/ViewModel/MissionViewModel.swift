@@ -10,12 +10,8 @@ import RxMoya
 import RxSwift
 import Moya
 
-struct ObjectMissionViewModel {
-    let provider: MoyaProvider<MissionService>
-
-    init() {
-        self.provider = MoyaProvider<MissionService>(plugins: [NetworkLogger()])
-    }
+struct MissionViewModel {
+    let provider = MoyaProvider<MissionService>()
     
     func getMissionList(missionId: Int) -> Observable<GetMissionListResponse> {
         return provider.rx.request(.getMissionList(missionId: missionId))

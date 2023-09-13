@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import Moya
+import RealmSwift
 
 enum CreateAlarmError: Error {
     case network(MoyaError)
@@ -19,9 +20,9 @@ class CreateAlarmViewModel {
     
     init() {
         self.provider = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])
-        }
+    }
     
-    func createAlarm(param: CreateAlarmRequest) -> Single<Result<CreateAlarmResponse, CreateAlarmError>> {
+    func postAlarm(param: CreateAlarmRequest) -> Single<Result<CreateAlarmResponse, CreateAlarmError>> {
         return provider.rx.request(.createAlarm(param: param))
             .filterSuccessfulStatusAndRedirectCodes()
             .map(CreateAlarmResponse.self)
@@ -42,6 +43,41 @@ class CreateAlarmViewModel {
                     return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
                 }
             }
+    }
+    
+    func addAlarmToRealm(missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: String, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool) {
+        let newAlarm = Alarm()
+        let realmInstance = try! Realm()
+        let savedAlarms = realmInstance.objects(Alarm.self)
+        let lastAlarmId = savedAlarms.last?.id
+        
+        newAlarm.id = (lastAlarmId ?? 0) + 1
+        print(savedAlarms)
+        
+        newAlarm.missionId = missionId
+        newAlarm.missionObjectId = missionObjectId
+        newAlarm.isSnoozeActivated = isSnoozeActivated
+        newAlarm.name = name
+        newAlarm.icon = icon
+        newAlarm.isVibrate = isVibrate
+        newAlarm.alarmTime = alarmTime
+        newAlarm.monday = monday
+        newAlarm.tuesday = tuesday
+        newAlarm.wednesday = wednesday
+        newAlarm.thursday = thursday
+        newAlarm.friday = friday
+        newAlarm.saturday = saturday
+        newAlarm.sunday = sunday
+      //  newAlarm.isActivated = isActivated
+        
+        do {
+            try realmInstance.write {
+                realmInstance.add(newAlarm)
+                print(savedAlarms)
+            }
+        } catch {
+            print("Error Saving content")
+        }
     }
 }
 

@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct MissionCellData {
+    let missionId: Int
+    let missionObject: MissionObjectResList
+}
+
 struct GetMissionListResponse: Codable {
     let httpStatusCode: Int
     let httpReasonPhrase, message: String
