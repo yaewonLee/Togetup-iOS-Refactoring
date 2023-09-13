@@ -11,7 +11,7 @@ import RxCocoa
 
 class MissionListDetailViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
-    private let viewModel = ObjectMissionViewModel()
+    private let viewModel = MissionViewModel()
     private let disposeBag = DisposeBag()
     var missionId = 0
     
@@ -31,18 +31,24 @@ class MissionListDetailViewController: UIViewController, UIGestureRecognizerDele
     
     private func setCollectionView() {
         viewModel.getMissionList(missionId: self.missionId)
-                    .map { $0.result.missionObjectResList }
-                    .bind(to: collectionView.rx.items(cellIdentifier: ObjectMissionCollectionViewCell.identifier, cellType: ObjectMissionCollectionViewCell.self)) { row, element, cell in
-                        cell.setAttributes(with: element)
-                    }
-                    .disposed(by: disposeBag)
-        
-        collectionView.rx.modelSelected(MissionObjectResList.self)
-            .subscribe(onNext: { mission in
-                NotificationCenter.default.post(name: .init("MissionSelected"), object: nil, userInfo: ["icon": mission.icon, "kr": mission.kr, "id": mission.id])
-                self.navigationController?.popToRootViewController(animated: true)
-            })
+            .map { result in
+                result.result.missionObjectResList.map { MissionCellData(missionId: result.result.id, missionObject: $0) }
+            }
+            .bind(to: collectionView.rx.items(cellIdentifier: ObjectMissionCollectionViewCell.identifier, cellType: ObjectMissionCollectionViewCell.self)) { row, element, cell in
+                cell.setAttributes(with: element.missionObject)
+            }
             .disposed(by: disposeBag)
+
+        collectionView.rx.modelSelected(MissionCellData.self)
+        .subscribe(onNext: { data in
+            NotificationCenter.default.post(name: .init("MissionSelected"), object: nil, userInfo:
+                ["icon": data.missionObject.icon,
+                 "kr": data.missionObject.kr,
+                 "missionObjectId": data.missionObject.id,
+                 "missionId": data.missionId])
+             self.navigationController?.popToRootViewController(animated:true)
+        })
+        .disposed(by:self.disposeBag)
     }
     
     private func customNavigation() {
