@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class AlarmListViewController: UIViewController {
     // MARK: - UI Components
-    @IBOutlet weak var segmentedControl: UISegmentedControl!    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var groupView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
     
     // MARK: - Properties
+    private let viewModel = AlarmListViewModel()
+    private let disposeBag = DisposeBag()
     private lazy var leadingDistance: NSLayoutConstraint = {
         return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
     }()
@@ -28,6 +32,7 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setCollectionViewFlowLayout()
         self.groupView.layer.cornerRadius = 12
     }
     
@@ -35,9 +40,27 @@ class AlarmListViewController: UIViewController {
         super.viewWillAppear(animated)
         setUpNavigationBar()
         customSegmentedControl()
+        setCollectionView()
     }
     
     // MARK: - Custom Method
+    private func setCollectionViewFlowLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: collectionView.bounds.width, height: 100)
+        layout.minimumLineSpacing = 16
+        collectionView.collectionViewLayout = layout
+    }
+    
+    private func setCollectionView() {
+        viewModel.getAlarmList(type: "personal")
+        collectionView.delegate = nil
+        collectionView.dataSource = nil
+        viewModel.alarms.bind(to: collectionView.rx.items(cellIdentifier: AlarmListCollectionViewCell.identifier, cellType: AlarmListCollectionViewCell.self)) { _, alarm, cell in
+            cell.setAttributes(with: alarm)
+        }
+        .disposed(by: disposeBag)
+    }
+    
     private func setUpNavigationBar() {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.black
@@ -72,7 +95,7 @@ class AlarmListViewController: UIViewController {
         ])
     }
     
-    
+    // MARK: - @
     @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
         let segmentIndex = CGFloat(sender.selectedSegmentIndex)
                 let segmentWidth = sender.frame.width / CGFloat(sender.numberOfSegments)
@@ -85,13 +108,13 @@ class AlarmListViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             self.groupView.isHidden = true
             self.collectionView.isHidden = false
+            self.addAlarmButton.isHidden = false
         } else {
             self.groupView.isHidden = false
             self.collectionView.isHidden = true
             self.addAlarmButton.isHidden = true
         }
     }
-    
     
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
         guard let vc = storyboard?.instantiateViewController(identifier: "CreateAlarmViewController") as? CreateAlarmViewController else { return }
@@ -101,9 +124,7 @@ class AlarmListViewController: UIViewController {
         navigationController.navigationBar.backgroundColor = .clear
         navigationController.interactivePopGestureRecognizer?.isEnabled = true
         
-        
         present(navigationController, animated: true)
     }
     
 }
-

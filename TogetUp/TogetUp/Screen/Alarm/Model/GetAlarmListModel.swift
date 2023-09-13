@@ -7,7 +7,14 @@
 
 import Foundation
 
-struct GetAlarmListRequest: Codable {
+struct GetAlarmListResponse: Codable {
+    let httpStatusCode: Int
+    let httpReasonPhrase: String
+    let message: String
+    let result: [GetAlarmListResult]?
+}
+
+struct GetAlarmListResult: Codable {
     let id: Int
     let userId: Int
     let name: String

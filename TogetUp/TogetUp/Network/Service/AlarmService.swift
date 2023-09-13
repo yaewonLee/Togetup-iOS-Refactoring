@@ -11,6 +11,7 @@ import Moya
 
 enum AlarmService {
     case createAlarm(param: CreateAlarmRequest)
+    case getAlarmList(type: String)
 }
 
 extension AlarmService: TargetType {
@@ -20,7 +21,7 @@ extension AlarmService: TargetType {
     
     var path: String {
         switch self {
-        case .createAlarm:
+        case .createAlarm, .getAlarmList:
             return URLConstant.createAlarm
         }
     }
@@ -29,6 +30,8 @@ extension AlarmService: TargetType {
         switch self {
         case .createAlarm:
             return .post
+        case .getAlarmList:
+            return .get
         }
     }
     
@@ -36,14 +39,15 @@ extension AlarmService: TargetType {
         switch self {
         case .createAlarm(let param):
             return .requestJSONEncodable(param)
+        case .getAlarmList(let type):
+            return .requestParameters(parameters: ["type" : type], encoding: URLEncoding.queryString)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .createAlarm:
+        case .createAlarm, .getAlarmList:
             let token = KeyChainManager.shared.getToken()
-            print(token!)
             return [
                 "Authorization": "Bearer \(token ?? "")",
                 "Content-Type": "application/json"
