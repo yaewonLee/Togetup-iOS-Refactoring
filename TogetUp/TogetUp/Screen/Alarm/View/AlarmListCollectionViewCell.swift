@@ -25,29 +25,43 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
     
     func setAttributes(with model: GetAlarmListResult) {
         iconLabel.text = model.icon
-        
+
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "HH:mm:ss"
-        
+
         if let date = inputFormatter.date(from: model.alarmTime) {
             let outputFormatter = DateFormatter()
             outputFormatter.dateFormat = "a h:mm"
             outputFormatter.amSymbol = "am"
             outputFormatter.pmSymbol = "pm"
-            
+
             timeLabel.text = outputFormatter.string(from: date)
         } else {
             print("Invalid time format")
         }
+
+        // 순서대로 월화수목금토일
+        let daysDict: [(String, Bool)] =
+          [("월", model.monday), ("화", model.tuesday), ("수", model.wednesday),
+           ("목", model.thursday), ("금", model.friday), ("토", model.saturday),
+           ("일",model.sunday)]
         
-        let daysDict: [String: Bool] = ["월": model.monday, "화": model.tuesday, "수": model.wednesday, "목": model.thursday, "금": model.friday, "토": model.saturday, "일": model.sunday]
-        let activeDays = daysDict.compactMap { $0.value ? $0.key : nil }
-        let daysText = activeDays.joined(separator: ", ")
-        
-        if let missionObjectKr = model.getMissionObjectRes?.kr {
-            alarmInfoLabel.text = "\(model.name)\(daysText) | \(missionObjectKr)"
-        } else {
-            alarmInfoLabel.text = "\(model.name), \(daysText)"
-        }
+       // 모든 날짜가 true인지 확인
+       if daysDict.allSatisfy({ $0.1 }) {
+           alarmInfoLabel.text =
+             "\(model.name), 매일 | \(model.getMissionObjectRes?.kr ?? "")"
+       } else {
+           let activeDaysTexts =
+             daysDict.compactMap { $0.1 ? $0.0 : nil }.joined(separator: ", ")
+
+           if activeDaysTexts.isEmpty {
+               alarmInfoLabel.text =
+                 "\(model.name) | \(model.getMissionObjectRes?.kr ?? "")"
+           } else {
+               alarmInfoLabel.text =
+                 "\(model.name), \(activeDaysTexts) | \(model.getMissionObjectRes?.kr ?? "")"
+           }
+       }
     }
+
 }
