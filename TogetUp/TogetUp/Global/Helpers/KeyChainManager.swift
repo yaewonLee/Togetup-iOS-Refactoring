@@ -51,4 +51,13 @@ class KeyChainManager {
           return nil
       }
   }
+    
+    func removeToken() {
+        do {
+            try keychain.remove("jwtToken")
+            print("JWT Token이 키체인에서 삭제되었습니다.")
+        } catch let error {
+            print("JWT Token 삭제 실패 : \(error.localizedDescription)")
+        }
+    }
 }
