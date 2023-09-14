@@ -10,6 +10,7 @@ import UIKit
 class AlarmListCollectionViewCell: UICollectionViewCell {
     static let identifier = "AlarmListCollectionViewCell"
     
+    @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var alarmInfoLabel: UILabel!
@@ -21,6 +22,20 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = 12
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    @IBAction func isActivatedTapped(_ sender: UISwitch) {
+        if !isActivated.isOn {
+            self.backGroundView.backgroundColor = UIColor(named: "neutral050")
+            [alarmInfoLabel, timeLabel, iconLabel].forEach {
+                $0?.alpha = 0.6
+            }
+        } else {
+            self.backGroundView.backgroundColor = UIColor(named: "secondary050")
+            [alarmInfoLabel, timeLabel, iconLabel].forEach {
+                $0?.alpha = 1
+            }
+        }
     }
     
     func setAttributes(with model: GetAlarmListResult) {
