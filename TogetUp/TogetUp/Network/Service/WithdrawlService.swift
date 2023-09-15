@@ -10,6 +10,8 @@ import Moya
 
 enum WithdrawlService {
     case deleteUser
+    case deleteAppleUser(code: String)
+    
 }
 
 extension WithdrawlService: TargetType {
@@ -21,12 +23,14 @@ extension WithdrawlService: TargetType {
         switch self {
         case .deleteUser:
             return URLConstant.withdrawl
+        case .deleteAppleUser:
+            return URLConstant.appleWithdrawl
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .deleteUser:
+        case .deleteUser, .deleteAppleUser:
             return .delete
         }
     }
@@ -35,6 +39,8 @@ extension WithdrawlService: TargetType {
         switch self {
         case .deleteUser:
             return .requestPlain
+        case .deleteAppleUser(let code):
+            return .requestParameters(parameters: ["authorizationCode": code], encoding: JSONEncoding.default)
         }
     }
     

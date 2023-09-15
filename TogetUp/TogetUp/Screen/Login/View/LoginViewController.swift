@@ -29,14 +29,20 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     // MARK: - Apple Login
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        print("아ㅏㅏㅏㅏㅏㅏㅏㅏㅏ악")
+        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
-            let email = appleIDCredential.email
+            KeyChainManager.shared.saveUserIdentifier(userIdentifier)
+            
+            if let name = appleIDCredential.fullName?.givenName,
+               let email = appleIDCredential.email {
+                KeyChainManager.shared.saveUserInformation(givenName: name, email: email)
+            }
             
             guard
                 let authorizationCode = appleIDCredential.authorizationCode,
                 let identityToken = appleIDCredential.identityToken,
-                let name = appleIDCredential.fullName?.givenName,
                 let authString = String(data: authorizationCode, encoding: .utf8),
                 let tokenString = String(data: identityToken, encoding: .utf8)
             else { return }
@@ -45,17 +51,19 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             print("tokenString: \(tokenString)")
             
             UserDefaults.standard.set("Apple", forKey: "loginMethod")
-            let loginRequest = LoginRequest(oauthAccessToken: tokenString, loginType: "APPLE", userName: name)
-            self.sendLoginRequest(with: loginRequest)
+            var userName: String?
+            var givenNameAndEmailInfoFromKeychain = KeyChainManager.shared.getUserInformation()
             
-            KeyChainManager.shared.saveUserIdentifier(userIdentifier)
-            switchView()
+            if givenNameAndEmailInfoFromKeychain.givenName != nil {
+                userName = givenNameAndEmailInfoFromKeychain.givenName
+            }
             
-            //  print("=============authorizationCode: \(authorizationCode)==================")
-            //  print("===============identityToken: \(identityToken)============")
-            // print("==========user: \(userIdentifier)==========")
+            guard userName != nil else { return }
             
+            let loginRequest = LoginRequest(oauthAccessToken: tokenString, loginType: "APPLE", userName: userName)
+            self.sendLoginRequest(with : loginRequest )
             
+            switchView()            
         }
     }
     
@@ -116,7 +124,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         viewModel.loginReqeust(param:request)
             .subscribe(onNext:{ [weak self] response in
                 print("회원가입 성공")
-                print(response.message)
+                //  print(response.message)
                 KeyChainManager.shared.saveToken(response.result!.accessToken)
                 self?.switchView()
             }, onError:{ error in

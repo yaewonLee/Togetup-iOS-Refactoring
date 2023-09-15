@@ -8,8 +8,10 @@
 import UIKit
 import RxSwift
 import KakaoSDKUser
+import AuthenticationServices
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var withdrawlButton: UIButton!
@@ -20,6 +22,10 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
+    }
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
     
     private func customUI() {
@@ -47,11 +53,15 @@ class SettingViewController: UIViewController {
                 UserApi.shared.rx.logout()
                     .subscribe(onCompleted:{
                         print("logout() success.")
+                        KeyChainManager.shared.removeToken()
                         self.switchView()
                     }, onError: { error in
                         print(error.localizedDescription)
                     })
                     .disposed(by: self.disposeBag)
+            } else {
+                KeyChainManager.shared.removeToken()
+                self.switchView()
             }
         }
         sheet.addAction(okAction)
@@ -62,27 +72,62 @@ class SettingViewController: UIViewController {
         let sheet = UIAlertController(title: "알림", message: "탈퇴하시겠습니까?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
         let okAction = UIAlertAction(title: "탈퇴하기", style: .destructive) { _ in
-            UserApi.shared.rx.unlink()
-                .subscribe(onCompleted: { [weak self] in
-                    print("unlink() success.")
-                    self?.viewModel.deleteUser()
-                        .subscribe(onNext: { [weak self] response in
-                            print("User deleted successfully on our server.")
-                            print(response.message)
-                            if response.httpStatusCode == 200 {
-                                self?.switchView()
-                            }
-                        }, onError: { error in
-                            print("Failed to delete user on our server:", error)
-                        }).disposed(by: self?.disposeBag ?? DisposeBag())
-                }, onError: { error in
-                    print(error.localizedDescription)
-                })
-                .disposed(by: self.disposeBag)
+            if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {
+                UserApi.shared.rx.unlink()
+                    .subscribe(onCompleted: { [weak self] in
+                        print("unlink() success.")
+                        self?.viewModel.deleteUser()
+                            .subscribe(onNext: { [weak self] response in
+                                print("User deleted successfully on our server.")
+                                print(response.message)
+                                if response.httpStatusCode == 200 {
+                                    KeyChainManager.shared.removeToken()
+                                    self?.switchView()
+                                }
+                            }, onError: { error in
+                                print("Failed to delete user on our server:", error)
+                            }).disposed(by: self?.disposeBag ?? DisposeBag())
+                    }, onError: { error in
+                        print(error.localizedDescription)
+                    })
+                    .disposed(by: self.disposeBag)
+            } else {
+                let provider = ASAuthorizationAppleIDProvider()
+                let request = provider.createRequest()
+                request.requestedScopes = [.fullName, .email]
+                
+                let controller = ASAuthorizationController(authorizationRequests: [request])
+                controller.delegate = self
+                controller.presentationContextProvider = self
+                controller.performRequests()
+            }
         }
         sheet.addAction(okAction)
         present(sheet, animated: true)
     }
-  
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let authorizationCode = appleIDCredential.authorizationCode
+            let authorizationCodeString = String(data: authorizationCode!, encoding:.utf8)
+            print(authorizationCodeString!)
+            viewModel.deleteAppleUser(authorizationCode: authorizationCodeString!)
+                .subscribe(onNext:{ [weak self] response in
+                    print("User deleted successfully on our server.")
+                    print(response.message)
+                    if response.httpStatusCode == 200 {
+                        KeyChainManager.shared.removeToken()
+                        self?.switchView()
+                    }
+                }, onError:{ error in
+                    print("Failed to delete user on our server:", error)
+                })
+                .disposed(by:disposeBag)
+        }
+    }
+    
+    func authorizationController(controller :ASAuthorizationController ,didCompleteWithError error :Error){
+        print("Sign in with Apple errored:", error.localizedDescription )
+    }
 }
 
