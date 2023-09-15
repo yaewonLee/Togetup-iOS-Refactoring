@@ -18,16 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let disposeBag = DisposeBag()
     var window: UIWindow?
     
-    private func changeView(name: String, withIdentifier identifier: String) {
-        DispatchQueue.main.async {
-            let mainStoryboard = UIStoryboard(name: name, bundle: nil)
-            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: identifier)
-            
-            self.window?.rootViewController = loginViewController
-            self.window?.makeKeyAndVisible()
-        }
-    }
-    
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
@@ -37,36 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        if UserDefaults.standard.string(forKey: "loginMethod") == "Apple" {
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            appleIDProvider.getCredentialState(forUserID: KeyChainManager.shared.getUserIdentifier()!) { (credentialState, error) in
-                switch credentialState {
-                case .authorized:
-                    self.changeView(name: "Main", withIdentifier: "TabBarViewController")
-                    
-                case .revoked, .notFound:
-                    self.changeView(name: "Main", withIdentifier: "LoginViewController")
-                default:
-                    print(error?.localizedDescription as Any)
-                }
-            }
-        } else if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao"{
-            if (AuthApi.hasToken()) {
-                UserApi.shared.rx.accessTokenInfo()
-                    .subscribe(onSuccess:{ (_) in
-                        self.changeView(name: "Main", withIdentifier: "TabBarViewController")
-                    }, onFailure: {error in
-                        if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-                            self.changeView(name: "Main", withIdentifier: "LoginViewController")
-                        } else {
-                            print(error.localizedDescription)
-                        }
-                    })
-                    .disposed(by: disposeBag)
-            } else {
-                self.changeView(name: "Main", withIdentifier: "LoginViewController")
-            }
-        }
+
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

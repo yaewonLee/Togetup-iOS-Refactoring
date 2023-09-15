@@ -119,6 +119,9 @@
                                                             </constraints>
                                                             <color key="onTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <connections>
+                                                                <action selector="isActivatedTapped:" destination="BHi-5C-spW" eventType="valueChanged" id="DDt-kV-IZ9"/>
+                                                            </connections>
                                                         </switch>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="출석체크, 매일 | 키보드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yWy-Qd-HlM">
                                                             <rect key="frame" x="68" y="58" width="263" height="24"/>
@@ -156,6 +159,7 @@
                                         <size key="customSize" width="351" height="100"/>
                                         <connections>
                                             <outlet property="alarmInfoLabel" destination="yWy-Qd-HlM" id="H9o-Xg-LG0"/>
+                                            <outlet property="backGroundView" destination="l9x-ft-Frk" id="IoP-Ff-FH4"/>
                                             <outlet property="iconLabel" destination="VsC-rp-pZh" id="Joc-nJ-PS3"/>
                                             <outlet property="isActivated" destination="mTc-YJ-3T2" id="3Bw-BC-mYp"/>
                                             <outlet property="timeLabel" destination="7DJ-co-fU0" id="4vd-KC-yrv"/>

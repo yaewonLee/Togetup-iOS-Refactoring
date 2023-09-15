@@ -9,7 +9,6 @@ import UIKit
 
 class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    
     @IBOutlet weak var customMissionView: UIView!
     @IBOutlet weak var objectMissionView: UIView!
     @IBOutlet weak var faceMissionView: UIView!
@@ -62,7 +61,6 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func customMissionSelected(_ sender: Any) {
-        // missionTitle, missionIcon, missionId, missionObjectId
         customMissionDataHandler?("직접 등록 미션", "📷", 1, 1)
         self.navigationController?.popViewController(animated: true)
     }
