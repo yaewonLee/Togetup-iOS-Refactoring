@@ -26,10 +26,43 @@ class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             if appDelegate.isLoggedIn {
-                self.navigateToMainScreen()
-            } else {
-                self.navigateToLoginScreen()
+                    self.checkLoginMethodAndNavigate()
                 
+            } else {
+                    self.navigateToLoginScreen()
+                
+            }
+        }
+    }
+    
+    private func checkLoginMethodAndNavigate() {
+        if UserDefaults.standard.string(forKey: "loginMethod") == "Apple" {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: KeyChainManager.shared.getUserIdentifier()!) { (credentialState, error) in
+                switch credentialState {
+                case .authorized:
+                    self.navigateToMainScreen()
+                case .revoked, .notFound:
+                    self.navigateToLoginScreen()
+                default:
+                    print(error?.localizedDescription as Any)
+                }
+            }
+        } else if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {
+            if (AuthApi.hasToken()) {
+                UserApi.shared.rx.accessTokenInfo()
+                    .subscribe(onSuccess:{ (_) in
+                        self.navigateToMainScreen()
+                    }, onFailure: {error in
+                        if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                            self.navigateToLoginScreen()
+                        } else {
+                            print(error.localizedDescription)
+                        }
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                navigateToLoginScreen()
             }
         }
     }
