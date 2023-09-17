@@ -128,16 +128,17 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
             paramMissionObjId = nil
         }
         
-        viewModel.addAlarmToRealm(missionId: self.missionId, missionObjectId: missionObjectId!, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected)
-        
         let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
         
         viewModel.postAlarm(param: param)
             .subscribe(
-                onSuccess:{ result in
+                onSuccess:{ [self] result in
                     switch result {
                     case .success(let response):
-                        print(response.message)
+                        print(response)
+                        
+                        viewModel.addAlarmToRealm(missionId: self.missionId, missionObjectId: missionObjectId!, isSnoozeActivated: isRepeat.isOn, name: self.alarmNameTextField.text ?? "알람", icon: self.alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected)
+                        
                         self.presentingViewController?.dismiss(animated:true)
                     case .failure(let error):
                         switch error {
