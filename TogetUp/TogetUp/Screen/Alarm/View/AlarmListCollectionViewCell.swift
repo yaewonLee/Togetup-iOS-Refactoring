@@ -38,7 +38,7 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setAttributes(with model: GetAlarmListResult) {
+    func setAttributes(with model: Alarm) {
         iconLabel.text = model.icon
 
         let inputFormatter = DateFormatter()
@@ -64,17 +64,17 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
        // 모든 날짜가 true인지 확인
        if daysDict.allSatisfy({ $0.1 }) {
            alarmInfoLabel.text =
-             "\(model.name), 매일 | \(model.getMissionObjectRes?.kr ?? "")"
+           "\(model.name), 매일 | \(model.missionName)"
        } else {
            let activeDaysTexts =
              daysDict.compactMap { $0.1 ? $0.0 : nil }.joined(separator: ", ")
 
            if activeDaysTexts.isEmpty {
                alarmInfoLabel.text =
-                 "\(model.name) | \(model.getMissionObjectRes?.kr ?? "")"
+               "\(model.name) | \(model.missionName)"
            } else {
                alarmInfoLabel.text =
-                 "\(model.name), \(activeDaysTexts) | \(model.getMissionObjectRes?.kr ?? "")"
+               "\(model.name), \(activeDaysTexts) | \(model.missionName)"
            }
        }
     }
