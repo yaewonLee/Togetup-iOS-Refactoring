@@ -14,6 +14,15 @@ class KeyChainManager {
     
     private init() {}
     
+    func clearAll() {
+        do {
+            try keychain.removeAll()
+            print("All data has been removed from the Keychain.")
+        } catch let error {
+            print("Failed to remove all data from the Keychain: \(error.localizedDescription)")
+        }
+    }
+    
     func saveUserInformation(givenName: String, email: String) {
         do {
             try keychain.set(givenName, key: "givenName")
