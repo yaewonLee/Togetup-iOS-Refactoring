@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,20 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeFIilledCircle" translatesAutoresizingMaskIntoConstraints="NO" id="kMa-gb-oc0">
-                                <rect key="frame" x="-30" y="293" width="771" height="771"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="771" id="2VW-jG-7Lq"/>
-                                    <constraint firstAttribute="width" secondItem="kMa-gb-oc0" secondAttribute="height" multiplier="1:1" id="4Yd-dp-NuS"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeCircle" translatesAutoresizingMaskIntoConstraints="NO" id="5GF-IE-vF4">
-                                <rect key="frame" x="-210" y="185" width="443" height="443"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="443" id="0SH-vE-lfX"/>
-                                    <constraint firstAttribute="width" secondItem="5GF-IE-vF4" secondAttribute="height" multiplier="1:1" id="vNI-Ak-27C"/>
-                                </constraints>
-                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_big" translatesAutoresizingMaskIntoConstraints="NO" id="8ab-hU-1yI">
                                 <rect key="frame" x="150.66666666666666" y="268" width="92" height="92"/>
                                 <constraints>
@@ -44,28 +31,14 @@
                                     <constraint firstAttribute="width" constant="136" id="rYY-Js-9yS"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="함께라면 할 수 있어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5k-LI-c9g">
-                                <rect key="frame" x="142.66666666666666" y="442" width="108" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="Z6Q-l8-QJC"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="14"/>
-                                <color key="textColor" name="neutral500"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="pdl-wV-8cC"/>
                         <color key="backgroundColor" name="primary100"/>
                         <constraints>
-                            <constraint firstItem="5GF-IE-vF4" firstAttribute="leading" secondItem="aE8-1b-MX9" secondAttribute="leading" constant="-210" id="EJg-gv-1CG"/>
                             <constraint firstItem="jru-3h-CEV" firstAttribute="centerX" secondItem="aE8-1b-MX9" secondAttribute="centerX" id="QEX-el-NzN"/>
-                            <constraint firstItem="E5k-LI-c9g" firstAttribute="centerX" secondItem="aE8-1b-MX9" secondAttribute="centerX" id="QKK-0A-KKn"/>
                             <constraint firstItem="jru-3h-CEV" firstAttribute="top" secondItem="8ab-hU-1yI" secondAttribute="bottom" constant="36" id="Xb1-F8-Xxj"/>
-                            <constraint firstItem="5GF-IE-vF4" firstAttribute="top" secondItem="aE8-1b-MX9" secondAttribute="top" constant="185" id="bUD-61-MPY"/>
-                            <constraint firstItem="kMa-gb-oc0" firstAttribute="leading" secondItem="aE8-1b-MX9" secondAttribute="leading" constant="-30" id="eKx-JO-9GK"/>
                             <constraint firstItem="8ab-hU-1yI" firstAttribute="top" secondItem="aE8-1b-MX9" secondAttribute="top" constant="268" id="fvN-tK-Wrg"/>
-                            <constraint firstItem="kMa-gb-oc0" firstAttribute="top" secondItem="aE8-1b-MX9" secondAttribute="top" constant="293" id="gYp-9X-i3h"/>
                             <constraint firstItem="8ab-hU-1yI" firstAttribute="centerX" secondItem="aE8-1b-MX9" secondAttribute="centerX" id="rmk-x8-bMU"/>
-                            <constraint firstItem="E5k-LI-c9g" firstAttribute="top" secondItem="jru-3h-CEV" secondAttribute="bottom" constant="18" id="xgc-Cs-YO3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="루틴 형성 51일째" id="iRG-Zd-K2f"/>
@@ -77,12 +50,7 @@
     </scenes>
     <resources>
         <image name="Logo" width="136" height="28"/>
-        <image name="homeCircle" width="443" height="443"/>
-        <image name="homeFIilledCircle" width="771" height="771"/>
         <image name="icon_big" width="92" height="92"/>
-        <namedColor name="neutral500">
-            <color red="0.47058823529411764" green="0.45882352941176469" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="primary100">
             <color red="0.72549019607843135" green="0.792156862745098" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -46,7 +46,7 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     }
     
     @IBAction func logout(_ sender: Any) {
-        let sheet = UIAlertController(title: "알림", message: "로그아웃하시겠습니까?", preferredStyle: .alert)
+        let sheet = UIAlertController(title: "로그아웃", message: "로그아웃하시겠습니까?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
         let okAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
             if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {
@@ -69,7 +69,7 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     }
     
     @IBAction func withdrawl(_ sender: Any) {
-        let sheet = UIAlertController(title: "알림", message: "탈퇴하시겠습니까?", preferredStyle: .alert)
+        let sheet = UIAlertController(title: "회원 탈퇴", message: "탈퇴하시겠습니까?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
         let okAction = UIAlertAction(title: "탈퇴하기", style: .destructive) { _ in
             if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {

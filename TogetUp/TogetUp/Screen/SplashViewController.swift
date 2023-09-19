@@ -27,10 +27,8 @@ class SplashViewController: UIViewController {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             if appDelegate.isLoggedIn {
                     self.checkLoginMethodAndNavigate()
-                
             } else {
                     self.navigateToLoginScreen()
-                
             }
         }
     }

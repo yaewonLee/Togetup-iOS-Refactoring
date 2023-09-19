@@ -29,8 +29,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     // MARK: - Apple Login
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        print("아ㅏㅏㅏㅏㅏㅏㅏㅏㅏ악")
-        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             KeyChainManager.shared.saveUserIdentifier(userIdentifier)
@@ -63,7 +61,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             let loginRequest = LoginRequest(oauthAccessToken: tokenString, loginType: "APPLE", userName: userName)
             self.sendLoginRequest(with : loginRequest )
             
-            switchView()            
+            switchView()
         }
     }
     
@@ -101,6 +99,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                     UserDefaults.standard.set("Kakao", forKey: "loginMethod")
                     let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken,
                                                     loginType : "KAKAO")
+                    print(oauthToken.accessToken)
                     self.sendLoginRequest(with : loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
@@ -120,11 +119,10 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         }
     }
     
-    private func sendLoginRequest(with request : LoginRequest){
+    private func sendLoginRequest(with request : LoginRequest) {
         viewModel.loginReqeust(param:request)
             .subscribe(onNext:{ [weak self] response in
                 print("회원가입 성공")
-                //  print(response.message)
                 KeyChainManager.shared.saveToken(response.result!.accessToken)
                 self?.switchView()
             }, onError:{ error in
