@@ -24,7 +24,8 @@ class Alarm: Object {
     @objc dynamic var friday: Bool = false
     @objc dynamic var saturday: Bool = false
     @objc dynamic var sunday: Bool = false
-    //@objc dynamic var isActivated: Bool = false
+    @objc dynamic var isActivated: Bool = false
+    @objc dynamic var missionName: String = ""
 
     override static func primaryKey() -> String? {
         return "id"

@@ -35,6 +35,7 @@ class AlarmListViewModel {
             .subscribe(onSuccess: { [weak self] response in
                 if let result = response.result {
                     self?.saveAlarmsToRealm(result)
+                    self?.fetchAlarmsFromRealm()
                 }
             }, onFailure: { error in
                 print(error.localizedDescription)

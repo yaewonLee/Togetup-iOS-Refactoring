@@ -20,10 +20,15 @@ class AppStatusManager {
         UserDefaults.standard.set(true, forKey: "isFirstLaunch")
     }
 
+    func initializeUserDefaults() {
+        if UserDefaults.standard.object(forKey: "isFirstLaunch") == nil {
+            UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+        }
+    }
+
     func clearSensitiveDataOnFirstLaunch() {
         if isFirstLaunch {
             KeyChainManager.shared.clearAll()
-            markAsLaunched()
         }
     }
 }

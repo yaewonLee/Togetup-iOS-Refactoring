@@ -42,8 +42,7 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
         iconLabel.text = model.icon
 
         let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "HH:mm:ss"
-
+        inputFormatter.dateFormat = "HH:mm"
         if let date = inputFormatter.date(from: model.alarmTime) {
             let outputFormatter = DateFormatter()
             outputFormatter.dateFormat = "a h:mm"

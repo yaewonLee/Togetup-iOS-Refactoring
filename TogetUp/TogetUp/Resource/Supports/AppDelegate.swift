@@ -11,13 +11,15 @@ import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
     var isLoggedIn: Bool {
         return KeyChainManager.shared.getToken() != nil
         }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //AppStatusManager.shared.initializeUserDefaults()
+        print("AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
+        print("=========isLoggedIn: \(isLoggedIn)=========")
 
         RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
         FirebaseApp.configure()
