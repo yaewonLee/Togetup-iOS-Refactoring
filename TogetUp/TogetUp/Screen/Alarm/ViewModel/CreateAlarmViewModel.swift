@@ -45,15 +45,13 @@ class CreateAlarmViewModel {
             }
     }
     
-    func addAlarmToRealm(missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: String, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool) {
+    func addAlarmToRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: String, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool, isActivated: Bool, missionName: String) {
         let newAlarm = Alarm()
         let realmInstance = try! Realm()
-        let savedAlarms = realmInstance.objects(Alarm.self)
-        let lastAlarmId = savedAlarms.last?.id
-        
-        newAlarm.id = (lastAlarmId ?? 0) + 1
+        let savedAlarms = realmInstance.objects(Alarm.self)        
         print(savedAlarms)
         
+        newAlarm.id = id
         newAlarm.missionId = missionId
         newAlarm.missionObjectId = missionObjectId
         newAlarm.isSnoozeActivated = isSnoozeActivated
@@ -68,7 +66,8 @@ class CreateAlarmViewModel {
         newAlarm.friday = friday
         newAlarm.saturday = saturday
         newAlarm.sunday = sunday
-      //  newAlarm.isActivated = isActivated
+        newAlarm.isActivated = isActivated
+        newAlarm.missionName = missionName
         
         do {
             try realmInstance.write {

@@ -128,7 +128,10 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
             paramMissionObjId = nil
         }
         
-        let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmNameTextField.text ?? "알람", icon: alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
+        let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
+        let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
+        
+        let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
         
         viewModel.postAlarm(param: param)
             .subscribe(
@@ -136,8 +139,25 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
                     switch result {
                     case .success(let response):
                         print(response)
-                        
-                        viewModel.addAlarmToRealm(missionId: self.missionId, missionObjectId: missionObjectId!, isSnoozeActivated: isRepeat.isOn, name: self.alarmNameTextField.text ?? "알람", icon: self.alarmIconLabel.text ?? "⏰", isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected)
+                        viewModel.addAlarmToRealm (
+                            id: response.result,
+                            missionId: self.missionId,
+                            missionObjectId: self.missionObjectId!,
+                            isSnoozeActivated: isRepeat.isOn,
+                            name: alarmName,
+                            icon: alarmIcon,
+                            isVibrate: isVibrate.isOn,
+                            alarmTime: self.alarmTime,
+                            monday: monday.isSelected,
+                            tuesday: tuesday.isSelected,
+                            wednesday: wednesday.isSelected,
+                            thursday: thursday.isSelected,
+                            friday: friday.isSelected,
+                            saturday: saturday.isSelected,
+                            sunday: sunday.isSelected,
+                            isActivated: true,
+                            missionName: missionTitleLabel.text!
+                        )
                         
                         self.presentingViewController?.dismiss(animated:true)
                     case .failure(let error):
