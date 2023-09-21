@@ -200,7 +200,15 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     @IBAction func back(_ sender: Any) {
-        self.presentingViewController?.dismiss(animated: true)
+        let alertController = UIAlertController(title: nil, message: "알람을 저장하지 않고 나가시겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.presentingViewController?.dismiss(animated: true)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func missionEditButton(_ sender: Any) {
