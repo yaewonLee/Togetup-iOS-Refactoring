@@ -1,5 +1,5 @@
 //
-//  GetAlarmListModel.swift
+//  GetAlarmModel.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/09/10.
@@ -11,10 +11,17 @@ struct GetAlarmListResponse: Codable {
     let httpStatusCode: Int
     let httpReasonPhrase: String
     let message: String
-    let result: [GetAlarmListResult]?
+    let result: [GetAlarmResult]?
 }
 
-struct GetAlarmListResult: Codable {
+struct GetSingleAlarmResponse: Codable {
+    let httpStatusCode: Int
+    let httpReasonPhrase: String
+    let message: String
+    let result: GetAlarmResult?
+}
+
+struct GetAlarmResult: Codable {
     let id: Int
     let userId: Int
     let name: String
@@ -41,7 +48,7 @@ struct MissionObjectRes: Codable {
     let name, kr, icon: String
 }
 
-struct RoomRes: Codable{
+struct RoomRes: Codable {
     let id: Int
     let name, intro, groupProfileImgLink, password: String
     let state: Int

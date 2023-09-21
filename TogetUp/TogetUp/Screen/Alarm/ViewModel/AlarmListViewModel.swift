@@ -43,7 +43,7 @@ class AlarmListViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func saveAlarmsToRealm(_ alarms: [GetAlarmListResult]) {
+    private func saveAlarmsToRealm(_ alarms: [GetAlarmResult]) {
         let realm = try! Realm()
         try! realm.write {
             for apiAlarm in alarms {
