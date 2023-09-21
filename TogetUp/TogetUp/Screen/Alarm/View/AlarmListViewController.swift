@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxGesture
 import RealmSwift
 
 class AlarmListViewController: UIViewController {
@@ -64,13 +63,37 @@ class AlarmListViewController: UIViewController {
             }
         }
         .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+
+                let alarms = try? self.viewModel.alarms.value()
+                guard let selectedAlarm = alarms?[indexPath.row] else { return }
+                
+                let selectedAlarmId = selectedAlarm.id
+                
+                guard let vc = self.storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
+                
+                vc.alarmId = selectedAlarmId
+                vc.isFromAlarmList = true
+                
+                let navi = UINavigationController(rootViewController: vc)
+                navi.modalPresentationStyle = .fullScreen
+                navi.isNavigationBarHidden = true
+                navi.navigationBar.backgroundColor = .clear
+                navi.interactivePopGestureRecognizer?.isEnabled = true
+                
+                self.present(navi, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func showDeleteAlert(for alarm: Alarm) {
         let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            self?.viewModel.deleteAlarm(alarmId: alarm.id)  
+            self?.viewModel.deleteAlarm(alarmId: alarm.id)
         }
         
         alertController.addAction(cancelAction)
@@ -150,7 +173,7 @@ class AlarmListViewController: UIViewController {
     }
     
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "CreateAlarmViewController") as? CreateAlarmViewController else { return }
+        guard let vc = storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.isNavigationBarHidden = true

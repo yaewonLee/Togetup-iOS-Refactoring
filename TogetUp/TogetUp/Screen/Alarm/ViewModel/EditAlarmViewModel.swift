@@ -15,11 +15,33 @@ enum CreateAlarmError: Error {
     case server(Int)
 }
 
-class CreateAlarmViewModel {
+class EditAlarmViewModel {
     private let provider: MoyaProvider<AlarmService>
     
     init() {
         self.provider = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])
+    }
+    
+    func getSingleAlarm(id: Int) -> Single<Result<GetSingleAlarmResponse, CreateAlarmError>> {
+        return provider.rx.request(.getSingleAlarm(alarmId: id))
+            .filterSuccessfulStatusAndRedirectCodes()
+            .map(GetSingleAlarmResponse.self)
+            .map(Result.success)
+            .catch { error in
+                if let moyaError = error as? MoyaError {
+                    switch moyaError {
+                    case .statusCode(let response):
+                        print("Status code: \(response.statusCode)")
+                        return Single.just(.failure(.server(response.statusCode)))
+                    default:
+                        print("Other error: \(moyaError.localizedDescription)")
+                        return Single.just(.failure(.network(moyaError)))
+                    }
+                } else {
+                    print("Unknown error: \(error)")
+                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
+                }
+            }
     }
     
     func postAlarm(param: CreateAlarmRequest) -> Single<Result<CreateAlarmResponse, CreateAlarmError>> {
@@ -33,7 +55,6 @@ class CreateAlarmViewModel {
                     case .statusCode(let response):
                         print("Status code: \(response.statusCode)")
                         return Single.just(.failure(.server(response.statusCode)))
-                        
                     default:
                         print("Other error: \(moyaError.localizedDescription)")
                         return Single.just(.failure(.network(moyaError)))
@@ -48,7 +69,7 @@ class CreateAlarmViewModel {
     func addAlarmToRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool, isActivated: Bool, missionName: String) {
         let newAlarm = Alarm()
         let realmInstance = try! Realm()
-        let savedAlarms = realmInstance.objects(Alarm.self)        
+        let savedAlarms = realmInstance.objects(Alarm.self)
         print(savedAlarms)
         
         newAlarm.id = id

@@ -1,5 +1,5 @@
 //
-//  CreateAlarmViewController.swift
+//  EditAlarmViewController.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/08/23.
@@ -10,7 +10,7 @@ import RxSwift
 import MCEmojiPicker
 import RealmSwift
 
-class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MCEmojiPickerDelegate, UITextFieldDelegate {
+class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MCEmojiPickerDelegate, UITextFieldDelegate {
     // MARK: - UI Components
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var missionView: UIView!
@@ -34,14 +34,16 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private var alarmTimeString = ""
-    private var alarmName = "알람"
-    private var alarmIcon = "⏰"
-    private var viewModel = CreateAlarmViewModel()
+  //  private var alarmName = "알람"
+  //  private var alarmIcon = "⏰"
+    private var viewModel = EditAlarmViewModel()
     private var missionTitle = "사람"
     private var missionIcon = "👤"
     private var missionId = 2
     private var missionObjectId: Int? = 1
     private var alarmTime = Date()
+    var alarmId: Int?
+    var isFromAlarmList = false
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -54,6 +56,10 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
         
         NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
         setUpDatePicker()
+        if isFromAlarmList, let id = alarmId {
+            loadAlarmData(id: id)
+        }
+        print(isFromAlarmList, alarmId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +68,49 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     // MARK: - Custom Method
+    private func loadAlarmData(id: Int) {
+        viewModel.getSingleAlarm(id: id)
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onSuccess: { [weak self] alarmResult in
+                    switch alarmResult {
+                    case .success(let alarm):
+                        self?.updateUI(with: alarm)
+                    case .failure(let error):
+                        print("Error retrieving alarm:", error)
+                    }
+                },
+                onFailure: { error in
+                    print(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func updateUI(with response: GetSingleAlarmResponse) {
+        alarmNameTextField.text = response.result?.name
+        alarmIconLabel.text = response.result?.icon
+        missionTitleLabel.text = response.result?.getMissionObjectRes?.kr
+        missionIconLabel.text = response.result?.getMissionObjectRes?.icon
+        // 다른 미션 정보가 필요하면 여기에 추가
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        if let alarmTimeString = response.result?.alarmTime,
+           let alarmTimeDate = formatter.date(from: alarmTimeString) {
+            timePicker.date = alarmTimeDate
+        }
+        isVibrate.isOn = response.result!.isVibrate
+        isRepeat.isOn = response.result!.isSnoozeActivated
+        sunday.isSelected = response.result!.sunday
+        monday.isSelected = response.result!.monday
+        tuesday.isSelected = response.result!.tuesday
+        wednesday.isSelected = response.result!.wednesday
+        thursday.isSelected = response.result!.thursday
+        friday.isSelected = response.result!.friday
+        saturday.isSelected = response.result!.saturday
+    }
+
     private func customUI() {
         dayOfWeekButtons.forEach {
             $0.layer.cornerRadius = 18
@@ -124,15 +173,26 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
-        if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
+     //   if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
+      //  if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
         var paramMissionObjId: Int? = missionObjectId
         if self.missionId == 1 && self.missionObjectId == 1 {
             paramMissionObjId = nil
         }
         
-        let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
-        let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
+        let alarmIcon: String
+        if let text = self.alarmIconLabel.text, !text.isEmpty {
+            alarmIcon = text
+        } else {
+            alarmIcon = "⏰"
+        }
+
+        let alarmName: String
+        if let text = self.alarmNameTextField.text, !text.isEmpty {
+            alarmName = text
+        } else {
+            alarmName = "알람"
+        }
         
         let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
         

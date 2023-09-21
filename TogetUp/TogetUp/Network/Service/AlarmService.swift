@@ -13,6 +13,7 @@ enum AlarmService {
     case createAlarm(param: CreateAlarmRequest)
     case getAlarmList(type: String)
     case deleteAlarm(alarmId: Int)
+    case getSingleAlarm(alarmId: Int)
 }
 
 extension AlarmService: TargetType {
@@ -24,7 +25,7 @@ extension AlarmService: TargetType {
         switch self {
         case .createAlarm, .getAlarmList:
             return URLConstant.createAlarm
-        case .deleteAlarm(let id):
+        case .deleteAlarm(let id), .getSingleAlarm(let id):
             return URLConstant.deleteAlarm + "\(id)"
         }
     }
@@ -37,6 +38,8 @@ extension AlarmService: TargetType {
             return .get
         case .deleteAlarm:
             return .delete
+        case .getSingleAlarm:
+            return .get
         }
     }
     
@@ -48,12 +51,14 @@ extension AlarmService: TargetType {
             return .requestParameters(parameters: ["type" : type], encoding: URLEncoding.queryString)
         case .deleteAlarm:
             return .requestPlain
+        case .getSingleAlarm(let id):
+            return .requestParameters(parameters: ["alarmId" : id], encoding: URLEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .createAlarm, .getAlarmList, .deleteAlarm:
+        case .createAlarm, .getAlarmList, .deleteAlarm, .getSingleAlarm:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",

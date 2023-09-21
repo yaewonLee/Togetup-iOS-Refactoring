@@ -23,6 +23,7 @@ struct URLConstant {
     static let createAlarm = "/app/alarm"
     static let deleteAlarm = "/app/alarm/"
     static let editAlarm = "/app/alarm/"
+    static let getSingleAlarm = "/app/alarm/"
     
     // MARK: - 미션
     static let objectDetection = "/app/mission/object-detection/"

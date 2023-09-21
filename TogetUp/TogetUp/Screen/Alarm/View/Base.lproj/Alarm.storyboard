@@ -230,10 +230,10 @@
             </objects>
             <point key="canvasLocation" x="-121.37404580152672" y="134.50704225352112"/>
         </scene>
-        <!--CreateAlarmViewController-->
+        <!--EditAlarmViewController-->
         <scene sceneID="chY-SD-uBa">
             <objects>
-                <viewController storyboardIdentifier="CreateAlarmViewController" title="CreateAlarmViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5JN-bL-AHe" customClass="CreateAlarmViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditAlarmViewController" title="EditAlarmViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5JN-bL-AHe" customClass="EditAlarmViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mfY-os-fzH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
