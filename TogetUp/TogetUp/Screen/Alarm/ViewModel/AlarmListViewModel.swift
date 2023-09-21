@@ -23,9 +23,9 @@ class AlarmListViewModel {
     
     func fetchAlarmsFromRealm() {
         let realm = try! Realm()
-        let alarmsFromRealm = Array(realm.objects(Alarm.self))
+        let alarmsFromRealm = realm.objects(Alarm.self).sorted(byKeyPath: "alarmTime")
         
-        alarms.onNext(alarmsFromRealm)
+        alarms.onNext(Array(alarmsFromRealm))
     }
     
     func getAndSaveAlarmList(type: String) {
@@ -60,7 +60,6 @@ class AlarmListViewModel {
                 alarm.name = apiAlarm.name
                 alarm.icon = apiAlarm.icon
                 alarm.isVibrate = apiAlarm.isVibrate
-                alarm.alarmTime = apiAlarm.alarmTime
                 alarm.monday = apiAlarm.monday
                 alarm.tuesday = apiAlarm.tuesday
                 alarm.wednesday = apiAlarm.wednesday
@@ -70,11 +69,21 @@ class AlarmListViewModel {
                 alarm.sunday = apiAlarm.sunday
                 alarm.isActivated = apiAlarm.isActivated
                 
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH:mm:ss"
+                
+                let alarmTimeString = apiAlarm.alarmTime
+                print(alarmTimeString)
+                if let alarmTimeDate = dateFormatter.date(from: alarmTimeString) {
+                    alarm.alarmTime = alarmTimeDate
+                } else {
+                    print(#function)
+                }
                 realm.add(alarm, update: .modified)
             }
         }
     }
-    
+
     func deleteAlarm(alarmId: Int) {
         provider.rx.request(.deleteAlarm(alarmId: alarmId))
             .filterSuccessfulStatusCodes()
@@ -99,8 +108,6 @@ class AlarmListViewModel {
             })
             .disposed(by: disposeBag)
     }
-
-
 }
 
 

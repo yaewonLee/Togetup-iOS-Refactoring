@@ -33,7 +33,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private var alarmTime = ""
+    private var alarmTimeString = ""
     private var alarmName = "알람"
     private var alarmIcon = "⏰"
     private var viewModel = CreateAlarmViewModel()
@@ -41,6 +41,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     private var missionIcon = "👤"
     private var missionId = 2
     private var missionObjectId: Int? = 1
+    private var alarmTime = Date()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -94,10 +95,11 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     private func setUpDatePicker() {
         let selectedDate = timePicker.date
+        self.alarmTime = timePicker.date
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         let timeString = formatter.string(from: selectedDate)
-        self.alarmTime = timeString
+        self.alarmTimeString = timeString
     }
     
     // MARK: - @
@@ -114,10 +116,11 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
     
     @IBAction func datePickerChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
+        self.alarmTime = sender.date
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         let timeString = formatter.string(from: selectedDate)
-        self.alarmTime = timeString
+        self.alarmTimeString = timeString
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
@@ -131,7 +134,7 @@ class CreateAlarmViewController: UIViewController, UIGestureRecognizerDelegate, 
         let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
         let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
         
-        let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTime, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
+        let param = CreateAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil)
         
         viewModel.postAlarm(param: param)
             .subscribe(

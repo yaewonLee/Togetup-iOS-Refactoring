@@ -16,7 +16,7 @@ class Alarm: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var icon: String = ""
     @objc dynamic var isVibrate: Bool = false
-    @objc dynamic var alarmTime: String = ""
+    @objc dynamic var alarmTime: Date = Date()
     @objc dynamic var monday: Bool = false
     @objc dynamic var tuesday: Bool = false
     @objc dynamic var wednesday: Bool = false

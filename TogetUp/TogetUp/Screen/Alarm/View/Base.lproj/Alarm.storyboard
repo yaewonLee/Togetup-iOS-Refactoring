@@ -142,7 +142,7 @@
                                                             <state key="normal" title="Button"/>
                                                             <buttonConfiguration key="configuration" style="plain" image="dots-vertical"/>
                                                             <connections>
-                                                                <action selector="deleteButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="EcR-rt-c1y"/>
+                                                                <action selector="deleteButtonTapped:" destination="BHi-5C-spW" eventType="touchUpInside" id="Ku8-iY-yoE"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>

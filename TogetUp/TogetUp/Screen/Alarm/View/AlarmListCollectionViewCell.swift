@@ -16,12 +16,19 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var alarmInfoLabel: UILabel!
     @IBOutlet weak var isActivated: UISwitch!
     
+    var onDeleteTapped: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.layer.cornerRadius = 12
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        onDeleteTapped?()
     }
     
     @IBAction func isActivatedTapped(_ sender: UISwitch) {
@@ -41,18 +48,13 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
     func setAttributes(with model: Alarm) {
         iconLabel.text = model.icon
 
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "HH:mm"
-        if let date = inputFormatter.date(from: model.alarmTime) {
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "a h:mm"
-            outputFormatter.amSymbol = "am"
-            outputFormatter.pmSymbol = "pm"
+        let outputFormatter = DateFormatter()
+           outputFormatter.dateFormat = "a h:mm"
+           outputFormatter.amSymbol = "am"
+           outputFormatter.pmSymbol = "pm"
 
-            timeLabel.text = outputFormatter.string(from: date)
-        } else {
-            print("Invalid time format")
-        }
+        let timeString = outputFormatter.string(from: model.alarmTime)
+            timeLabel.text = timeString
 
         // 순서대로 월화수목금토일
         let daysDict: [(String, Bool)] =

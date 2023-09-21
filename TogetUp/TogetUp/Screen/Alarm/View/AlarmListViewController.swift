@@ -41,10 +41,10 @@ class AlarmListViewController: UIViewController {
         customSegmentedControl()
         setCollectionViewFlowLayout()
         self.groupView.layer.cornerRadius = 12
-//                try! realm.write {
-//                    let alarms = realm.objects(Alarm.self)
-//                    realm.delete(alarms)
-//                }
+        //                try! realm.write {
+        //                    let alarms = realm.objects(Alarm.self)
+        //                    realm.delete(alarms)
+        //                }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,9 +59,26 @@ class AlarmListViewController: UIViewController {
         self.collectionView.dataSource = nil
         viewModel.alarms.bind(to: collectionView.rx.items(cellIdentifier: AlarmListCollectionViewCell.identifier, cellType: AlarmListCollectionViewCell.self)) { index, alarm, cell in
             cell.setAttributes(with: alarm)
+            cell.onDeleteTapped = { [weak self] in
+                self?.showDeleteAlert(for: alarm)
+            }
         }
         .disposed(by: disposeBag)
     }
+    
+    func showDeleteAlert(for alarm: Alarm) {
+        let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.viewModel.deleteAlarm(alarmId: alarm.id)  
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
     
     private func fetchAndSaveAlarmsIfFirstLaunch() {
         print("fetchAndSaveAlarmsIfFirstLaunch if AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
@@ -77,7 +94,7 @@ class AlarmListViewController: UIViewController {
         layout.minimumLineSpacing = 16
         collectionView.collectionViewLayout = layout
     }
-        
+    
     private func setUpNavigationBar() {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.black
@@ -112,21 +129,6 @@ class AlarmListViewController: UIViewController {
     }
     
     // MARK: - @
-    
-    @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        let sheet = UIAlertController(title: "알람 삭제", message: "알람을 삭제하시겠습니까?", preferredStyle: .alert)
-        sheet.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
-        
-        let okAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            if let selectedIndexPath = self.collectionView.indexPathsForSelectedItems?.first,
-               let alarmToDelete = try? self.viewModel.alarms.value()[selectedIndexPath.row] {
-                self.viewModel.deleteAlarm(alarmId: alarmToDelete.id)
-            }
-        }
-        sheet.addAction(okAction)
-        present(sheet, animated: true, completion: nil)
-    }
-    
     @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
         let segmentIndex = CGFloat(sender.selectedSegmentIndex)
         let segmentWidth = sender.frame.width / CGFloat(sender.numberOfSegments)
