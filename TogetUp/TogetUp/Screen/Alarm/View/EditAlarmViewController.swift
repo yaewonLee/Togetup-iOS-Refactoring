@@ -34,8 +34,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private var alarmTimeString = ""
-  //  private var alarmName = "알람"
-  //  private var alarmIcon = "⏰"
     private var viewModel = EditAlarmViewModel()
     private var missionTitle = "사람"
     private var missionIcon = "👤"
@@ -59,7 +57,9 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         if isFromAlarmList, let id = alarmId {
             loadAlarmData(id: id)
         }
-        print(isFromAlarmList, alarmId)
+        if isFromAlarmList {
+            deleteAlarmBtn.isHidden = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,8 +173,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-     //   if alarmNameTextField.text == "" { alarmNameTextField.text = alarmName }
-      //  if alarmIconLabel.text == "" { alarmIconLabel.text = alarmIcon }
         var paramMissionObjId: Int? = missionObjectId
         if self.missionId == 1 && self.missionObjectId == 1 {
             paramMissionObjId = nil
@@ -203,7 +201,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
                     case .success(let response):
                         print(response)
                         viewModel.addAlarmToRealm (
-                            id: response.result,
+                            id: response.result ?? 0,
                             missionId: self.missionId,
                             missionObjectId: self.missionObjectId!,
                             isSnoozeActivated: isRepeat.isOn,
@@ -288,4 +286,39 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: "알람을 삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let self = self, let alarmId = self.alarmId else { return }
+            
+            self.viewModel.deleteAlarm(alarmId: alarmId)
+                .subscribe(onSuccess: { _ in
+                    self.presentingViewController?.dismiss(animated: true)
+                }, onFailure: { error in
+                    if let alarmError = error as? CreateAlarmError {
+                        switch alarmError {
+                        case .network:
+                            self.showAlert(message: "잠시후 다시 시도해주세요")
+                        case .server(let statusCode):
+                            print(statusCode)
+                            self.showAlert(message: "잠시후 다시 시도해주세요")
+                        }
+                    }
+                })
+                .disposed(by: self.disposeBag)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true)
+    }
 }
