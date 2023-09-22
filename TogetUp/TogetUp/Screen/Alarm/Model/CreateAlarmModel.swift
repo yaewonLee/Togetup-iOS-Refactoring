@@ -26,9 +26,10 @@ struct CreateAlarmRequest: Codable {
     let roomId: Int?
 }
 
-struct CreateAlarmResponse: Codable {
+struct CreateOrDeleteAlarmResponse: Codable {
     let httpStatusCode: Int
     let httpReasonPhrase: String
     let message: String
-    let result: Int
+    let result: Int?
 }
+

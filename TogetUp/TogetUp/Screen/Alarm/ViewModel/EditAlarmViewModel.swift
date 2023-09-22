@@ -44,10 +44,10 @@ class EditAlarmViewModel {
             }
     }
     
-    func postAlarm(param: CreateAlarmRequest) -> Single<Result<CreateAlarmResponse, CreateAlarmError>> {
+    func postAlarm(param: CreateAlarmRequest) -> Single<Result<CreateOrDeleteAlarmResponse, CreateAlarmError>> {
         return provider.rx.request(.createAlarm(param: param))
             .filterSuccessfulStatusAndRedirectCodes()
-            .map(CreateAlarmResponse.self)
+            .map(CreateOrDeleteAlarmResponse.self)
             .map(Result.success)
             .catch { error in
                 if let moyaError = error as? MoyaError {
@@ -99,6 +99,49 @@ class EditAlarmViewModel {
             print("Error Saving content")
         }
     }
+    
+    func deleteAlarm(alarmId: Int) -> Single<Result<Int, CreateAlarmError>> {
+        return provider.rx.request(.deleteAlarm(alarmId: alarmId)) 
+            .filterSuccessfulStatusAndRedirectCodes()
+            .map(CreateOrDeleteAlarmResponse.self)
+            .flatMap { response -> Single<Result<Int, CreateAlarmError>> in
+                if let resultId = response.result, resultId == alarmId {
+                    let realmInstance = try! Realm()
+                    if let alarmToDelete = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
+                        do {
+                            try realmInstance.write {
+                                realmInstance.delete(alarmToDelete)
+                            }
+                            return Single.just(.success(resultId))
+                        } catch {
+                            print("Error deleting alarm from Realm")
+                            return Single.just(.failure(.server(500)))
+                        }
+                    } else {
+                        print("Alarm not found in Realm")
+                        return Single.just(.failure(.server(404)))
+                    }
+                } else {
+                    return Single.just(.failure(.server(response.httpStatusCode)))
+                }
+            }
+            .catch { error in
+                if let moyaError = error as? MoyaError {
+                    switch moyaError {
+                    case .statusCode(let response):
+                        print("Status code: \(response.statusCode)")
+                        return Single.just(.failure(.server(response.statusCode)))
+                    default:
+                        print("Other error: \(moyaError.localizedDescription)")
+                        return Single.just(.failure(.network(moyaError)))
+                    }
+                } else {
+                    print("Unknown error: \(error)")
+                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
+                }
+            }
+    }
+
 }
 
 
