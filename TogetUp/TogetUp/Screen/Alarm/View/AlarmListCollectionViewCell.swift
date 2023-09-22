@@ -17,6 +17,7 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var isActivated: UISwitch!
     
     var onDeleteTapped: (() -> Void)?
+    var onToggleSwitch: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,12 +27,34 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
         self.layer.borderColor = UIColor.black.cgColor
     }
     
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onDeleteTapped = nil
+        onToggleSwitch = nil
+    }
+        
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         onDeleteTapped?()
     }
     
     @IBAction func isActivatedTapped(_ sender: UISwitch) {
+        if !sender.isOn {
+            self.backGroundView.backgroundColor = UIColor(named: "neutral050")
+            [alarmInfoLabel, timeLabel, iconLabel].forEach {
+                $0?.alpha = 0.6
+            }
+        } else {
+            self.backGroundView.backgroundColor = UIColor(named: "secondary050")
+            [alarmInfoLabel, timeLabel, iconLabel].forEach {
+                $0?.alpha = 1
+            }
+        }
+        onToggleSwitch?()
+    }
+    
+    func setAttributes(with model: Alarm) {
+        iconLabel.text = model.icon
+        isActivated.isOn = model.isActivated
         if !isActivated.isOn {
             self.backGroundView.backgroundColor = UIColor(named: "neutral050")
             [alarmInfoLabel, timeLabel, iconLabel].forEach {
@@ -43,10 +66,6 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
                 $0?.alpha = 1
             }
         }
-    }
-    
-    func setAttributes(with model: Alarm) {
-        iconLabel.text = model.icon
 
         let outputFormatter = DateFormatter()
            outputFormatter.dateFormat = "a h:mm"
@@ -55,8 +74,7 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
 
         let timeString = outputFormatter.string(from: model.alarmTime)
             timeLabel.text = timeString
-
-        // 순서대로 월화수목금토일
+        
         let daysDict: [(String, Bool)] =
           [("월", model.monday), ("화", model.tuesday), ("수", model.wednesday),
            ("목", model.thursday), ("금", model.friday), ("토", model.saturday),
@@ -79,5 +97,4 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
            }
        }
     }
-
 }

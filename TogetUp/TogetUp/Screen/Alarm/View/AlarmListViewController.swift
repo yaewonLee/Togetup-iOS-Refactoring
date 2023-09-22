@@ -17,11 +17,11 @@ class AlarmListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
     
-    let realm = try! Realm()
     
     // MARK: - Properties
     private let viewModel = AlarmListViewModel()
     private let disposeBag = DisposeBag()
+    let realm = try! Realm()
     private lazy var leadingDistance: NSLayoutConstraint = {
         return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
     }()
@@ -31,6 +31,7 @@ class AlarmListViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    var selectedAlarmId = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -61,17 +62,20 @@ class AlarmListViewController: UIViewController {
             cell.onDeleteTapped = { [weak self] in
                 self?.showDeleteAlert(for: alarm)
             }
+            cell.onToggleSwitch = { [weak self] in
+                self?.editIsActivated(for: alarm)
+            }
         }
         .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
-
+                
                 let alarms = try? self.viewModel.alarms.value()
                 guard let selectedAlarm = alarms?[indexPath.row] else { return }
                 
-                let selectedAlarmId = selectedAlarm.id
+                self.selectedAlarmId = selectedAlarm.id
                 
                 guard let vc = self.storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
                 
@@ -88,6 +92,49 @@ class AlarmListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    func editIsActivated(for alarm: Alarm) {
+        let alarmId = alarm.id
+        
+        if let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            let alarmString = formatter.string(from: storedAlarm.alarmTime)
+            
+            let param = CreateOrEditAlarmRequest(
+                missionId: storedAlarm.missionId,
+                missionObjectId: storedAlarm.missionObjectId,
+                isSnoozeActivated: storedAlarm.isSnoozeActivated,
+                name: storedAlarm.name,
+                icon: storedAlarm.icon,
+                isVibrate: storedAlarm.isVibrate,
+                alarmTime: alarmString,
+                monday: storedAlarm.monday,
+                tuesday: storedAlarm.tuesday,
+                wednesday: storedAlarm.wednesday,
+                thursday: storedAlarm.thursday,
+                friday: storedAlarm.friday,
+                saturday: storedAlarm.saturday,
+                sunday: storedAlarm.sunday,
+                isActivated: !storedAlarm.isActivated,
+                roomId: nil,
+                snoozeInterval: 0,
+                snoozeCnt: 0
+            )
+            
+            viewModel.editAlarm(alarmId: alarmId, param: param)
+                .subscribe(onSuccess: { [weak self] result in
+                    switch result {
+                    case .success(let response):
+                        self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
+                    case .failure(let error):
+                        print("알람 수정 오류: \(error.localizedDescription)")
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
+    }
+    
     
     func showDeleteAlert(for alarm: Alarm) {
         let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
