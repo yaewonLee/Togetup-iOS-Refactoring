@@ -21,135 +21,43 @@ class EditAlarmViewModel {
     init() {
         self.provider = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])
     }
-    
-    func getSingleAlarm(id: Int) -> Single<Result<GetSingleAlarmResponse, CreateAlarmError>> {
-        return provider.rx.request(.getSingleAlarm(alarmId: id))
-            .filterSuccessfulStatusAndRedirectCodes()
-            .map(GetSingleAlarmResponse.self)
-            .map(Result.success)
-            .catch { error in
-                if let moyaError = error as? MoyaError {
-                    switch moyaError {
-                    case .statusCode(let response):
-                        print("Status code: \(response.statusCode)")
-                        return Single.just(.failure(.server(response.statusCode)))
-                    default:
-                        print("Other error: \(moyaError.localizedDescription)")
-                        return Single.just(.failure(.network(moyaError)))
-                    }
-                } else {
-                    print("Unknown error: \(error)")
-                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
-                }
-            }
-    }
-    
-    func postAlarm(param: CreateOrEditAlarmRequest) -> Single<Result<CreateOrDeleteAlarmResponse, CreateAlarmError>> {
-        return provider.rx.request(.createAlarm(param: param))
-            .filterSuccessfulStatusAndRedirectCodes()
-            .map(CreateOrDeleteAlarmResponse.self)
-            .map(Result.success)
-            .catch { error in
-                if let moyaError = error as? MoyaError {
-                    switch moyaError {
-                    case .statusCode(let response):
-                        print("Status code: \(response.statusCode)")
-                        return Single.just(.failure(.server(response.statusCode)))
-                    default:
-                        print("Other error: \(moyaError.localizedDescription)")
-                        return Single.just(.failure(.network(moyaError)))
-                    }
-                } else {
-                    print("Unknown error: \(error)")
-                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
-                }
-            }
-    }
-    
-    func addAlarmToRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool, isActivated: Bool, missionName: String) {
-        let newAlarm = Alarm()
-        let realmInstance = try! Realm()
-        let savedAlarms = realmInstance.objects(Alarm.self)
-        print(savedAlarms)
-        
-        newAlarm.id = id
-        newAlarm.missionId = missionId
-        newAlarm.missionObjectId = missionObjectId
-        newAlarm.isSnoozeActivated = isSnoozeActivated
-        newAlarm.name = name
-        newAlarm.icon = icon
-        newAlarm.isVibrate = isVibrate
-        newAlarm.alarmTime = alarmTime
-        newAlarm.monday = monday
-        newAlarm.tuesday = tuesday
-        newAlarm.wednesday = wednesday
-        newAlarm.thursday = thursday
-        newAlarm.friday = friday
-        newAlarm.saturday = saturday
-        newAlarm.sunday = sunday
-        newAlarm.isActivated = isActivated
-        newAlarm.missionName = missionName
-        
-        do {
-            try realmInstance.write {
-                realmInstance.add(newAlarm, update: .modified)
-                print(savedAlarms)
-            }
-        } catch {
-            print("Error Saving content")
-        }
-    }
-    
-    func editAlarm(alarmId: Int, param: CreateOrEditAlarmRequest) -> Completable {
-        return provider.rx.request(.editAlarm(alarmId: alarmId, param: param))
-            .filterSuccessfulStatusAndRedirectCodes()
-            .asCompletable()
-            .do(onCompleted: {
-                let realmInstance = try! Realm()
-                if let alarmToUpdate = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
-                    do {
-                        try realmInstance.write {
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "HH:mm"
-                            if let date = dateFormatter.date(from: param.alarmTime) {
-                                alarmToUpdate.alarmTime = date
-                            } else {
-                                print("Error converting string to date")
-                                throw CreateAlarmError.server(400) // or another appropriate error
-                            }
 
-                            alarmToUpdate.name = param.name
-                            alarmToUpdate.icon = param.icon
-                            
-                            alarmToUpdate.monday = param.monday
-                            alarmToUpdate.tuesday = param.tuesday
-                            alarmToUpdate.wednesday = param.wednesday
-                            alarmToUpdate.thursday = param.thursday
-                            alarmToUpdate.friday = param.friday
-                            alarmToUpdate.saturday = param.saturday
-                            alarmToUpdate.sunday = param.sunday
-                            
-                            alarmToUpdate.isSnoozeActivated = param.isSnoozeActivated
-                            alarmToUpdate.isVibrate = param.isVibrate
-                            alarmToUpdate.isActivated = param.isActivated
-                            alarmToUpdate.missionId = param.missionId
-                            alarmToUpdate.missionObjectId = param.missionObjectId!
-                        }
-                    } catch {
-                        print("Error updating alarm in Realm")
-                        throw CreateAlarmError.server(500)
+    // MARK: - API Call Methods
+    func handleAPIRequest<T: Decodable>(_ request: Single<Response>) -> Single<Result<T, CreateAlarmError>> {
+        return request
+            .filterSuccessfulStatusAndRedirectCodes()
+            .map(T.self)
+            .map(Result.success)
+            .catch { error -> Single<Result<T, CreateAlarmError>> in
+                if let moyaError = error as? MoyaError {
+                    switch moyaError {
+                    case .statusCode(let response):
+                        return Single.just(.failure(.server(response.statusCode)))
+                    default:
+                        return Single.just(.failure(.network(moyaError)))
                     }
                 } else {
-                    print("Alarm not found in Realm")
-                    throw CreateAlarmError.server(404)
+                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
                 }
-            })
+            }
+    }
+
+    func getSingleAlarm(id: Int) -> Single<Result<GetSingleAlarmResponse, CreateAlarmError>> {
+        return handleAPIRequest(provider.rx.request(.getSingleAlarm(alarmId: id)))
+    }
+
+    func postAlarm(param: CreateOrEditAlarmRequest) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
+        return handleAPIRequest(provider.rx.request(.createAlarm(param: param)))
+    }
+
+    func editAlarmAPI(alarmId: Int, param: CreateOrEditAlarmRequest) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
+        return handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: param)))
     }
 
     func deleteAlarm(alarmId: Int) -> Single<Result<Int, CreateAlarmError>> {
-        return provider.rx.request(.deleteAlarm(alarmId: alarmId)) 
+        return provider.rx.request(.deleteAlarm(alarmId: alarmId))
             .filterSuccessfulStatusAndRedirectCodes()
-            .map(CreateOrDeleteAlarmResponse.self)
+            .map(CreateEditDeleteAlarmResponse.self)
             .flatMap { response -> Single<Result<Int, CreateAlarmError>> in
                 if let resultId = response.result, resultId == alarmId {
                     let realmInstance = try! Realm()
@@ -187,7 +95,48 @@ class EditAlarmViewModel {
                 }
             }
     }
+
+
+
+    // MARK: - Realm Methods
+    func saveOrUpdateAlarmInRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, days: [Bool], isActivated: Bool, missionName: String) {
+        let realmInstance = try! Realm()
+
+        if let alarm = realmInstance.objects(Alarm.self).filter("id == \(id)").first {
+            try? realmInstance.write {
+                updateAlarmFields(alarm: alarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmTime: alarmTime, days: days, isActivated: isActivated, missionName: missionName)
+            }
+        } else {
+            let newAlarm = Alarm()
+            newAlarm.id = id
+            updateAlarmFields(alarm: newAlarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmTime: alarmTime, days: days, isActivated: isActivated, missionName: missionName)
+
+            try? realmInstance.write {
+                realmInstance.add(newAlarm, update: .modified)
+            }
+        }
+    }
+
+    private func updateAlarmFields(alarm: Alarm, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, days: [Bool], isActivated: Bool, missionName: String) {
+        alarm.missionId = missionId
+        alarm.missionObjectId = missionObjectId
+        alarm.isSnoozeActivated = isSnoozeActivated
+        alarm.name = name
+        alarm.icon = icon
+        alarm.isVibrate = isVibrate
+        alarm.alarmTime = alarmTime
+        alarm.monday = days[0]
+        alarm.tuesday = days[1]
+        alarm.wednesday = days[2]
+        alarm.thursday = days[3]
+        alarm.friday = days[4]
+        alarm.saturday = days[5]
+        alarm.sunday = days[6]
+        alarm.isActivated = isActivated
+        alarm.missionName = missionName
+    }
 }
+
 
 
 
