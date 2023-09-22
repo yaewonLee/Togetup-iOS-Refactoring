@@ -1,5 +1,5 @@
 //
-//  CreateAlarmModel.swift
+//  CreateOrEditAlarmModel.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/09/04.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateAlarmRequest: Codable {
+struct CreateOrEditAlarmRequest: Codable {
     let missionId: Int
     let missionObjectId: Int?
     let isSnoozeActivated: Bool
@@ -24,6 +24,8 @@ struct CreateAlarmRequest: Codable {
     let sunday: Bool
     let isActivated: Bool
     let roomId: Int?
+    let snoozeInterval: Int
+    let snoozeCnt: Int
 }
 
 struct CreateOrDeleteAlarmResponse: Codable {

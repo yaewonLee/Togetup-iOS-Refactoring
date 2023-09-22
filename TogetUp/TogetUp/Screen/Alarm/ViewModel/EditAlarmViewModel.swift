@@ -44,7 +44,7 @@ class EditAlarmViewModel {
             }
     }
     
-    func postAlarm(param: CreateAlarmRequest) -> Single<Result<CreateOrDeleteAlarmResponse, CreateAlarmError>> {
+    func postAlarm(param: CreateOrEditAlarmRequest) -> Single<Result<CreateOrDeleteAlarmResponse, CreateAlarmError>> {
         return provider.rx.request(.createAlarm(param: param))
             .filterSuccessfulStatusAndRedirectCodes()
             .map(CreateOrDeleteAlarmResponse.self)
