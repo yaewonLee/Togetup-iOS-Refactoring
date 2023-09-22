@@ -10,10 +10,11 @@ import Moya
 
 
 enum AlarmService {
-    case createAlarm(param: CreateAlarmRequest)
+    case createAlarm(param: CreateOrEditAlarmRequest)
     case getAlarmList(type: String)
     case deleteAlarm(alarmId: Int)
     case getSingleAlarm(alarmId: Int)
+    case editAlarm(alarmId: Int, param: CreateOrEditAlarmRequest)
 }
 
 extension AlarmService: TargetType {
@@ -25,7 +26,7 @@ extension AlarmService: TargetType {
         switch self {
         case .createAlarm, .getAlarmList:
             return URLConstant.createAlarm
-        case .deleteAlarm(let id), .getSingleAlarm(let id):
+        case .deleteAlarm(let id), .getSingleAlarm(let id), .editAlarm(let id, _):
             return URLConstant.deleteAlarm + "\(id)"
         }
     }
@@ -40,6 +41,8 @@ extension AlarmService: TargetType {
             return .delete
         case .getSingleAlarm:
             return .get
+        case .editAlarm:
+            return .patch
         }
     }
     
@@ -53,12 +56,14 @@ extension AlarmService: TargetType {
             return .requestPlain
         case .getSingleAlarm(let id):
             return .requestParameters(parameters: ["alarmId" : id], encoding: URLEncoding.default)
+        case .editAlarm(_, let param):
+            return .requestJSONEncodable(param)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .createAlarm, .getAlarmList, .deleteAlarm, .getSingleAlarm:
+        case .createAlarm, .getAlarmList, .deleteAlarm, .getSingleAlarm, .editAlarm:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",
