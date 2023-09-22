@@ -110,7 +110,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         friday.isSelected = response.result!.friday
         saturday.isSelected = response.result!.saturday
     }
-
+    
     private func customUI() {
         dayOfWeekButtons.forEach {
             $0.layer.cornerRadius = 18
@@ -151,6 +151,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.alarmTimeString = timeString
     }
     
+    
     // MARK: - @
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
@@ -184,7 +185,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         } else {
             alarmIcon = "⏰"
         }
-
+        
         let alarmName: String
         if let text = self.alarmNameTextField.text, !text.isEmpty {
             alarmName = text
@@ -194,48 +195,58 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         let param = CreateOrEditAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil, snoozeInterval: 0, snoozeCnt: 0)
         
-        viewModel.postAlarm(param: param)
-            .subscribe(
-                onSuccess:{ [self] result in
-                    switch result {
-                    case .success(let response):
-                        print(response)
-                        viewModel.addAlarmToRealm (
-                            id: response.result ?? 0,
-                            missionId: self.missionId,
-                            missionObjectId: self.missionObjectId!,
-                            isSnoozeActivated: isRepeat.isOn,
-                            name: alarmName,
-                            icon: alarmIcon,
-                            isVibrate: isVibrate.isOn,
-                            alarmTime: self.alarmTime,
-                            monday: monday.isSelected,
-                            tuesday: tuesday.isSelected,
-                            wednesday: wednesday.isSelected,
-                            thursday: thursday.isSelected,
-                            friday: friday.isSelected,
-                            saturday: saturday.isSelected,
-                            sunday: sunday.isSelected,
-                            isActivated: true,
-                            missionName: missionTitleLabel.text!
-                        )
-                        
+        if isFromAlarmList {
+            viewModel.editAlarm(alarmId: self.alarmId!, param: param)
+                .subscribe (
+                    onCompleted: {
                         self.presentingViewController?.dismiss(animated:true)
-                    case .failure(let error):
-                        switch error {
-                        case .network(let moyaError):
-                            print("Network error:", moyaError.localizedDescription)
-                            
-                        case .server(let statusCode):
-                            print("Server returned status code:", statusCode)
-                        }
+                    }) { error in
+                        print(error.localizedDescription)
                     }
-                },
-                onFailure:{ error in
-                    print(error.localizedDescription)
-                }
-            )
-            .disposed(by:self.disposeBag)
+        } else {
+            viewModel.postAlarm(param: param)
+                .subscribe(
+                    onSuccess:{ [self] result in
+                        switch result {
+                        case .success(let response):
+                            print(response)
+                            viewModel.addAlarmToRealm (
+                                id: response.result ?? 0,
+                                missionId: self.missionId,
+                                missionObjectId: self.missionObjectId!,
+                                isSnoozeActivated: isRepeat.isOn,
+                                name: alarmName,
+                                icon: alarmIcon,
+                                isVibrate: isVibrate.isOn,
+                                alarmTime: self.alarmTime,
+                                monday: monday.isSelected,
+                                tuesday: tuesday.isSelected,
+                                wednesday: wednesday.isSelected,
+                                thursday: thursday.isSelected,
+                                friday: friday.isSelected,
+                                saturday: saturday.isSelected,
+                                sunday: sunday.isSelected,
+                                isActivated: true,
+                                missionName: missionTitleLabel.text!
+                            )
+                            
+                            self.presentingViewController?.dismiss(animated:true)
+                        case .failure(let error):
+                            switch error {
+                            case .network(let moyaError):
+                                print("Network error:", moyaError.localizedDescription)
+                                
+                            case .server(let statusCode):
+                                print("Server returned status code:", statusCode)
+                            }
+                        }
+                    },
+                    onFailure:{ error in
+                        print(error.localizedDescription)
+                    }
+                )
+                .disposed(by:self.disposeBag)
+        }
     }
     
     @objc func missionSelected(_ notification: Notification) {

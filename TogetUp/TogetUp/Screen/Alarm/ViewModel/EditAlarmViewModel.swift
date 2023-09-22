@@ -100,6 +100,52 @@ class EditAlarmViewModel {
         }
     }
     
+    func editAlarm(alarmId: Int, param: CreateOrEditAlarmRequest) -> Completable {
+        return provider.rx.request(.editAlarm(alarmId: alarmId, param: param))
+            .filterSuccessfulStatusAndRedirectCodes()
+            .asCompletable()
+            .do(onCompleted: {
+                let realmInstance = try! Realm()
+                if let alarmToUpdate = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
+                    do {
+                        try realmInstance.write {
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "HH:mm"
+                            if let date = dateFormatter.date(from: param.alarmTime) {
+                                alarmToUpdate.alarmTime = date
+                            } else {
+                                print("Error converting string to date")
+                                throw CreateAlarmError.server(400) // or another appropriate error
+                            }
+
+                            alarmToUpdate.name = param.name
+                            alarmToUpdate.icon = param.icon
+                            
+                            alarmToUpdate.monday = param.monday
+                            alarmToUpdate.tuesday = param.tuesday
+                            alarmToUpdate.wednesday = param.wednesday
+                            alarmToUpdate.thursday = param.thursday
+                            alarmToUpdate.friday = param.friday
+                            alarmToUpdate.saturday = param.saturday
+                            alarmToUpdate.sunday = param.sunday
+                            
+                            alarmToUpdate.isSnoozeActivated = param.isSnoozeActivated
+                            alarmToUpdate.isVibrate = param.isVibrate
+                            alarmToUpdate.isActivated = param.isActivated
+                            alarmToUpdate.missionId = param.missionId
+                            alarmToUpdate.missionObjectId = param.missionObjectId!
+                        }
+                    } catch {
+                        print("Error updating alarm in Realm")
+                        throw CreateAlarmError.server(500)
+                    }
+                } else {
+                    print("Alarm not found in Realm")
+                    throw CreateAlarmError.server(404)
+                }
+            })
+    }
+
     func deleteAlarm(alarmId: Int) -> Single<Result<Int, CreateAlarmError>> {
         return provider.rx.request(.deleteAlarm(alarmId: alarmId)) 
             .filterSuccessfulStatusAndRedirectCodes()
@@ -141,7 +187,6 @@ class EditAlarmViewModel {
                 }
             }
     }
-
 }
 
 
