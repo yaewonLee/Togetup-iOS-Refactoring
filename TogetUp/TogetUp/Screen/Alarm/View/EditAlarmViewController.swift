@@ -184,7 +184,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         let param = CreateOrEditAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil, snoozeInterval: 0, snoozeCnt: 0)
         
-        let apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> = isFromAlarmList ? viewModel.editAlarmAPI(alarmId: self.alarmId!, param: param) : viewModel.postAlarm(param: param)
+        let apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> = isFromAlarmList ? viewModel.editAlarm(alarmId: self.alarmId!, param: param) : viewModel.postAlarm(param: param)
         
         apiRequest.subscribe(
             onSuccess: { result in

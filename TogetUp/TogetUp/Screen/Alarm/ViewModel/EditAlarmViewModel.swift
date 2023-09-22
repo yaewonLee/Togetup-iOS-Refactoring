@@ -50,7 +50,7 @@ class EditAlarmViewModel {
         return handleAPIRequest(provider.rx.request(.createAlarm(param: param)))
     }
 
-    func editAlarmAPI(alarmId: Int, param: CreateOrEditAlarmRequest) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
+    func editAlarm(alarmId: Int, param: CreateOrEditAlarmRequest) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
         return handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: param)))
     }
 
@@ -95,8 +95,6 @@ class EditAlarmViewModel {
                 }
             }
     }
-
-
 
     // MARK: - Realm Methods
     func saveOrUpdateAlarmInRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, days: [Bool], isActivated: Bool, missionName: String) {

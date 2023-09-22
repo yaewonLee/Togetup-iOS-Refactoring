@@ -70,6 +70,5 @@ extension AlarmService: TargetType {
                 "Content-Type": "application/json"
             ]
         }
-        
     }
 }
