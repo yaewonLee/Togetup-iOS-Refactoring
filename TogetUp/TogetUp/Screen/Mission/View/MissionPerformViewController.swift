@@ -55,5 +55,33 @@ class MissionPerformViewController: UIViewController {
     
     
     // MARK: - @
-
+    
+    @IBAction func performButtonTapped(_ sender: UIButton) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .camera
+        imagePickerController.allowsEditing = true
+        self.present(imagePickerController, animated: true, completion: nil)
+    }
 }
+
+extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true) {
+            if let capturedImage = info[.editedImage] as? UIImage {
+                if let nextVC = self.storyboard?.instantiateViewController(identifier: "CapturedImageViewController") as? CapturedImageViewController {
+                    nextVC.image = capturedImage
+                    self.present(nextVC, animated: true, completion: nil)
+                }
+            }
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            self.dismiss(animated: true)
+        }
+    }
+    
+    
+}
+
+
