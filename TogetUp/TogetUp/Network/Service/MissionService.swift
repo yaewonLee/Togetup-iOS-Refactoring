@@ -7,9 +7,11 @@
 
 import Foundation
 import Moya
+import UIKit
 
 enum MissionService {
     case getMissionList(missionId: Int)
+    case missionDetection(objectName: String, missionImage: UIImage)
 }
 
 extension MissionService: TargetType {
@@ -21,6 +23,8 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList(let missionId):
             return URLConstant.getMissionList + "\(missionId)"
+        case .missionDetection(let objectName, _):
+            return URLConstant.missionDetection + objectName
         }
     }
     
@@ -28,6 +32,8 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList:
             return .get
+        case .missionDetection:
+            return .post
         }
     }
     
@@ -35,16 +41,28 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList:
             return .requestPlain
+        case .missionDetection(_, let missionImage):
+            guard let imageData = missionImage.jpegData(compressionQuality: 1.0) else {
+                print("jpeg 변환 실패")
+                return .requestPlain
+            }
+            let imagePart = MultipartFormData(provider: .data(imageData), name: "missionImage", fileName: "missionImage.jpg", mimeType: "image/jpeg")
+            return .uploadMultipart([imagePart])
         }
     }
     
     var headers: [String : String]? {
+        let token = KeyChainManager.shared.getToken()
         switch self {
         case .getMissionList:
-            let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",
                 "Content-Type": "application/json"
+            ]
+        case .missionDetection:
+            return [
+                "Authorization": "Bearer \(token ?? "")",
+                "Content-Type": "multipart/form-data"
             ]
         }
     }
