@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MissionPerformViewController: UIViewController {
     // MARK: - UI Components
@@ -13,14 +15,17 @@ class MissionPerformViewController: UIViewController {
     @IBOutlet weak var missionPerformButton: UIButton!
     @IBOutlet weak var iconBackgroundView: UIView!
     @IBOutlet weak var missionBackgroundView: UIView!
-    
+    @IBOutlet weak var currentDateLabel: UILabel!
+    @IBOutlet weak var currentTimeLabel: UILabel!
     // MARK: - Properties
-    
+    let viewModel = MissionPerformViewModel()
+    let disposeBag = DisposeBag()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
+        bindLabels()
     }
     
     // MARK: - Custom Method
@@ -35,8 +40,17 @@ class MissionPerformViewController: UIViewController {
         self.iconBackgroundView.layer.borderWidth = 2
         
         self.missionBackgroundView.layer.cornerRadius = 12
-        self.missionBackgroundView.layer.borderWidth = 2
+        self.missionBackgroundView.layer.borderWidth = 2        
+    }
+    
+    private func bindLabels() {
+        viewModel.currentDate
+            .bind(to: currentDateLabel.rx.text)
+            .disposed(by: disposeBag)
         
+        viewModel.currentTime
+            .bind(to: currentTimeLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     

@@ -252,6 +252,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain"/>
+                                        <connections>
+                                            <segue destination="R2n-of-ACS" kind="show" id="HNT-x0-Tnp"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FU8-nf-Oew" userLabel="이용 약관">
                                         <rect key="frame" x="0.0" y="58" width="390" height="58"/>
@@ -389,7 +392,7 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeFIilledCircle" translatesAutoresizingMaskIntoConstraints="NO" id="8cA-D4-Y6X">
-                                <rect key="frame" x="-30" y="307" width="771" height="771"/>
+                                <rect key="frame" x="-30" y="248" width="771" height="771"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="771" id="R7u-dz-vKL"/>
                                     <constraint firstAttribute="width" secondItem="8cA-D4-Y6X" secondAttribute="height" multiplier="1:1" id="eUL-OA-7Hp"/>
@@ -397,7 +400,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6월 5일 월요일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xy-RX-doN">
-                                <rect key="frame" x="161.66666666666666" y="111" width="106.99999999999997" height="24"/>
+                                <rect key="frame" x="161.66666666666666" y="52" width="106.99999999999997" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="f24-zu-b4n"/>
                                 </constraints>
@@ -406,7 +409,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cr7-PL-zNu">
-                                <rect key="frame" x="146.66666666666666" y="147" width="136.99999999999997" height="55"/>
+                                <rect key="frame" x="146.66666666666666" y="88" width="136.99999999999997" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="qNh-ca-s6v"/>
                                 </constraints>
@@ -415,7 +418,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OwE-U5-6lr">
-                                <rect key="frame" x="172" y="261" width="86" height="86"/>
+                                <rect key="frame" x="172" y="202" width="86" height="86"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⏰" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXE-GS-vdX">
                                         <rect key="frame" x="19" y="19" width="48" height="48"/>
@@ -437,7 +440,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="출석체크" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mKd-bk-YwS">
-                                <rect key="frame" x="170" y="363" width="90" height="32"/>
+                                <rect key="frame" x="170" y="304" width="90" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="XRE-X9-viy"/>
                                 </constraints>
@@ -446,7 +449,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gb7-d1-IaI">
-                                <rect key="frame" x="20" y="688" width="390" height="106"/>
+                                <rect key="frame" x="20" y="722" width="390" height="106"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l41-Wx-7ZI">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="48"/>
@@ -496,7 +499,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiV-XE-ef5">
-                                <rect key="frame" x="20" y="818" width="390" height="56"/>
+                                <rect key="frame" x="20" y="852" width="390" height="56"/>
                                 <color key="backgroundColor" name="primary400"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="8fh-rP-J4f"/>
@@ -508,7 +511,7 @@
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ra0-fB-tie">
-                                <rect key="frame" x="166.66666666666666" y="411" width="96.999999999999972" height="37"/>
+                                <rect key="frame" x="166.66666666666666" y="352" width="96.999999999999972" height="37"/>
                                 <color key="backgroundColor" name="primary050"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="37" id="hFj-9Q-Iqw"/>
@@ -549,6 +552,8 @@
                     <navigationItem key="navigationItem" id="3cy-HA-dbJ"/>
                     <connections>
                         <outlet property="alarmAgainButton" destination="Ra0-fB-tie" id="jyB-Uc-zix"/>
+                        <outlet property="currentDateLabel" destination="5xy-RX-doN" id="h4B-iG-cem"/>
+                        <outlet property="currentTimeLabel" destination="cr7-PL-zNu" id="A8V-Gs-QyQ"/>
                         <outlet property="iconBackgroundView" destination="OwE-U5-6lr" id="cmU-AO-xiq"/>
                         <outlet property="missionBackgroundView" destination="Gb7-d1-IaI" id="bvZ-d2-GdH"/>
                         <outlet property="missionPerformButton" destination="RiV-XE-ef5" id="hBR-Gy-zgm"/>
