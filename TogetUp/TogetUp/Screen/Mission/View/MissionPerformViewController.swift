@@ -17,6 +17,7 @@ class MissionPerformViewController: UIViewController {
     @IBOutlet weak var missionBackgroundView: UIView!
     @IBOutlet weak var currentDateLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
+    
     // MARK: - Properties
     let viewModel = MissionPerformViewModel()
     let disposeBag = DisposeBag()
@@ -55,7 +56,6 @@ class MissionPerformViewController: UIViewController {
     
     
     // MARK: - @
-    
     @IBAction func performButtonTapped(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
