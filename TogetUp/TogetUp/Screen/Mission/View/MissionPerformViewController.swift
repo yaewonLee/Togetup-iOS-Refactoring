@@ -17,10 +17,18 @@ class MissionPerformViewController: UIViewController {
     @IBOutlet weak var missionBackgroundView: UIView!
     @IBOutlet weak var currentDateLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
+    @IBOutlet weak var alarmIconLabel: UILabel!
+    @IBOutlet weak var alarmNameLabel: UILabel!
+    @IBOutlet weak var missionObjectLabel: UILabel!
     
     // MARK: - Properties
-    let viewModel = MissionPerformViewModel()
-    let disposeBag = DisposeBag()
+    private let viewModel = MissionPerformViewModel()
+    private let disposeBag = DisposeBag()
+    var objectEndpoint = ""
+    var alarmIcon = ""
+    var alarmName = ""
+    var missionObject = ""
+    var missionId = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -30,10 +38,7 @@ class MissionPerformViewController: UIViewController {
     }
     
     // MARK: - Custom Method
-    private func customUI() {
-        self.alarmAgainButton.layer.cornerRadius = 15
-        self.alarmAgainButton.layer.borderWidth = 2
-        
+    private func customUI() {        
         self.missionPerformButton.layer.cornerRadius = 12
         self.missionPerformButton.layer.borderWidth = 2
         
@@ -41,7 +46,11 @@ class MissionPerformViewController: UIViewController {
         self.iconBackgroundView.layer.borderWidth = 2
         
         self.missionBackgroundView.layer.cornerRadius = 12
-        self.missionBackgroundView.layer.borderWidth = 2        
+        self.missionBackgroundView.layer.borderWidth = 2
+        
+        self.alarmIconLabel.text = alarmIcon
+        self.alarmNameLabel.text = alarmName
+        self.missionObjectLabel.text = missionObject
     }
     
     private func bindLabels() {
@@ -71,6 +80,8 @@ extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavig
             if let capturedImage = info[.editedImage] as? UIImage {
                 if let nextVC = self.storyboard?.instantiateViewController(identifier: "CapturedImageViewController") as? CapturedImageViewController {
                     nextVC.image = capturedImage
+                    nextVC.missionEndpoint = self.objectEndpoint
+                    nextVC.missionId = self.missionId
                     self.present(nextVC, animated: true, completion: nil)
                 }
             }

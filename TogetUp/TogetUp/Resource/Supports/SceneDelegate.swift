@@ -13,10 +13,30 @@ import RxSwift
 import KakaoSDKUser
 import RxKakaoSDKUser
 import KakaoSDKCommon
+import RealmSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let disposeBag = DisposeBag()
     var window: UIWindow?
+    var alarmId: Int?
+    
+    func navigateToMissionPerformViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let missionPerformVC = storyboard.instantiateViewController(withIdentifier: "MissionPerformViewController") as? MissionPerformViewController {
+            let realmInstance = try! Realm()
+            if let alarm = realmInstance.objects(Alarm.self).filter("id == \(alarmId!)").first {
+                missionPerformVC.alarmIcon = alarm.icon
+                missionPerformVC.alarmName = alarm.name
+                missionPerformVC.missionObject = alarm.missionName
+                missionPerformVC.objectEndpoint = alarm.missionEndpoint
+                missionPerformVC.missionId = alarm.missionId
+                
+                let navigationController = UINavigationController(rootViewController: missionPerformVC)
+                window?.rootViewController = navigationController
+                window?.makeKeyAndVisible()
+            }
+        }
+    }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {

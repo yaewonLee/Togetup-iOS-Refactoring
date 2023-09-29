@@ -553,10 +553,13 @@
                     <navigationItem key="navigationItem" id="3cy-HA-dbJ"/>
                     <connections>
                         <outlet property="alarmAgainButton" destination="Ra0-fB-tie" id="jyB-Uc-zix"/>
+                        <outlet property="alarmIconLabel" destination="nXE-GS-vdX" id="BhJ-IM-U9S"/>
+                        <outlet property="alarmNameLabel" destination="mKd-bk-YwS" id="eVw-pJ-v7a"/>
                         <outlet property="currentDateLabel" destination="5xy-RX-doN" id="h4B-iG-cem"/>
                         <outlet property="currentTimeLabel" destination="cr7-PL-zNu" id="A8V-Gs-QyQ"/>
                         <outlet property="iconBackgroundView" destination="OwE-U5-6lr" id="cmU-AO-xiq"/>
                         <outlet property="missionBackgroundView" destination="Gb7-d1-IaI" id="bvZ-d2-GdH"/>
+                        <outlet property="missionObjectLabel" destination="Peg-AA-8e4" id="7XY-9X-Tyi"/>
                         <outlet property="missionPerformButton" destination="RiV-XE-ef5" id="hBR-Gy-zgm"/>
                     </connections>
                 </viewController>
@@ -661,7 +664,7 @@
         <image name="AppleLogin" width="335" height="48"/>
         <image name="KakaoLogin" width="335" height="48"/>
         <image name="Logo" width="136" height="28"/>
-        <image name="alarmAgain" width="97" height="37"/>
+        <image name="alarmAgain" width="99" height="39"/>
         <image name="filmAgainbButton" width="127" height="39"/>
         <image name="homeCircle" width="443" height="443"/>
         <image name="homeFIilledCircle" width="771" height="771"/>
