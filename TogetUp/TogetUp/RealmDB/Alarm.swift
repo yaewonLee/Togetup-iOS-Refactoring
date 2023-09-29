@@ -16,7 +16,8 @@ class Alarm: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var icon: String = ""
     @objc dynamic var isVibrate: Bool = false
-    @objc dynamic var alarmTime: Date = Date()
+    @objc dynamic var alarmHour: Int = 0
+    @objc dynamic var alarmMinute: Int = 0
     @objc dynamic var monday: Bool = false
     @objc dynamic var tuesday: Bool = false
     @objc dynamic var wednesday: Bool = false
@@ -26,6 +27,7 @@ class Alarm: Object {
     @objc dynamic var sunday: Bool = false
     @objc dynamic var isActivated: Bool = false
     @objc dynamic var missionName: String = ""
+    @objc dynamic var missionEndpoint: String = ""
 
     override static func primaryKey() -> String? {
         return "id"

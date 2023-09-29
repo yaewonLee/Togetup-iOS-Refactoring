@@ -45,7 +45,8 @@ class MissionListDetailViewController: UIViewController, UIGestureRecognizerDele
                 ["icon": data.missionObject.icon,
                  "kr": data.missionObject.kr,
                  "missionObjectId": data.missionObject.id,
-                 "missionId": data.missionId])
+                 "missionId": data.missionId,
+                 "name": data.missionObject.name])
              self.navigationController?.popToRootViewController(animated:true)
         })
         .disposed(by:self.disposeBag)

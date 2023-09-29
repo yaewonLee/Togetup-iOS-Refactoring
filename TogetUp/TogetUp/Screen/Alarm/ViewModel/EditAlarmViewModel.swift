@@ -16,11 +16,7 @@ enum CreateAlarmError: Error {
 }
 
 class EditAlarmViewModel {
-    private let provider: MoyaProvider<AlarmService>
-    
-    init() {
-        self.provider = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])
-    }
+    private let provider = MoyaProvider<AlarmService>()
 
     // MARK: - API Call Methods
     func handleAPIRequest<T: Decodable>(_ request: Single<Response>) -> Single<Result<T, CreateAlarmError>> {
@@ -63,6 +59,7 @@ class EditAlarmViewModel {
                     let realmInstance = try! Realm()
                     if let alarmToDelete = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
                         do {
+                            AlarmManager.shared.removeNotification(for: alarmId)
                             try realmInstance.write {
                                 realmInstance.delete(alarmToDelete)
                             }
@@ -97,32 +94,34 @@ class EditAlarmViewModel {
     }
 
     // MARK: - Realm Methods
-    func saveOrUpdateAlarmInRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, days: [Bool], isActivated: Bool, missionName: String) {
+    func saveOrUpdateAlarmInRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmHour: Int, alarmMinute: Int, days: [Bool], isActivated: Bool, missionName: String, missionEndpoint: String) {
         let realmInstance = try! Realm()
 
-        if let alarm = realmInstance.objects(Alarm.self).filter("id == \(id)").first {
+        if let alarm = realmInstance.objects(Alarm.self).filter("id == \(id)").first {            
             try? realmInstance.write {
-                updateAlarmFields(alarm: alarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmTime: alarmTime, days: days, isActivated: isActivated, missionName: missionName)
+                updateAlarmFields(alarm: alarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmHour: alarmHour, alarmMinute: alarmMinute, days: days, isActivated: isActivated, missionName: missionName, missionEndpoint: missionEndpoint)
             }
+            AlarmManager.shared.toggleAlarmActivation(for: id)
         } else {
             let newAlarm = Alarm()
             newAlarm.id = id
-            updateAlarmFields(alarm: newAlarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmTime: alarmTime, days: days, isActivated: isActivated, missionName: missionName)
-
+            updateAlarmFields(alarm: newAlarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmHour: alarmHour, alarmMinute: alarmMinute, days: days, isActivated: isActivated, missionName: missionName, missionEndpoint: missionEndpoint)
             try? realmInstance.write {
                 realmInstance.add(newAlarm, update: .modified)
             }
+            AlarmManager.shared.scheduleNotification(for: id)
         }
     }
 
-    private func updateAlarmFields(alarm: Alarm, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmTime: Date, days: [Bool], isActivated: Bool, missionName: String) {
+    private func updateAlarmFields(alarm: Alarm, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmHour: Int, alarmMinute: Int, days: [Bool], isActivated: Bool, missionName: String, missionEndpoint: String) {
         alarm.missionId = missionId
         alarm.missionObjectId = missionObjectId
         alarm.isSnoozeActivated = isSnoozeActivated
         alarm.name = name
         alarm.icon = icon
         alarm.isVibrate = isVibrate
-        alarm.alarmTime = alarmTime
+        alarm.alarmHour = alarmHour
+        alarm.alarmMinute = alarmMinute
         alarm.monday = days[0]
         alarm.tuesday = days[1]
         alarm.wednesday = days[2]
@@ -132,6 +131,7 @@ class EditAlarmViewModel {
         alarm.sunday = days[6]
         alarm.isActivated = isActivated
         alarm.missionName = missionName
+        alarm.missionEndpoint = missionEndpoint
     }
 }
 

@@ -39,9 +39,13 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     private var missionIcon = "👤"
     private var missionId = 2
     private var missionObjectId: Int? = 1
-    private var alarmTime = Date()
+    
+    private var alarmHour = 0
+    private var alarmMinute = 0
+    
     var alarmId: Int?
     var isFromAlarmList = false
+    var missionEndpoint = ""
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -92,7 +96,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         alarmIconLabel.text = response.result?.icon
         missionTitleLabel.text = response.result?.getMissionObjectRes?.kr
         missionIconLabel.text = response.result?.getMissionObjectRes?.icon
-        // 다른 미션 정보가 필요하면 여기에 추가
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -143,14 +146,19 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func setUpDatePicker() {
-        let selectedDate = timePicker.date
-        self.alarmTime = timePicker.date
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: selectedDate)
-        self.alarmTimeString = timeString
+        setStandardizedAlarmTime(from: timePicker.date)
     }
     
+    private func setStandardizedAlarmTime(from date: Date) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute], from: date)
+
+        self.alarmHour = components.hour ?? 0
+        self.alarmMinute = components.minute ?? 0
+
+        self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
+        print(alarmTimeString)
+    }
     
     // MARK: - @
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
@@ -165,12 +173,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     @IBAction func datePickerChanged(_ sender: UIDatePicker) {
-        let selectedDate = sender.date
-        self.alarmTime = sender.date
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let timeString = formatter.string(from: selectedDate)
-        self.alarmTimeString = timeString
+        setStandardizedAlarmTime(from: sender.date)
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
@@ -191,7 +194,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
                 switch result {
                 case .success(let response):
                     print(response)
-                    
                     // Realm에 알람 정보 업데이트
                     self.viewModel.saveOrUpdateAlarmInRealm(
                         id: response.result ?? 0,
@@ -201,10 +203,12 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
                         name: alarmName,
                         icon: alarmIcon,
                         isVibrate: self.isVibrate.isOn,
-                        alarmTime: self.alarmTime,
+                        alarmHour:  self.alarmHour,
+                        alarmMinute: self.alarmMinute,
                         days: [self.monday.isSelected, self.tuesday.isSelected, self.wednesday.isSelected, self.thursday.isSelected, self.friday.isSelected, self.saturday.isSelected, self.sunday.isSelected],
                         isActivated: true,
-                        missionName: self.missionTitleLabel.text!
+                        missionName: self.missionTitleLabel.text!,
+                        missionEndpoint: self.missionEndpoint
                     )
                     
                     self.presentingViewController?.dismiss(animated: true)
@@ -230,7 +234,8 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
               let icon = userInfo["icon"] as? String,
               let kr = userInfo["kr"] as? String,
               let missionObjectId = userInfo["missionObjectId"] as? Int,
-              let missionId = userInfo["missionId"] as? Int else {
+              let missionId = userInfo["missionId"] as? Int,
+              let missionName = userInfo["name"] as? String else {
             return
         }
         
@@ -238,6 +243,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.missionIconLabel.text = icon
         self.missionObjectId = missionObjectId
         self.missionId = missionId
+        self.missionEndpoint = missionName
     }
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
@@ -276,7 +282,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: "알람을 삭제하시겠습니까?", preferredStyle: .alert)
         
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
             guard let self = self, let alarmId = self.alarmId else { return }
             
             self.viewModel.deleteAlarm(alarmId: alarmId)

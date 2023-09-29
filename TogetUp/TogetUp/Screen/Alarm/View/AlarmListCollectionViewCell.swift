@@ -67,13 +67,22 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
             }
         }
 
-        let outputFormatter = DateFormatter()
-           outputFormatter.dateFormat = "a h:mm"
-           outputFormatter.amSymbol = "am"
-           outputFormatter.pmSymbol = "pm"
+        var components = DateComponents()
+        components.hour = model.alarmHour
+        components.minute = model.alarmMinute
 
-        let timeString = outputFormatter.string(from: model.alarmTime)
+        let calendar = Calendar.current
+        if let dateFromComponents = calendar.date(from: components) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "a h:mm"
+            outputFormatter.amSymbol = "am"
+            outputFormatter.pmSymbol = "pm"
+
+            let timeString = outputFormatter.string(from: dateFromComponents)
             timeLabel.text = timeString
+        } else {
+            print("Failed to create date from components.")
+        }
         
         let daysDict: [(String, Bool)] =
           [("월", model.monday), ("화", model.tuesday), ("수", model.wednesday),

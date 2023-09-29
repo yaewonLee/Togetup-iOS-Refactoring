@@ -12,7 +12,7 @@ import Moya
 import RealmSwift
 
 class AlarmListViewModel {
-    private let provider: MoyaProvider<AlarmService>
+    private let provider = MoyaProvider<AlarmService>()
     var alarms = BehaviorSubject<[Alarm]>(value: [])
     private let disposeBag = DisposeBag()
     
@@ -26,12 +26,14 @@ class AlarmListViewModel {
         return formatter
     }()
     
-    init() {
-        self.provider = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])
-    }
-    
     func fetchAlarmsFromRealm() {
-        let alarmsFromRealm = realmInstance.objects(Alarm.self).sorted(byKeyPath: "alarmTime")
+        let alarmsFromRealm = realmInstance.objects(Alarm.self).sorted(by: {
+            let time1InMinutes = $0.alarmHour * 60 + $0.alarmMinute
+            let time2InMinutes = $1.alarmHour * 60 + $1.alarmMinute
+
+            return time1InMinutes < time2InMinutes
+        })
+
         alarms.onNext(Array(alarmsFromRealm))
     }
     
@@ -58,10 +60,12 @@ class AlarmListViewModel {
         
         if let missionId = apiAlarm.getMissionRes?.id,
            let missionObjectId = apiAlarm.getMissionObjectRes?.id,
-           let missionName = apiAlarm.getMissionObjectRes?.kr {
+           let missionName = apiAlarm.getMissionObjectRes?.kr,
+           let missionEndpoint = apiAlarm.getMissionObjectRes?.name {
             alarm.missionId = missionId
             alarm.missionObjectId = missionObjectId
             alarm.missionName = missionName
+            alarm.missionEndpoint = missionEndpoint
         }
         
         alarm.isSnoozeActivated = apiAlarm.isSnoozeActivated
@@ -77,11 +81,14 @@ class AlarmListViewModel {
         alarm.sunday = apiAlarm.sunday
         alarm.isActivated = apiAlarm.isActivated
         
-        if let alarmTimeDate = dateFormatter.date(from: apiAlarm.alarmTime) {
-            alarm.alarmTime = alarmTimeDate
+        let timeComponents = apiAlarm.alarmTime.split(separator: ":").map { Int($0) }
+        if timeComponents.count == 2, let hour = timeComponents[0], let minute = timeComponents[1] {
+            alarm.alarmHour = hour
+            alarm.alarmMinute = minute
         } else {
-            print(#function, "Date formatting failed for:", apiAlarm.alarmTime)
+            print(#function, "Invalid time format:", apiAlarm.alarmTime)
         }
+        AlarmManager.shared.refreshAllScheduledNotifications()
         
         return alarm
     }
@@ -110,18 +117,18 @@ class AlarmListViewModel {
     }
     
     func updateRealmDatabaseWithResponse(_ response: CreateEditDeleteAlarmResponse, for alarmId: Int) {
-            let realm = try! Realm()
-            
-            if let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
-                try! realm.write {
-                    if alarm.isActivated {
-                        alarm.isActivated.toggle()
-                    } else {
-                        alarm.isActivated.toggle()
-                    }
+        let realm = try! Realm()
+        
+        if let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
+            try! realm.write {
+                if alarm.isActivated {
+                    alarm.isActivated.toggle()
+                } else {
+                    alarm.isActivated.toggle()
                 }
             }
         }
+    }
     
     private func saveAlarmsToRealm(_ alarms: [GetAlarmResult]) {
         try! realmInstance.write {
@@ -136,6 +143,7 @@ class AlarmListViewModel {
         provider.rx.request(.deleteAlarm(alarmId: alarmId))
             .filterSuccessfulStatusCodes()
             .subscribe(onSuccess: { [weak self] _ in
+                AlarmManager.shared.removeNotification(for: alarmId)
                 guard let self = self else { return }
                 
                 if let alarmToDelete = self.realmInstance.objects(Alarm.self).filter("id == %@", alarmId).first {

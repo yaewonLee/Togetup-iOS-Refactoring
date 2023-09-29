@@ -41,14 +41,11 @@ class AlarmListViewController: UIViewController {
         customSegmentedControl()
         setCollectionViewFlowLayout()
         self.groupView.layer.cornerRadius = 12
-        //                try! realm.write {
-        //                    let alarms = realm.objects(Alarm.self)
-        //                    realm.delete(alarms)
-        //                }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(#function)
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
     }
@@ -97,9 +94,7 @@ class AlarmListViewController: UIViewController {
         let alarmId = alarm.id
         
         if let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm"
-            let alarmString = formatter.string(from: storedAlarm.alarmTime)
+            let alarmString = String(format: "%02d:%02d", storedAlarm.alarmHour, storedAlarm.alarmMinute)
             
             let param = CreateOrEditAlarmRequest(
                 missionId: storedAlarm.missionId,
@@ -127,6 +122,7 @@ class AlarmListViewController: UIViewController {
                     switch result {
                     case .success(let response):
                         self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
+                        AlarmManager.shared.toggleAlarmActivation(for: alarmId)
                     case .failure(let error):
                         print("알람 수정 오류: \(error.localizedDescription)")
                     }
@@ -134,7 +130,6 @@ class AlarmListViewController: UIViewController {
                 .disposed(by: disposeBag)
         }
     }
-    
     
     func showDeleteAlert(for alarm: Alarm) {
         let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
