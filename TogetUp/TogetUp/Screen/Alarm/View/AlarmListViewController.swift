@@ -36,6 +36,12 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        UNUserNotificationCenter.current().requestAuthorization (
+            options: [.alert, .sound],
+            completionHandler: { (granted, error) in
+                print("granted notification, \(granted)")
+            }
+        )
         fetchAndSaveAlarmsIfFirstLaunch()
         setUpNavigationBar()
         customSegmentedControl()

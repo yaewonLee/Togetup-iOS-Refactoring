@@ -25,13 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
         FirebaseApp.configure()
         
-        UNUserNotificationCenter.current().requestAuthorization (
-            options: [.alert, .sound],
-            completionHandler: { (granted, error) in
-                print("granted notification, \(granted)")
-                print(error?.localizedDescription)
-            }
-        )
         UNUserNotificationCenter.current().delegate = self
         AlarmManager.shared.refreshAllScheduledNotifications()
 
