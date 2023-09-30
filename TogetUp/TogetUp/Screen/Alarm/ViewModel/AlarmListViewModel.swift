@@ -82,14 +82,17 @@ class AlarmListViewModel {
         alarm.isActivated = apiAlarm.isActivated
         
         let timeComponents = apiAlarm.alarmTime.split(separator: ":").map { Int($0) }
-        if timeComponents.count == 2, let hour = timeComponents[0], let minute = timeComponents[1] {
+
+        if timeComponents.count >= 2,
+           let hour = timeComponents[0],
+           let minute = timeComponents[1] {
             alarm.alarmHour = hour
             alarm.alarmMinute = minute
         } else {
             print(#function, "Invalid time format:", apiAlarm.alarmTime)
         }
-        AlarmManager.shared.refreshAllScheduledNotifications()
-        
+
+        AlarmManager.shared.refreshAllScheduledNotifications()        
         return alarm
     }
     
