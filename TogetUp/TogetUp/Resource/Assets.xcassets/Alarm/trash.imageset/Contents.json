@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "dots-vertical.png",
+      "filename" : "trash-01.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "dots-vertical@2x.png",
+      "filename" : "trash-01@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "dots-vertical@3x.png",
+      "filename" : "trash-01@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
