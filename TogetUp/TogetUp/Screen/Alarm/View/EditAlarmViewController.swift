@@ -30,6 +30,8 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     @IBOutlet weak var isVibrate: UISwitch!
     @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet weak var timePicker: UIDatePicker!
+    @IBOutlet weak var addEmojiButton: UIButton!
+    @IBOutlet weak var deleteEmojiButton: UIButton!
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -60,6 +62,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         setUpDatePicker()
         if isFromAlarmList, let id = alarmId {
             loadAlarmData(id: id)
+            self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
         }
         if isFromAlarmList {
             deleteAlarmBtn.isHidden = false
@@ -128,6 +131,10 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         missionView.layer.borderColor = UIColor.black.cgColor
         
         deleteAlarmBtn.layer.cornerRadius = 12
+        
+        let currentTime = Date()
+        let oneMinuteLater = Calendar.current.date(byAdding: .minute, value: 1, to: currentTime)
+        timePicker.date = oneMinuteLater ?? currentTime
     }
     
     private func setUpRepeatButtons() {
@@ -142,6 +149,8 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     func didGetEmoji(emoji: String) {
+        self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
+        self.deleteEmojiButton.isHidden = false
         self.alarmIconLabel.text = emoji
     }
     
@@ -157,10 +166,16 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.alarmMinute = components.minute ?? 0
 
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
-        print(alarmTimeString)
     }
     
     // MARK: - @
+    
+    @IBAction func deleteEmoji(_ sender: UIButton) {
+        self.alarmIconLabel.text = ""
+        self.addEmojiButton.setImage(UIImage(named: "addAlarmIconBasic"), for: .normal)
+        self.deleteEmojiButton.isHidden = true
+    }
+    
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
