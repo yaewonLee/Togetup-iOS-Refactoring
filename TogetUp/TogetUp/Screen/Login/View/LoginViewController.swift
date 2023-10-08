@@ -50,7 +50,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             
             UserDefaults.standard.set("Apple", forKey: "loginMethod")
             var userName: String?
-            var givenNameAndEmailInfoFromKeychain = KeyChainManager.shared.getUserInformation()
+            let givenNameAndEmailInfoFromKeychain = KeyChainManager.shared.getUserInformation()
             
             if givenNameAndEmailInfoFromKeychain.givenName != nil {
                 userName = givenNameAndEmailInfoFromKeychain.givenName
