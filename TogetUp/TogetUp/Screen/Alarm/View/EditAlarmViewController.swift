@@ -47,7 +47,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     var alarmId: Int?
     var isFromAlarmList = false
-    var missionEndpoint = ""
+    var missionEndpoint = "person"
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -64,8 +64,14 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
             loadAlarmData(id: id)
             self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if isFromAlarmList {
-            deleteAlarmBtn.isHidden = false
+            DispatchQueue.main.async {
+                self.deleteAlarmBtn.isHidden = false
+            }
         }
     }
     
@@ -95,10 +101,18 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func updateUI(with response: GetSingleAlarmResponse) {
+        if response.result?.getMissionRes?.id == 1 {
+            missionTitleLabel.text = "직접 등록 미션"
+            missionIconLabel.text = "📷"
+            self.missionId = 1
+            self.missionObjectId = nil
+        } else {
+            missionTitleLabel.text = response.result?.getMissionObjectRes?.kr
+            missionIconLabel.text = response.result?.getMissionObjectRes?.icon
+        }
         alarmNameTextField.text = response.result?.name
         alarmIconLabel.text = response.result?.icon
-        missionTitleLabel.text = response.result?.getMissionObjectRes?.kr
-        missionIconLabel.text = response.result?.getMissionObjectRes?.icon
+        
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -204,6 +218,9 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         let apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> = isFromAlarmList ? viewModel.editAlarm(alarmId: self.alarmId!, param: param) : viewModel.postAlarm(param: param)
         
+        if missionId == 1 {
+            self.missionObjectId = 1
+        }
         apiRequest.subscribe(
             onSuccess: { result in
                 switch result {
