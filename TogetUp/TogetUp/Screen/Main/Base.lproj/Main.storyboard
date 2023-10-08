@@ -503,7 +503,7 @@
                                     <action selector="performButtonTapped:" destination="R2n-of-ACS" eventType="touchUpInside" id="8N7-Em-5Wb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ra0-fB-tie">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ra0-fB-tie">
                                 <rect key="frame" x="153.66666666666666" y="352" width="122.99999999999997" height="37"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -514,12 +514,25 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="alarmAgain"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drr-bJ-Tsh">
+                                <rect key="frame" x="386" y="32" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="CgF-Ti-R95"/>
+                                    <constraint firstAttribute="width" secondItem="drr-bJ-Tsh" secondAttribute="height" multiplier="1:1" id="c9D-NC-Qta"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="x"/>
+                                <connections>
+                                    <action selector="dismissMissionPage:" destination="R2n-of-ACS" eventType="touchUpInside" id="NeG-6f-xTg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="W2W-YO-TEd"/>
                         <color key="backgroundColor" name="secondary100"/>
                         <constraints>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="trailing" secondItem="RiV-XE-ef5" secondAttribute="trailing" constant="20" id="3DF-zv-g2O"/>
                             <constraint firstItem="mKd-bk-YwS" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="4Ac-uF-reQ"/>
+                            <constraint firstItem="drr-bJ-Tsh" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="32" id="8CY-Ii-aRG"/>
                             <constraint firstItem="zN8-I1-mMH" firstAttribute="top" secondItem="PGk-GF-Z8b" secondAttribute="top" constant="138" id="A9o-FZ-FDR"/>
                             <constraint firstItem="8cA-D4-Y6X" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="246" id="F4h-As-yi4"/>
                             <constraint firstItem="5xy-RX-doN" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="52" id="JLb-OI-bZP"/>
@@ -531,6 +544,7 @@
                             <constraint firstItem="5xy-RX-doN" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="RHQ-Co-pDs"/>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="bottom" secondItem="RiV-XE-ef5" secondAttribute="bottom" constant="24" id="RRH-Ab-NRh"/>
                             <constraint firstItem="mKd-bk-YwS" firstAttribute="top" secondItem="OwE-U5-6lr" secondAttribute="bottom" constant="16" id="RTo-2H-0CO"/>
+                            <constraint firstItem="W2W-YO-TEd" firstAttribute="trailing" secondItem="drr-bJ-Tsh" secondAttribute="trailing" constant="20" id="ZM5-d2-g7R"/>
                             <constraint firstItem="Ra0-fB-tie" firstAttribute="top" secondItem="mKd-bk-YwS" secondAttribute="bottom" constant="16" id="cZS-nB-nKo"/>
                             <constraint firstItem="Gb7-d1-IaI" firstAttribute="leading" secondItem="W2W-YO-TEd" secondAttribute="leading" constant="20" id="g28-iV-umw"/>
                             <constraint firstItem="RiV-XE-ef5" firstAttribute="top" secondItem="Gb7-d1-IaI" secondAttribute="bottom" constant="24" id="kuY-o7-6gi"/>
@@ -604,7 +618,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3y-RH-1pI" customClass="LottieAnimationView" customModule="Lottie">
-                                        <rect key="frame" x="0.0" y="62" width="280" height="88"/>
+                                        <rect key="frame" x="40" y="62" width="200" height="88"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -612,11 +626,11 @@
                                 <constraints>
                                     <constraint firstItem="HgF-cq-gzV" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="0uD-EU-Efe"/>
                                     <constraint firstItem="2Nq-fn-74p" firstAttribute="top" secondItem="HgF-cq-gzV" secondAttribute="bottom" constant="12" id="30M-Fa-Cnv"/>
-                                    <constraint firstItem="o3y-RH-1pI" firstAttribute="leading" secondItem="glP-x4-zaQ" secondAttribute="leading" id="CzN-XP-aEo"/>
+                                    <constraint firstItem="o3y-RH-1pI" firstAttribute="leading" secondItem="glP-x4-zaQ" secondAttribute="leading" constant="40" id="B7v-Lc-42u"/>
                                     <constraint firstAttribute="width" constant="280" id="Icl-Jd-Ka6"/>
-                                    <constraint firstAttribute="trailing" secondItem="o3y-RH-1pI" secondAttribute="trailing" id="KlK-bj-SMl"/>
                                     <constraint firstItem="2Nq-fn-74p" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="PDF-cK-Fk2"/>
                                     <constraint firstAttribute="height" constant="150" id="QAB-P0-e8B"/>
+                                    <constraint firstAttribute="trailing" secondItem="o3y-RH-1pI" secondAttribute="trailing" constant="40" id="cjz-aT-RYD"/>
                                     <constraint firstItem="h24-fJ-g8u" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="fen-w7-GwR"/>
                                     <constraint firstAttribute="bottom" secondItem="o3y-RH-1pI" secondAttribute="bottom" id="oiY-20-7VY"/>
                                     <constraint firstAttribute="bottom" secondItem="h24-fJ-g8u" secondAttribute="bottom" constant="36" id="ols-Yn-Yjn"/>
@@ -663,6 +677,7 @@
         <image name="setting_selected" width="20" height="22"/>
         <image name="settings" width="24" height="24"/>
         <image name="tabbarSelection" width="63" height="40"/>
+        <image name="x" width="24" height="24"/>
         <namedColor name="neutral025">
             <color red="1" green="0.98400002717971802" blue="0.98400002717971802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
