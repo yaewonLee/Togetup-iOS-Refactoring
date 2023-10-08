@@ -8,6 +8,7 @@
 import Foundation
 import UserNotifications
 import RealmSwift
+import AudioToolbox
 
 enum Weekday: Int, CaseIterable {
     case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
@@ -25,10 +26,16 @@ enum Weekday: Int, CaseIterable {
     }
 }
 
+protocol AlarmManagerDelegate: AnyObject {
+    func didTriggerAlarm(_ alarm: Alarm)
+}
+
 class AlarmManager {
     
     static let shared = AlarmManager()
-    
+    weak var delegate: AlarmManagerDelegate?
+    var triggeredAlarm: Alarm?
+
     private init() {}
     
     func scheduleNotification(for alarmId: Int) {
@@ -47,7 +54,7 @@ class AlarmManager {
         
         // 진동 설정
         if alarm.isVibrate {
-            // ...
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         }
         
         var dateComponents = DateComponents()
@@ -129,4 +136,35 @@ class AlarmManager {
             return nil
         }
     }
+    
+    @objc func checkAndTriggerAlarms() {
+        guard let allAlarms = fetchAllAlarmsFromDatabase() else {
+            print("Failed to fetch alarms from database.")
+            return
+        }
+
+        let now = Date()
+        let calendar = Calendar.current
+        let currentHour = calendar.component(.hour, from: now)
+        let currentMinute = calendar.component(.minute, from: now)
+       // print("================================")
+       // print("Current Time: Hour \(currentHour), Minute \(currentMinute)")
+
+        for alarm in allAlarms where alarm.isActivated {
+          //  print("Checking Alarm ID: \(alarm.id)")
+          //  print("Alarm Time: Hour \(alarm.alarmHour), Minute \(alarm.alarmMinute)")
+            
+            if currentHour == alarm.alarmHour && currentMinute == alarm.alarmMinute {
+             //   print("Alarm \(alarm.id) is triggered!")
+              //  print("================================")
+                triggeredAlarm = alarm
+                delegate?.didTriggerAlarm(alarm)
+            }
+        }
+    }
+}
+
+// 포그라운드 로직
+extension Notification.Name {
+    static let alarmDidTrigger = Notification.Name("alarmDidTrigger")
 }
