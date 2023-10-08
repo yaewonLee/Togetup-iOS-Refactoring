@@ -29,6 +29,7 @@ class MissionPerformViewController: UIViewController {
     var alarmName = ""
     var missionObject = ""
     var missionId = 0
+    var isSnoozeActivated = false
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -38,7 +39,11 @@ class MissionPerformViewController: UIViewController {
     }
     
     // MARK: - Custom Method
-    private func customUI() {        
+    private func customUI() {    
+        if isSnoozeActivated {
+            alarmAgainButton.isHidden = false
+        }
+        
         self.missionPerformButton.layer.cornerRadius = 12
         self.missionPerformButton.layer.borderWidth = 2
         
@@ -72,6 +77,15 @@ class MissionPerformViewController: UIViewController {
         imagePickerController.allowsEditing = true
         self.present(imagePickerController, animated: true, completion: nil)
     }
+    
+    @IBAction func dismissMissionPage(_ sender: UIButton) {
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
+            return
+        }
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
 }
 
 extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -91,8 +105,6 @@ extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavig
             self.dismiss(animated: true)
         }
     }
-    
-    
 }
 
 
