@@ -18,6 +18,7 @@ class CapturedImageViewController: UIViewController {
     @IBOutlet weak var filmAgainButton: UIButton!
     @IBOutlet weak var successLabel: UILabel!
     
+    
     // MARK: - Properties
     var image = UIImage()
     var missionId = 0
@@ -30,20 +31,23 @@ class CapturedImageViewController: UIViewController {
         super.viewDidLoad()
         capturedImageView.image = image
         customUI()
+        print("missionId: \(missionId), endPoint: \(missionEndpoint)")
         
         if missionId == 1 {
+            progressView.backgroundColor = UIColor(named: "secondary050")
+            successLabel.isHidden = true
             showSuccessView()
         } else {
             postMissionImage()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.progressView.isHidden = false
-            }
             setLottieAnimation()
         }
     }
     
     // MARK: - Custom Method
     private func customUI() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.progressView.isHidden = false
+        }
         progressView.layer.cornerRadius = 12
         progressView.layer.borderWidth = 2
     }
@@ -64,9 +68,11 @@ class CapturedImageViewController: UIViewController {
         progressView.backgroundColor = UIColor(named: "secondary050")
         progressBar.isHidden = true
         if response.message == "미션을 성공하지 못했습니다." {
-            statusLabel.text = "물체를 인식하지 못했어요😢"
+            statusLabel.text = "인식에 실패했어요😢"
             filmAgainButton.isHidden = false
         } else {
+            let url = URL(string: response.result!.filePath)!
+            self.capturedImageView.load(url: url)
             showSuccessView()
         }
     }
@@ -84,7 +90,7 @@ class CapturedImageViewController: UIViewController {
     }
     
     private func setLottieAnimation() {
-        let animation = LottieAnimation.named("progressBar")
+        let animation = LottieAnimation.named("progress")
         progressBar.animation = animation
         progressBar.loopMode = .loop
         progressBar.animationSpeed = 1
