@@ -12,10 +12,11 @@ import RxKakaoSDKUser
 import AuthenticationServices
 import KeychainAccess
 
-
-
 class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     // MARK: - Properties
+    
+    
+    
     private let viewModel = LoginViewModel()
     private let disposeBag = DisposeBag()
     
@@ -30,6 +31,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     // MARK: - Apple Login
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            print("===========loginWithApple() success.=============")
             let userIdentifier = appleIDCredential.user
             KeyChainManager.shared.saveUserIdentifier(userIdentifier)
             
@@ -124,8 +126,13 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             .subscribe(onNext:{ [weak self] response in
                 print("회원가입 성공")
                 KeyChainManager.shared.saveToken(response.result!.accessToken)
+                KeyChainManager.shared.saveUserInformation(givenName: response.result!.userName , email: response.result?.email ?? "")
+                print(response)
                 self?.switchView()
             }, onError:{ error in
+                let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
+                let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
                 print(error.localizedDescription)
             }).disposed(by:self.disposeBag)
     }

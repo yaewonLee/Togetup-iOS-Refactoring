@@ -24,6 +24,7 @@ struct LoginResponse: Codable {
 struct LoginResult: Codable {
     var userId: Int
     var userName: String
+    var email: String?
     var accessToken: String
 }
 

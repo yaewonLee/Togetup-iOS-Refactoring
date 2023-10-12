@@ -12,6 +12,9 @@ import AuthenticationServices
 
 class SettingViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var loginMethodImageView: UIImageView!
+    @IBOutlet weak var userEmailLabel: UILabel!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var withdrawlButton: UIButton!
@@ -29,6 +32,15 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     }
     
     private func customUI() {
+        let userInfo = KeyChainManager.shared.getUserInformation()
+        print(userInfo)
+        userNameLabel.text = userInfo.givenName
+        userEmailLabel.text = userInfo.email
+        
+        if UserDefaults.standard.string(forKey: "loginMethod") == "Apple" {
+            loginMethodImageView.image = UIImage(named: "Apple ID mini")
+        }
+        
         emptyView.layer.cornerRadius = 12
         emptyView.layer.borderWidth = 2
         emptyView.clipsToBounds = true

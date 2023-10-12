@@ -15,31 +15,9 @@ import RxKakaoSDKUser
 import KakaoSDKCommon
 import RealmSwift
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, AlarmManagerDelegate {
-    let disposeBag = DisposeBag()
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var alarmId: Int?
-    var timer: Timer?
-    
-    func didTriggerAlarm(_ alarm: Alarm) {
-        handleAlarmTrigger(with: alarm)
-    }
-    
-    @objc func handleAlarmTrigger(with alarm: Alarm) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let missionPerformVC = storyboard.instantiateViewController(withIdentifier: "MissionPerformViewController") as? MissionPerformViewController {
-                missionPerformVC.alarmIcon = alarm.icon
-                missionPerformVC.alarmName = alarm.name
-                missionPerformVC.missionObject = alarm.missionName
-                missionPerformVC.objectEndpoint = alarm.missionEndpoint
-                missionPerformVC.missionId = alarm.missionId
-                missionPerformVC.isSnoozeActivated = alarm.isSnoozeActivated
-                
-                let navigationController = UINavigationController(rootViewController: missionPerformVC)
-                window?.rootViewController = navigationController
-                window?.makeKeyAndVisible()
-            }
-        }
     
     func navigateToMissionPerformViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -69,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AlarmManagerDelegate {
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
+        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -80,16 +58,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AlarmManagerDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        AlarmManager.shared.delegate = self
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            AlarmManager.shared.checkAndTriggerAlarms()
-        }
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        AlarmManager.shared.delegate = nil
-        timer?.invalidate()
-        timer = nil
+        
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
