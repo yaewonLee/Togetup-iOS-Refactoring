@@ -14,28 +14,13 @@ enum Weekday: Int, CaseIterable {
     case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
     
     var alarmIdentifier: String {
-        switch self {
-        case .sunday: return "sunday"
-        case .monday: return "monday"
-        case .tuesday: return "tuesday"
-        case .wednesday: return "wednesday"
-        case .thursday: return "thursday"
-        case .friday: return "friday"
-        case .saturday: return "saturday"
-        }
+        return "\(self)"
     }
 }
 
-protocol AlarmManagerDelegate: AnyObject {
-    func didTriggerAlarm(_ alarm: Alarm)
-}
-
 class AlarmManager {
-    
     static let shared = AlarmManager()
-    weak var delegate: AlarmManagerDelegate?
-    var triggeredAlarm: Alarm?
-
+    
     private init() {}
     
     func scheduleNotification(for alarmId: Int) {
@@ -46,20 +31,15 @@ class AlarmManager {
         }
         
         let content = UNMutableNotificationContent()
-        content.title = alarm.name
-        content.body = alarm.missionName
-        content.sound = UNNotificationSound.default
-        
+        content.title = "알람이 울리고 있어요!"
+        content.body = "미션을 수행해주세요"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarmSound.mp3"))
         content.userInfo = ["alarmId": alarmId]
         
-        // 진동 설정
-        if alarm.isVibrate {
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-        }
-        
         var dateComponents = DateComponents()
-            dateComponents.hour = alarm.alarmHour
-            dateComponents.minute = alarm.alarmMinute
+        dateComponents.hour = alarm.alarmHour
+        dateComponents.minute = alarm.alarmMinute
+        dateComponents.second = 0
         let weekdayMap: [Weekday: Bool] = [
             .sunday: alarm.sunday,
             .monday: alarm.monday,
@@ -106,18 +86,18 @@ class AlarmManager {
     }
     
     func toggleAlarmActivation(for alarmId: Int) {
-            let realm = try? Realm()  
+        let realm = try? Realm()
         guard let alarm = realm?.objects(Alarm.self).filter("id == \(alarmId)").first else {
-                print("Alarm with ID \(alarmId) not found in Realm")
-                return
-            }
-
-            if alarm.isActivated {
-                scheduleNotification(for: alarmId)
-            } else {
-                removeNotification(for: alarmId)
-            }
+            print("Alarm with ID \(alarmId) not found in Realm")
+            return
         }
+        
+        if alarm.isActivated {
+            scheduleNotification(for: alarmId)
+        } else {
+            removeNotification(for: alarmId)
+        }
+    }
     
     func refreshAllScheduledNotifications() {
         guard let allAlarms = fetchAllAlarmsFromDatabase() else { return }
@@ -136,35 +116,4 @@ class AlarmManager {
             return nil
         }
     }
-    
-    @objc func checkAndTriggerAlarms() {
-        guard let allAlarms = fetchAllAlarmsFromDatabase() else {
-            print("Failed to fetch alarms from database.")
-            return
-        }
-
-        let now = Date()
-        let calendar = Calendar.current
-        let currentHour = calendar.component(.hour, from: now)
-        let currentMinute = calendar.component(.minute, from: now)
-       // print("================================")
-       // print("Current Time: Hour \(currentHour), Minute \(currentMinute)")
-
-        for alarm in allAlarms where alarm.isActivated {
-          //  print("Checking Alarm ID: \(alarm.id)")
-          //  print("Alarm Time: Hour \(alarm.alarmHour), Minute \(alarm.alarmMinute)")
-            
-            if currentHour == alarm.alarmHour && currentMinute == alarm.alarmMinute {
-             //   print("Alarm \(alarm.id) is triggered!")
-              //  print("================================")
-                triggeredAlarm = alarm
-                delegate?.didTriggerAlarm(alarm)
-            }
-        }
-    }
-}
-
-// 포그라운드 로직
-extension Notification.Name {
-    static let alarmDidTrigger = Notification.Name("alarmDidTrigger")
 }

@@ -9,6 +9,7 @@ import UIKit
 import RxKakaoSDKCommon
 import FirebaseCore
 import UserNotifications
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        //AppStatusManager.shared.initializeUserDefaults()
         print("AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
         print("=========isLoggedIn: \(isLoggedIn)=========")
@@ -26,9 +26,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         UNUserNotificationCenter.current().delegate = self
-        AlarmManager.shared.refreshAllScheduledNotifications()
+        application.registerForRemoteNotifications()
 
+        AlarmManager.shared.refreshAllScheduledNotifications()
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("device token: \(tokenString)")
+        
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     // MARK: UISceneSession Lifecycle
@@ -52,11 +61,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .list, .sound])
+        let userInfo = notification.request.content.userInfo
+        guard let alarmId = userInfo["alarmId"] as? Int else { return }
+            
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let sceneDelegate = scene.delegate as? SceneDelegate {
+            sceneDelegate.alarmId = alarmId
+            sceneDelegate.navigateToMissionPerformViewController()
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
+        
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
             sceneDelegate.alarmId = response.notification.request.content.userInfo["alarmId"] as? Int
