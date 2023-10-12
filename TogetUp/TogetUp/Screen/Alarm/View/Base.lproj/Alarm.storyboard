@@ -228,6 +228,53 @@
             </objects>
             <point key="canvasLocation" x="-121.3953488372093" y="133.90557939914163"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="kcf-jI-DEE">
+            <objects>
+                <viewController id="J8B-QU-tIC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="x4f-TB-aGU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알람을 허용하지 않으면 알람이 정상적으로 작동하지 못해요!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o7E-XZ-L4s">
+                                <rect key="frame" x="0.0" y="308.5" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="8td-WY-UZU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgi-ix-CHg">
+                                <rect key="frame" x="114.5" y="494" width="146" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="설정으로 이동하기"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PX7-ok-Qhf">
+                                <rect key="frame" x="153.5" y="568" width="68" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="나중에"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="SHL-xU-sR3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="o7E-XZ-L4s" firstAttribute="centerX" secondItem="x4f-TB-aGU" secondAttribute="centerX" id="1aV-vy-w8p"/>
+                            <constraint firstItem="PX7-ok-Qhf" firstAttribute="top" secondItem="dgi-ix-CHg" secondAttribute="bottom" constant="39" id="GK5-MV-6Ky"/>
+                            <constraint firstAttribute="trailing" secondItem="o7E-XZ-L4s" secondAttribute="trailing" id="JCW-md-q2p"/>
+                            <constraint firstItem="dgi-ix-CHg" firstAttribute="centerX" secondItem="x4f-TB-aGU" secondAttribute="centerX" id="OFg-dr-8x0"/>
+                            <constraint firstItem="o7E-XZ-L4s" firstAttribute="leading" secondItem="x4f-TB-aGU" secondAttribute="leading" id="Oay-dO-2Fs"/>
+                            <constraint firstItem="o7E-XZ-L4s" firstAttribute="centerY" secondItem="x4f-TB-aGU" secondAttribute="centerY" id="hR2-zI-sQE"/>
+                            <constraint firstItem="PX7-ok-Qhf" firstAttribute="centerX" secondItem="x4f-TB-aGU" secondAttribute="centerX" id="hUg-2f-PdX"/>
+                            <constraint firstItem="PX7-ok-Qhf" firstAttribute="leading" secondItem="SHL-xU-sR3" secondAttribute="leading" constant="153.5" id="n9b-RS-YIp"/>
+                            <constraint firstItem="SHL-xU-sR3" firstAttribute="bottom" secondItem="PX7-ok-Qhf" secondAttribute="bottom" constant="64" id="tE3-nU-Hns"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9pu-VR-Vh1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-116" y="830.73463268365822"/>
+        </scene>
         <!--EditAlarmViewController-->
         <scene sceneID="chY-SD-uBa">
             <objects>
