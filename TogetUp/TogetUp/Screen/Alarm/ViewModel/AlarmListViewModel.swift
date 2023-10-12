@@ -26,6 +26,10 @@ class AlarmListViewModel {
         return formatter
     }()
     
+//    init(provider: MoyaProvider<AlarmService> = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])) {
+//            self.provider = provider
+//        }
+    
     func fetchAlarmsFromRealm() {
         let alarmsFromRealm = realmInstance.objects(Alarm.self).sorted(by: {
             let time1InMinutes = $0.alarmHour * 60 + $0.alarmMinute
@@ -33,7 +37,6 @@ class AlarmListViewModel {
 
             return time1InMinutes < time2InMinutes
         })
-
         alarms.onNext(Array(alarmsFromRealm))
     }
     
@@ -102,6 +105,14 @@ class AlarmListViewModel {
     
     func handleAPIRequest<T: Decodable>(_ request: Single<Response>) -> Single<Result<T, CreateAlarmError>> {
         return request
+            .do(onSuccess: { response in
+                if let jsonResponse = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String: Any],
+                   let message = jsonResponse["message"] as? String {
+                    print("API Message:", message)
+                }
+            }, onError: { error in
+                print("API Error:", error)
+            })
             .filterSuccessfulStatusAndRedirectCodes()
             .map(T.self)
             .map(Result.success)

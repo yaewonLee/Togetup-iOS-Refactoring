@@ -52,6 +52,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         customUI()
         setUpRepeatButtons()
         alarmNameTextField.delegate = self
@@ -59,10 +60,13 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.view.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
-        setUpDatePicker()
+        
         if isFromAlarmList, let id = alarmId {
             loadAlarmData(id: id)
             self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
+            setUpDatePicker()
+        } else {
+            setUpDatePicker()
         }
     }
     
@@ -89,6 +93,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
                     switch alarmResult {
                     case .success(let alarm):
                         self?.updateUI(with: alarm)
+                        self?.setUpDatePicker()
                     case .failure(let error):
                         print("Error retrieving alarm:", error)
                     }
@@ -101,35 +106,45 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func updateUI(with response: GetSingleAlarmResponse) {
-        if response.result?.getMissionRes?.id == 1 {
+        guard let result = response.result else { return }
+        
+        if let missionResId = result.getMissionRes?.id, missionResId == 1 {
             missionTitleLabel.text = "직접 등록 미션"
             missionIconLabel.text = "📷"
             self.missionId = 1
             self.missionObjectId = nil
-        } else {
-            missionTitleLabel.text = response.result?.getMissionObjectRes?.kr
-            missionIconLabel.text = response.result?.getMissionObjectRes?.icon
+        } else if let missionObjectRes = result.getMissionObjectRes {
+            missionTitleLabel.text = missionObjectRes.kr
+            missionIconLabel.text = missionObjectRes.icon
+            if let missionResId = result.getMissionRes?.id {
+                missionId = missionResId
+            }
+            missionObjectId = missionObjectRes.id
+            missionEndpoint = missionObjectRes.name
         }
-        alarmNameTextField.text = response.result?.name
-        alarmIconLabel.text = response.result?.icon
         
+        alarmNameTextField.text = result.name
+        alarmIconLabel.text = result.icon
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
         if let alarmTimeString = response.result?.alarmTime,
            let alarmTimeDate = formatter.date(from: alarmTimeString) {
             timePicker.date = alarmTimeDate
+            print(timePicker.date)
         }
-        isVibrate.isOn = response.result!.isVibrate
-        isRepeat.isOn = response.result!.isSnoozeActivated
-        sunday.isSelected = response.result!.sunday
-        monday.isSelected = response.result!.monday
-        tuesday.isSelected = response.result!.tuesday
-        wednesday.isSelected = response.result!.wednesday
-        thursday.isSelected = response.result!.thursday
-        friday.isSelected = response.result!.friday
-        saturday.isSelected = response.result!.saturday
+        
+        isVibrate.isOn = result.isVibrate
+        isRepeat.isOn = result.isSnoozeActivated
+        sunday.isSelected = result.sunday
+        monday.isSelected = result.monday
+        tuesday.isSelected = result.tuesday
+        wednesday.isSelected = result.wednesday
+        thursday.isSelected = result.thursday
+        friday.isSelected = result.friday
+        saturday.isSelected = result.saturday
     }
+
     
     private func customUI() {
         dayOfWeekButtons.forEach {
@@ -146,9 +161,11 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         deleteAlarmBtn.layer.cornerRadius = 12
         
-        let currentTime = Date()
-        let oneMinuteLater = Calendar.current.date(byAdding: .minute, value: 1, to: currentTime)
-        timePicker.date = oneMinuteLater ?? currentTime
+        if !isFromAlarmList {
+            let currentTime = Date()
+            let oneMinuteLater = Calendar.current.date(byAdding: .minute, value: 1, to: currentTime)
+            timePicker.date = oneMinuteLater ?? currentTime
+        }
     }
     
     private func setUpRepeatButtons() {
@@ -169,6 +186,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func setUpDatePicker() {
+        print(timePicker.date)
         setStandardizedAlarmTime(from: timePicker.date)
     }
     
@@ -180,6 +198,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.alarmMinute = components.minute ?? 0
 
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
+        print(alarmTimeString)
     }
     
     // MARK: - @
@@ -280,6 +299,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
+        
     }
     
     @IBAction func back(_ sender: Any) {

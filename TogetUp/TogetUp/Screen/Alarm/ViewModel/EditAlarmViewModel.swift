@@ -17,6 +17,10 @@ enum CreateAlarmError: Error {
 
 class EditAlarmViewModel {
     private let provider = MoyaProvider<AlarmService>()
+    
+//    init(provider: MoyaProvider<AlarmService> = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])) {
+//            self.provider = provider
+//        }
 
     // MARK: - API Call Methods
     func handleAPIRequest<T: Decodable>(_ request: Single<Response>) -> Single<Result<T, CreateAlarmError>> {

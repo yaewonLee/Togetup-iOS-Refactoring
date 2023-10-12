@@ -36,6 +36,7 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UNUserNotificationCenter.current().requestAuthorization (
             options: [.alert, .sound],
             completionHandler: { (granted, error) in
@@ -51,6 +52,13 @@ class AlarmListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(#function)
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            for request in requests {
+                print("----------request:---------------")
+                print(request.identifier)
+            }
+        }
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
     }
@@ -101,7 +109,7 @@ class AlarmListViewController: UIViewController {
         if let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
             let alarmString = String(format: "%02d:%02d", storedAlarm.alarmHour, storedAlarm.alarmMinute)
             var objectIdParam: Int? = storedAlarm.missionObjectId
-            if storedAlarm.missionObjectId == 1 {
+            if storedAlarm.missionId == 1 {
                 objectIdParam = nil
             }
             
