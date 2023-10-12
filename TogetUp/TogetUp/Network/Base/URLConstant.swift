@@ -28,4 +28,8 @@ struct URLConstant {
     // MARK: - 미션
     static let missionDetection = "/app/mission/"
     static let getMissionList = "/app/mission/"
+    
+    // MARK: - 그룹
+    static let getGroupList = "/app/room/"
+    static let createGroup = "/app/room/"
 }
