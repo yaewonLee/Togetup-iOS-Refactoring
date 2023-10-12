@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import AudioToolbox
+import AVFoundation
 
 class MissionPerformViewController: UIViewController {
     // MARK: - UI Components
@@ -30,12 +32,16 @@ class MissionPerformViewController: UIViewController {
     var missionObject = ""
     var missionId = 0
     var isSnoozeActivated = false
+    var isVibrate: Bool = true
+    var audioPlayer: AVAudioPlayer?
+    var vibrationTimer: Timer?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
         bindLabels()
+        loadSound()
     }
     
     // MARK: - Custom Method
@@ -68,9 +74,38 @@ class MissionPerformViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    private func loadSound() {
+        guard let soundURL = Bundle.main.url(forResource: "alarmSound", withExtension: "mp3") else {
+            print("File not found")
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.play()
+            
+            if isVibrate {
+                vibrationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (_) in
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                })
+            }
+        } catch {
+            print("Error loading audio file")
+        }
+    }
+    
+    private func stopSoundAndVibrate() {
+        audioPlayer?.stop()
+        audioPlayer?.currentTime = 0
+        
+        vibrationTimer?.invalidate()
+        vibrationTimer = nil
+    }
     
     // MARK: - @
     @IBAction func performButtonTapped(_ sender: UIButton) {
+        stopSoundAndVibrate()
+        
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = .camera
@@ -79,13 +114,14 @@ class MissionPerformViewController: UIViewController {
     }
     
     @IBAction func dismissMissionPage(_ sender: UIButton) {
+        stopSoundAndVibrate()
+        
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
             return
         }
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
-    
 }
 
 extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -106,5 +142,3 @@ extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavig
         }
     }
 }
-
-
