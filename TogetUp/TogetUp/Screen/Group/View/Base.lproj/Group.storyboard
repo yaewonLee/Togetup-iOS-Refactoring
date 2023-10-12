@@ -4,8 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,7 +38,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qi2-BN-HCm">
                                 <rect key="frame" x="0.0" y="175" width="393" height="594"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cdP-hX-ltv">
                                     <size key="itemSize" width="362" height="114"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -46,7 +46,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="pbA-AL-GQu">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GroupListCollectionViewCell" id="pbA-AL-GQu" customClass="GroupListCollectionViewCell" customModule="TogetUp" customModuleProvider="target">
                                         <rect key="frame" x="15.666666666666666" y="0.0" width="362" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="esV-5d-g6a">
@@ -66,7 +66,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🔥같이 공부해요🔥 필기사진 공유방" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cy7-XF-Sce">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🔥같이 공부해요🔥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cy7-XF-Sce">
                                                             <rect key="frame" x="58" y="12" width="290" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="22" id="aZI-7i-g0U"/>
@@ -117,6 +117,11 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="362" height="68"/>
+                                        <connections>
+                                            <outlet property="iconLabel" destination="fEO-ii-m99" id="JKN-iw-xvo"/>
+                                            <outlet property="missionLabel" destination="8aO-zE-3YS" id="w7M-Ei-hCF"/>
+                                            <outlet property="nameLabel" destination="cy7-XF-Sce" id="2cN-Ai-EVQ"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -141,7 +146,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="primary025"/>
                         <constraints>
                             <constraint firstItem="Qi2-BN-HCm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="4K4-JI-MV4"/>
                             <constraint firstItem="RFE-jX-hfO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="CVi-MZ-3Bc"/>
@@ -154,6 +159,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xMa-zz-Hs7"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Qi2-BN-HCm" id="RHg-Uj-2Dd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -165,8 +173,8 @@
         <image name="group" width="24" height="24"/>
         <image name="group_selected" width="24" height="24"/>
         <image name="message-plus-square" width="24" height="24"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="primary025">
+            <color red="0.96470588235294119" green="0.97647058823529409" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
