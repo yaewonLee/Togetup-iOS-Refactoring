@@ -46,13 +46,15 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     private var alarmMinute = 0
     
     var alarmId: Int?
-    var isFromAlarmList = false
+    var navigatedFromScreen = "CreateAlarm"
+    //navigatedFromScreen = "AlarmList", "CreateAlarm", "CreateGroupAlarm"
     var missionEndpoint = "person"
+    weak var delegate: EditAlarmDelegate?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(navigatedFromScreen)
         customUI()
         setUpRepeatButtons()
         alarmNameTextField.delegate = self
@@ -61,22 +63,20 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
         
-        if isFromAlarmList, let id = alarmId {
+        if navigatedFromScreen == "AlarmList", let id = alarmId {
             loadAlarmData(id: id)
             self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
             setUpDatePicker()
         } else {
             setUpDatePicker()
         }
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isFromAlarmList {
-            DispatchQueue.main.async {
-                self.deleteAlarmBtn.isHidden = false
-            }
-        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +107,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     private func updateUI(with response: GetSingleAlarmResponse) {
         guard let result = response.result else { return }
+        print(result)
         
         if let missionResId = result.getMissionRes?.id, missionResId == 1 {
             missionTitleLabel.text = "직접 등록 미션"
@@ -144,7 +145,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         friday.isSelected = result.friday
         saturday.isSelected = result.saturday
     }
-
+    
     
     private func customUI() {
         dayOfWeekButtons.forEach {
@@ -161,10 +162,16 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         deleteAlarmBtn.layer.cornerRadius = 12
         
-        if !isFromAlarmList {
+        if navigatedFromScreen == "CreateAlarm" {
             let currentTime = Date()
             let oneMinuteLater = Calendar.current.date(byAdding: .minute, value: 1, to: currentTime)
             timePicker.date = oneMinuteLater ?? currentTime
+        }
+        
+        if navigatedFromScreen == "CreateAlarm" || navigatedFromScreen == "CreateGroupAlarm" {
+            self.deleteAlarmBtn.isHidden = true
+        } else {
+            self.deleteAlarmBtn.isHidden = false
         }
     }
     
@@ -193,16 +200,15 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     private func setStandardizedAlarmTime(from date: Date) {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour, .minute], from: date)
-
+        
         self.alarmHour = components.hour ?? 0
         self.alarmMinute = components.minute ?? 0
-
+        
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
         print(alarmTimeString)
     }
     
     // MARK: - @
-    
     @IBAction func deleteEmoji(_ sender: UIButton) {
         self.alarmIconLabel.text = ""
         self.addEmojiButton.setImage(UIImage(named: "addAlarmIconBasic"), for: .normal)
@@ -235,12 +241,26 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         let param = CreateOrEditAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil, snoozeInterval: 0, snoozeCnt: 0)
         
-        let apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> = isFromAlarmList ? viewModel.editAlarm(alarmId: self.alarmId!, param: param) : viewModel.postAlarm(param: param)
+        var apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>>?
+        
+        if navigatedFromScreen == "AlarmList" {
+            apiRequest = viewModel.editAlarm(alarmId: self.alarmId!, param: param)
+        } else if navigatedFromScreen == "CreateGroupAlarm" {
+            delegate?.didUpdateAlarm(name: alarmName, icon: alarmIcon, alarmTime: self.alarmTimeString, monday: self.monday.isSelected, tuesday: self.tuesday.isSelected, wednesday: self.wednesday.isSelected, thursday: self.thursday.isSelected, friday: self.friday.isSelected, saturday: self.saturday.isSelected, sunday: self.sunday.isSelected, isSnoozeActivated: self.isRepeat.isOn, isVibrate: self.isVibrate.isOn, missionId: self.missionId, missionObjectId: paramMissionObjId, missionKr: self.missionTitleLabel.text!)
+            self.presentingViewController?.dismiss(animated: true)
+            
+        } else {
+            apiRequest = viewModel.postAlarm(param: param)
+        }
+        
         
         if missionId == 1 {
             self.missionObjectId = 1
         }
-        apiRequest.subscribe(
+        guard let request = apiRequest else {
+            return
+        }
+        request.subscribe(
             onSuccess: { result in
                 switch result {
                 case .success(let response):

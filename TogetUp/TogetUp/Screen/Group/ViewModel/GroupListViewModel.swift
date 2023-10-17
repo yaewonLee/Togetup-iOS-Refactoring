@@ -11,11 +11,11 @@ import RxSwift
 import RxMoya
 
 struct GroupListViewModel {
-    private let provider: MoyaProvider<GroupService>
+    private let provider = MoyaProvider<GroupService>()
     
-    init() {
-        self.provider = MoyaProvider<GroupService>(plugins: [NetworkLogger()])
-    }
+//    init() {
+//        self.provider = MoyaProvider<GroupService>(plugins: [NetworkLogger()])
+//    }
     
     func loginReqeust() -> Observable<GroupListResponse> {
         return provider.rx.request(.getGroupList)

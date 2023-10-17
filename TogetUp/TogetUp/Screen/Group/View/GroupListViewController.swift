@@ -21,12 +21,13 @@ class GroupListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionViewFlowLayout()
-        setCollectionView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        setCollectionView()
     }
     
     // MARK: - Custom Method
