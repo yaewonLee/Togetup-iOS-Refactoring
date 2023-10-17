@@ -10,6 +10,7 @@ import Moya
 
 enum GroupService {
     case getGroupList
+    case createGroup(param: CreateGroupRequest)
 }
 
 extension GroupService: TargetType {
@@ -21,6 +22,8 @@ extension GroupService: TargetType {
         switch self {
         case .getGroupList:
             return URLConstant.getGroupList
+        case .createGroup:
+            return URLConstant.createGroup
         }
     }
     
@@ -28,6 +31,8 @@ extension GroupService: TargetType {
         switch self {
         case .getGroupList:
             return .get
+        case .createGroup:
+            return .post
         }
     }
     
@@ -35,12 +40,14 @@ extension GroupService: TargetType {
         switch self {
         case .getGroupList:
             return .requestPlain
+        case .createGroup(let param):
+            return .requestJSONEncodable(param)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getGroupList:
+        case .getGroupList, .createGroup:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",

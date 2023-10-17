@@ -18,5 +18,6 @@ struct GroupListResult: Codable {
     let roomId: Int
     let icon: String
     let name: String
-    let mission: String
+    let mission: String?
+    let kr: String?
 }
