@@ -49,7 +49,6 @@ struct CreateOrEditAlarmRequest: Codable {
     let snoozeCnt: Int
 }
 
-
 struct GetAlarmResult: Codable {
     let id: Int
     let userId: Int
@@ -78,7 +77,7 @@ struct MissionObjectRes: Codable {
 }
 
 struct RoomRes: Codable {
-    let id: Int
-    let name, intro, groupProfileImgLink, password: String
-    let state: Int
+    let id: Int?
+    let name, intro, groupProfileImgLink, password: String?
+    let state: Int?
 }
