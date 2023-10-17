@@ -88,22 +88,21 @@ class AlarmListCollectionViewCell: UICollectionViewCell {
           [("월", model.monday), ("화", model.tuesday), ("수", model.wednesday),
            ("목", model.thursday), ("금", model.friday), ("토", model.saturday),
            ("일",model.sunday)]
-        
-       // 모든 날짜가 true인지 확인
-       if daysDict.allSatisfy({ $0.1 }) {
-           alarmInfoLabel.text =
-           "\(model.name), 매일 | \(model.missionName)"
-       } else {
-           let activeDaysTexts =
-             daysDict.compactMap { $0.1 ? $0.0 : nil }.joined(separator: ", ")
+                
+        let selectedDays = daysDict.compactMap { $0.1 ? $0.0 : nil }
 
-           if activeDaysTexts.isEmpty {
-               alarmInfoLabel.text =
-               "\(model.name) | \(model.missionName)"
-           } else {
-               alarmInfoLabel.text =
-               "\(model.name), \(activeDaysTexts) | \(model.missionName)"
-           }
-       }
+        if selectedDays.isEmpty {
+            alarmInfoLabel.text = "\(model.name) | \(model.missionName)"
+        } else if selectedDays.allSatisfy({ ["월", "화", "수", "목", "금"].contains($0) }) && selectedDays.count == 5 {
+            alarmInfoLabel.text = "\(model.name), 주중 | \(model.missionName)"
+        } else if selectedDays == ["토", "일"] {
+            alarmInfoLabel.text = "\(model.name), 주말 | \(model.missionName)"
+        } else if selectedDays.count == 7 {
+            alarmInfoLabel.text = "\(model.name), 매일 | \(model.missionName)"
+        } else if selectedDays.count == 1 {
+            alarmInfoLabel.text = "\(model.name), \(selectedDays[0])요일마다 | \(model.missionName)"
+        } else {
+            alarmInfoLabel.text = "\(model.name), \(selectedDays.joined(separator: ", ")) | \(model.missionName)"
+        }
     }
 }
