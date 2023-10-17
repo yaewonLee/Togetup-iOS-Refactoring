@@ -25,6 +25,6 @@ class GroupListCollectionViewCell: UICollectionViewCell {
     func setAttributes(with model: GroupListResult) {
         iconLabel.text = model.icon
         nameLabel.text = model.name
-        missionLabel.text = model.mission
+        missionLabel.text = model.kr
     }
 }

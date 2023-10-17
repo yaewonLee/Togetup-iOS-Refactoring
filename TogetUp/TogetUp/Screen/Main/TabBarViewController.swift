@@ -11,10 +11,11 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.selectedIndex = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.selectedIndex = 0
+        
     }
     
     override func viewWillLayoutSubviews() {
