@@ -30,6 +30,7 @@ struct GroupAlarmRequest: Codable {
     let isVibrate: Bool
     let missionId: Int
     let missionObjectId: Int?
+    let roomId: Int?
 }
 
 struct CreateGroupResponse: Codable {

@@ -60,6 +60,12 @@ class CreateGroupViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
+        if self.alarmName != "" {
+            addAlarmButton.alpha = 0.1
+            addAlarmButton.setTitle("", for: .normal)
+            alarmTimeLabel.text = formatAlarmTime(self.alarmTime)
+            alarmIconLabel.text = self.alarmIcon
+        }
     }
     
     // MARK: - Custom Method
@@ -78,26 +84,6 @@ class CreateGroupViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     private func setupBindings() {
-        viewModel.alarmData
-            .compactMap { $0 }
-            .subscribe(onNext: { [weak self] alarmData in
-                self?.addAlarmButton.alpha = 0.1
-                self?.addAlarmButton.setTitle("", for: .normal)
-                self?.alarmIconLabel.text = alarmData.icon
-                self?.alarmTimeLabel.text = alarmData.alarmTime
-                
-                if let formattedTime = self?.formatAlarmTime(alarmData.alarmTime) {
-                    self?.alarmTimeLabel.text = formattedTime
-                } else {
-                    self?.alarmTimeLabel.text = alarmData.alarmTime
-                }
-                
-                let infoText = self?.computeAlarmInfoText(from: alarmData) ?? ""
-                self?.alarmInfoLabel.text = infoText
-                
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.isPostGroupButtonEnabled
             .bind(to: postGroupButton.rx.isEnabled)
             .disposed(by: disposeBag)
@@ -114,11 +100,11 @@ class CreateGroupViewController: UIViewController, UITextFieldDelegate, UITextVi
     private func setUpGestures() {
         groupNameTextField.addTarget(self, action: #selector(groupNameDidChange(_:)), for: .editingChanged)
         self.view.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { [weak self] _ in
-                    self?.view.endEditing(true)
-                })
-                .disposed(by: disposeBag)
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func formatAlarmTime(_ time: String) -> String? {
@@ -162,12 +148,12 @@ class CreateGroupViewController: UIViewController, UITextFieldDelegate, UITextVi
             paramMissionObjId = nil
         }
         
-        let groupRequest = GroupAlarmRequest(name: self.alarmName, icon: self.alarmIcon, snoozeInterval: 0, snoozeCnt: 0, alarmTime: self.alarmTime, monday: self.monday, tuesday: self.tuesday, wednesday: self.wednesday, thursday: self.thursday, friday: self.friday, saturday: self.saturday, sunday: self.sunday, isSnoozeActivated: self.isSnoozeActivated, isVibrate: self.isVibrate, missionId: self.missionId, missionObjectId: paramMissionObjId)
+        let groupRequest = GroupAlarmRequest(name: self.alarmName, icon: self.alarmIcon, snoozeInterval: 0, snoozeCnt: 0, alarmTime: self.alarmTime, monday: self.monday, tuesday: self.tuesday, wednesday: self.wednesday, thursday: self.thursday, friday: self.friday, saturday: self.saturday, sunday: self.sunday, isSnoozeActivated: self.isSnoozeActivated, isVibrate: self.isVibrate, missionId: self.missionId, missionObjectId: paramMissionObjId, roomId: nil)
         let param = CreateGroupRequest(name: self.groupNameTextField.text ?? "", intro: self.introTextView.text ?? "", postAlarmReq: groupRequest)
         viewModel.postGroup(param: param)
             .subscribe(onNext: { response in
                 print(response)
-                
+                self.navigationController?.popViewController(animated: true)
             }, onError: { error in
                 print(error.localizedDescription)
             })
@@ -181,35 +167,55 @@ protocol EditAlarmDelegate: AnyObject {
 
 extension CreateGroupViewController: EditAlarmDelegate {
     func didUpdateAlarm(name: String, icon: String, alarmTime: String, monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, sunday: Bool, isSnoozeActivated: Bool, isVibrate: Bool, missionId: Int, missionObjectId: Int?, missionKr: String) {
-        viewModel.updateAlarm(name: name, icon: icon, alarmTime: alarmTime, monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday, isSnoozeActivated: isSnoozeActivated, isVibrate: isVibrate, missionId: missionId, missionObjectId: missionObjectId, missionKr: missionKr)
+        self.alarmName = name
+        self.alarmIcon = icon
+        self.alarmTime = alarmTime
+        self.monday = monday
+        self.tuesday = tuesday
+        self.wednesday = wednesday
+        self.thursday = thursday
+        self.friday = friday
+        self.saturday = saturday
+        self.sunday = sunday
+        self.isSnoozeActivated = isSnoozeActivated
+        self.isVibrate = isVibrate
+        self.missionId = missionId
+        self.missionObjectId = missionObjectId
+        self.missionKr = missionKr
+        
+        viewModel.updateAlarmName(name: name)
+        
+        updateAlarmInfoView()
     }
     
-    private func computeAlarmInfoText(from data: AlarmData) -> String {
-        let weekdaysData = Array(data.weekdays[0...4])
-        let weekendsData = Array(data.weekdays[5...6])
+    private func updateAlarmInfoView() {
+        let weekdays = [monday, tuesday, wednesday, thursday, friday]
+        let weekends = [saturday, sunday]
+        
         var selectedDays: [String] = []
         
-        if data.weekdays[0] { selectedDays.append("월") }
-        if data.weekdays[1] { selectedDays.append("화") }
-        if data.weekdays[2] { selectedDays.append("수") }
-        if data.weekdays[3] { selectedDays.append("목") }
-        if data.weekdays[4] { selectedDays.append("금") }
-        if data.weekdays[5] { selectedDays.append("토") }
-        if data.weekdays[6] { selectedDays.append("일") }
+        if monday { selectedDays.append("월") }
+        if tuesday { selectedDays.append("화") }
+        if wednesday { selectedDays.append("수") }
+        if thursday { selectedDays.append("목") }
+        if friday { selectedDays.append("금") }
+        if saturday { selectedDays.append("토") }
+        if sunday { selectedDays.append("일") }
         
         switch selectedDays.count {
         case 0:
-            return "\(data.missionKr)"
+            alarmInfoLabel.text = "\(self.missionKr)"
         case 1:
-            return "\(selectedDays[0])요일마다 | \(data.missionKr)"
-        case 2 where weekendsData.allSatisfy({ $0 }):
-            return "주말 | \(data.missionKr)"
-        case 5 where weekdaysData.allSatisfy({ $0 }):
-            return "주중 | \(data.missionKr)"
+            alarmInfoLabel.text = "\(selectedDays[0])요일마다 | \(self.missionKr)"
+        case 2 where weekends.allSatisfy({ $0 }):
+            alarmInfoLabel.text = "주말 | \(self.missionKr)"
+        case 5 where weekdays.allSatisfy({ $0 }):
+            alarmInfoLabel.text = "주중 | \(self.missionKr)"
         case 7:
-            return "매일 | \(data.missionKr)"
+            alarmInfoLabel.text = "매일 | \(self.missionKr)"
         default:
-            return "\(selectedDays.joined(separator: ", ")) | \(data.missionKr)"
+            alarmInfoLabel.text = "\(selectedDays.joined(separator: ", ")) | \(self.missionKr)"
+            
         }
     }
 }
