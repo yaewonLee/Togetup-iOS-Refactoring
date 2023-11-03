@@ -13,10 +13,9 @@ import RealmSwift
 class AlarmListViewController: UIViewController {
     // MARK: - UI Components
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var groupView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var personalCollectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
-    
+    @IBOutlet weak var groupCollectionView: UICollectionView!
     
     // MARK: - Properties
     private let viewModel = AlarmListViewModel()
@@ -44,11 +43,19 @@ class AlarmListViewController: UIViewController {
             }
         )
         fetchAndSaveAlarmsIfFirstLaunch()
+        getGroupAlarmList()
         setUpNavigationBar()
         customSegmentedControl()
         setCollectionViewFlowLayout()
-        self.groupView.layer.cornerRadius = 12
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        
+//        let statusBarHeight = view.safeAreaInsets.top
+//        print("Status Bar Height: \(statusBarHeight)")
+//    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -65,9 +72,9 @@ class AlarmListViewController: UIViewController {
     
     // MARK: - Custom Method
     private func setCollectionView() {
-        self.collectionView.delegate = nil
-        self.collectionView.dataSource = nil
-        viewModel.alarms.bind(to: collectionView.rx.items(cellIdentifier: AlarmListCollectionViewCell.identifier, cellType: AlarmListCollectionViewCell.self)) { index, alarm, cell in
+        self.personalCollectionView.delegate = nil
+        self.personalCollectionView.dataSource = nil
+        viewModel.alarms.bind(to: personalCollectionView.rx.items(cellIdentifier: AlarmListCollectionViewCell.identifier, cellType: AlarmListCollectionViewCell.self)) { index, alarm, cell in
             cell.setAttributes(with: alarm)
             cell.onDeleteTapped = { [weak self] in
                 self?.showDeleteAlert(for: alarm)
@@ -78,7 +85,7 @@ class AlarmListViewController: UIViewController {
         }
         .disposed(by: disposeBag)
         
-        collectionView.rx.itemSelected
+        personalCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
                 
@@ -170,11 +177,25 @@ class AlarmListViewController: UIViewController {
         }
     }
     
+    private func getGroupAlarmList() {
+        viewModel.getGroupAlarmList()
+            .bind(to: groupCollectionView.rx.items(cellIdentifier: GroupAlarmListCollectionViewCell.identifier,
+                                              cellType: GroupAlarmListCollectionViewCell.self)) { index, model, cell in
+                cell.setAttributes(with: model)
+            }
+            .disposed(by: disposeBag)
+    }
+    
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: collectionView.bounds.width - 20, height: 124)
+        layout.itemSize = CGSize(width: personalCollectionView.bounds.width, height: 124)
         layout.minimumLineSpacing = 16
-        collectionView.collectionViewLayout = layout
+        personalCollectionView.collectionViewLayout = layout
+        
+        let groupLayout = UICollectionViewFlowLayout()
+        groupLayout.itemSize = CGSize(width: groupCollectionView.bounds.width, height: 136)
+        groupLayout.minimumLineSpacing = 16
+        groupCollectionView.collectionViewLayout = groupLayout
     }
     
     private func setUpNavigationBar() {
@@ -221,12 +242,12 @@ class AlarmListViewController: UIViewController {
         })
         
         if sender.selectedSegmentIndex == 0 {
-            self.groupView.isHidden = true
-            self.collectionView.isHidden = false
+            self.groupCollectionView.isHidden = true
+            self.personalCollectionView.isHidden = false
             self.addAlarmButton.isHidden = false
         } else {
-            self.groupView.isHidden = false
-            self.collectionView.isHidden = true
+            self.groupCollectionView.isHidden = false
+            self.personalCollectionView.isHidden = true
             self.addAlarmButton.isHidden = true
         }
     }

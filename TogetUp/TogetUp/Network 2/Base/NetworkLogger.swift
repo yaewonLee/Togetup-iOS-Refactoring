@@ -37,12 +37,7 @@ final class NetworkLogger: PluginType {
             print("Headers : \(target.headers ?? [:])")
             print("Task : \(target.task)")
             print("Error : \(error)")
-            if let responseData = error.response?.data {
-                let responseString = String(data: responseData, encoding: .utf8) ?? "Unable to decode response"
-                print("Raw Response : \(responseString)")
-            }
             print("--------------------------------\n")
-
         }
         #endif
     }

@@ -34,7 +34,7 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     private func customUI() {
         let userInfo = KeyChainManager.shared.getUserInformation()
         print(userInfo)
-        userNameLabel.text = userInfo.givenName
+        userNameLabel.text = userInfo.name
         userEmailLabel.text = userInfo.email
         
         if UserDefaults.standard.string(forKey: "loginMethod") == "Apple" {

@@ -23,9 +23,9 @@ class KeyChainManager {
         }
     }
     
-    func saveUserInformation(givenName: String, email: String) {
+    func saveUserInformation(name: String, email: String) {
         do {
-            try keychain.set(givenName, key: "givenName")
+            try keychain.set(name, key: "name")
             try keychain.set(email, key: "email")
             print("User information has been saved in the Keychain.")
         } catch let error {
@@ -33,12 +33,11 @@ class KeyChainManager {
         }
     }
     
-    func getUserInformation() -> (givenName: String?, email: String?) {
+    func getUserInformation() -> (name: String?, email: String?) {
         do {
-            let givenName = try keychain.get("givenName")
-            let email = try keychain.get("email")
-            
-            return (givenName, email)
+            let name = try keychain.get("name")
+            let email = try keychain.get("email")            
+            return (name, email)
         } catch let error {
             print("Failed to get user information : \(error.localizedDescription)")
             return (nil,nil)

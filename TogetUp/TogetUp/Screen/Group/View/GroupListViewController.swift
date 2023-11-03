@@ -21,13 +21,13 @@ class GroupListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionViewFlowLayout()
-        
+        setCollectionView()
+      //  self.performSegue(withIdentifier: "toGroupBoardSegue", sender: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        setCollectionView()
     }
     
     // MARK: - Custom Method
@@ -35,17 +35,29 @@ class GroupListViewController: UIViewController {
         collectionView.delegate = nil
         collectionView.dataSource = nil
         
-        viewModel.loginReqeust()
+        viewModel.getGroupList()
             .map { $0.result.compactMap { $0 } }
             .bind(to: collectionView.rx.items(cellIdentifier: GroupListCollectionViewCell.identifier,
                                               cellType: GroupListCollectionViewCell.self)) { index, model, cell in
                 cell.setAttributes(with: model)
             }
+                                              .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.collectionView.deselectItem(at: indexPath, animated: true)
+                if let cell = self?.collectionView.cellForItem(at: indexPath) as? GroupListCollectionViewCell,
+                   let roomId = cell.roomId {
+                    self?.performSegue(withIdentifier: "toGroupBoardSegue", sender: roomId)
+                }
+            })
             .disposed(by: disposeBag)
-        
     }
-    private func customUI() {
-        
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toGroupBoardSegue", let destinationVC = segue.destination as? GroupBoardViewController, let roomId = sender as? Int {
+            destinationVC.roomId = roomId
+        }
     }
     
     private func setCollectionViewFlowLayout() {
@@ -54,6 +66,4 @@ class GroupListViewController: UIViewController {
         layout.minimumLineSpacing = 16
         collectionView.collectionViewLayout = layout
     }
-    // MARK: - @
-    
 }

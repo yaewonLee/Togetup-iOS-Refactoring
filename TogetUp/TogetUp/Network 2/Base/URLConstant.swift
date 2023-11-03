@@ -32,7 +32,4 @@ struct URLConstant {
     // MARK: - 그룹
     static let getGroupList = "/app/room/"
     static let createGroup = "/app/room/"
-    static let getMissionLog = "/app/room/user/mission-log"
-    static let getGroupDetail = "/app/room/"
-    static let joinGroup = "/app/room/join/"
 }

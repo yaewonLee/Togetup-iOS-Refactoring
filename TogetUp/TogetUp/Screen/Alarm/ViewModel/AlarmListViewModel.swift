@@ -53,6 +53,14 @@ class AlarmListViewModel {
             .disposed(by: disposeBag)
     }
     
+    func getGroupAlarmList() -> Observable<[GetAlarmResult]> {
+        return provider.rx.request(.getAlarmList(type: "group"))
+            .filterSuccessfulStatusCodes()
+            .map(GetAlarmListResponse.self)
+            .map { $0.result ?? [] }
+            .asObservable()
+    }
+    
     private func handleNetworkError(_ error: Error) {
         print(error.localizedDescription)
     }

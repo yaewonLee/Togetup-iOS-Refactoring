@@ -9,21 +9,24 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var coinView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        customUI()
     }
     
+    private func customUI() {
+        progressBar.layer.cornerRadius = 5
 
-    /*
-    // MARK: - Navigation
+        progressBar.clipsToBounds = true
+        progressBar.layer.borderWidth = 2
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        progressBar.layer.sublayers![1].cornerRadius = 5
+        progressBar.layer.sublayers![1].borderWidth = 2
+        progressBar.subviews[1].clipsToBounds = true
+        
+        coinView.layer.cornerRadius = 14
     }
-    */
-
 }

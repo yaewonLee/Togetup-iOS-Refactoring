@@ -13,6 +13,7 @@ class GroupListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var missionLabel: UILabel!
+    var roomId: Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +26,7 @@ class GroupListCollectionViewCell: UICollectionViewCell {
     func setAttributes(with model: GroupListResult) {
         iconLabel.text = model.icon
         nameLabel.text = model.name
-        missionLabel.text = model.mission
+        missionLabel.text = "\(model.kr ?? "미션") 촬영"
+        roomId = model.roomId
     }
 }

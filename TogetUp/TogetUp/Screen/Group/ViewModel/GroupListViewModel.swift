@@ -17,7 +17,7 @@ struct GroupListViewModel {
 //        self.provider = MoyaProvider<GroupService>(plugins: [NetworkLogger()])
 //    }
     
-    func loginReqeust() -> Observable<GroupListResponse> {
+    func getGroupList() -> Observable<GroupListResponse> {
         return provider.rx.request(.getGroupList)
             .filterSuccessfulStatusCodes()
             .map(GroupListResponse.self)
