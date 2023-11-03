@@ -24,4 +24,11 @@ class GroupSettingViewModel {
             .map(GroupSettingResponse.self)
             .asObservable()
     }
+    
+    func deleteMember(roomId: Int) -> Observable<DeleteMemberResponse> {
+        return provider.rx.request(.deleteMember(roomId: roomId))
+            .filterSuccessfulStatusCodes()
+            .map(DeleteMemberResponse.self)
+            .asObservable()
+    }
 }

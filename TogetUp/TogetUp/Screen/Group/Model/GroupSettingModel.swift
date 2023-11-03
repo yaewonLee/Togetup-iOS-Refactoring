@@ -43,3 +43,8 @@ struct User: Codable {
     let level: Int
 }
 
+struct DeleteMemberResponse: Codable {
+    let httpStatusCode: Int
+    let httpReasonPhrase: String
+    let message: String
+}

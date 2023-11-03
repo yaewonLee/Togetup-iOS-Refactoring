@@ -13,6 +13,7 @@ enum GroupService {
     case createGroup(param: CreateGroupRequest)
     case getMissionLog(roomId: Int, localDateTime: String)
     case getGroupDetail(roomId: Int)
+    case deleteMember(roomId: Int)
 }
 
 extension GroupService: TargetType {
@@ -30,6 +31,8 @@ extension GroupService: TargetType {
             return URLConstant.getGroupDetail + "\(roomId)"
         case .getMissionLog:
             return URLConstant.getMissionLog
+        case .deleteMember(let roomId):
+            return URLConstant.deleteMember + "\(roomId)" + "/member"
         }
     }
     
@@ -39,12 +42,14 @@ extension GroupService: TargetType {
             return .get
         case .createGroup:
             return .post
+        case .deleteMember:
+            return .delete
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .getGroupList, .getGroupDetail:
+        case .getGroupList, .getGroupDetail, .deleteMember:
             return .requestPlain
         case .createGroup(let param):
             return .requestJSONEncodable(param)
@@ -57,7 +62,7 @@ extension GroupService: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .getGroupList, .createGroup, .getGroupDetail, .getMissionLog:
+        case .getGroupList, .createGroup, .getGroupDetail, .getMissionLog, .deleteMember:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",

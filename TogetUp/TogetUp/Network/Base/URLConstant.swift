@@ -35,4 +35,5 @@ struct URLConstant {
     static let getMissionLog = "/app/room/user/mission-log"
     static let getGroupDetail = "/app/room/"
     static let joinGroup = "/app/room/join/"
+    static let deleteMember = "/app/room/"
 }

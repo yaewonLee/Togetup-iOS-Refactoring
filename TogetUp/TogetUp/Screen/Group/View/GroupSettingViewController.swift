@@ -107,9 +107,28 @@ class GroupSettingViewController: UIViewController {
         
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF]
-
+        
         activityViewController.popoverPresentationController?.sourceView = sender
         self.present(activityViewController, animated: true, completion: nil)
     }
-
+    
+    // MARK: - @
+    @IBAction func deleteMember(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: "그룹에서 나가시겠습니까?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "나가기", style: .cancel) { [self] _ in
+            viewModel.deleteMember(roomId: self.roomId)
+                .subscribe(onNext: { response in
+                    self.navigationController?.popToRootViewController(animated: true)
+                }, onError: { error in
+                    print("DeleteMember error occurred: \(error.localizedDescription)")
+                })
+                .disposed(by: disposeBag)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }    
 }
