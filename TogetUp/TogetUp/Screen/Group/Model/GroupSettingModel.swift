@@ -26,6 +26,7 @@ struct RoomData: Codable {
     let intro: String
     let createdAt: String
     let personnel: Int
+    let invitationCode: String
 }
 
 struct AlarmData: Codable {

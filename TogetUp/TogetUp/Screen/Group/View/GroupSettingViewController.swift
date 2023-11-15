@@ -35,13 +35,22 @@ class GroupSettingViewController: UIViewController {
     private let disposeBag = DisposeBag()
     var roomId = 0
     var members: [User] = []
+    var code = ""
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        getGroupDetail()
         customUI()
+        getGroupDetail()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    
+    
     
     // MARK: - Custom Method
     private func customUI() {
@@ -81,6 +90,7 @@ class GroupSettingViewController: UIViewController {
             .subscribe(onNext: { response in
                 guard let result = response.result else { return }
                 
+                self.code = result.roomData.invitationCode
                 self.groupIconLabel.text = result.roomData.icon
                 self.groupNameLabel.text = result.roomData.name
                 self.groupIntroLabel.text = result.roomData.intro
@@ -102,11 +112,8 @@ class GroupSettingViewController: UIViewController {
     
     // MARK: - Custom Method
     @IBAction func inviteButtonTapped(_ sender: UIButton) {
-        let urlScheme = "TogetUp://"
-        let url = URL(string: urlScheme)!
-        
-        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF]
+        let activityViewController = UIActivityViewController(activityItems: [self.code], applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .saveToCameraRoll, .markupAsPDF, .addToHomeScreen]
         
         activityViewController.popoverPresentationController?.sourceView = sender
         self.present(activityViewController, animated: true, completion: nil)
@@ -126,9 +133,9 @@ class GroupSettingViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
         
-        alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-        
+        alertController.addAction(deleteAction)
+
         present(alertController, animated: true)
-    }    
+    }
 }
