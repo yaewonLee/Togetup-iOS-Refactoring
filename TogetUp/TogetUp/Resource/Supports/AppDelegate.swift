@@ -12,7 +12,7 @@ import UserNotifications
 import FirebaseMessaging
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     var isLoggedIn: Bool {
         return KeyChainManager.shared.getToken() != nil
     }
@@ -24,20 +24,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        Messaging.messaging().isAutoInitEnabled = true
         
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
-
+        
         AlarmManager.shared.refreshAllScheduledNotifications()
         
         return true
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("device token: \(tokenString)")
-        
         Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("fcmToken: \(fcmToken)")
     }
     
     // MARK: UISceneSession Lifecycle
@@ -63,7 +66,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
         guard let alarmId = userInfo["alarmId"] as? Int else { return }
-            
+        
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
             sceneDelegate.alarmId = alarmId
