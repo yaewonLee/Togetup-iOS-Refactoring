@@ -10,9 +10,13 @@ import RxKakaoSDKCommon
 import FirebaseCore
 import UserNotifications
 import FirebaseMessaging
+import RxSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
+    private let pushAlarmViewModel = PushAlarmViewModel()
+    private let disposeBag = DisposeBag()
+
     var isLoggedIn: Bool {
         return KeyChainManager.shared.getToken() != nil
     }
@@ -41,6 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("fcmToken: \(fcmToken)")
+        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "whatswrong")
+            .subscribe(onNext: { response in
+                print(response)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: UISceneSession Lifecycle
