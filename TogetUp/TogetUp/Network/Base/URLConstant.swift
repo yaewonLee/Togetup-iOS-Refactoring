@@ -9,31 +9,36 @@ import Foundation
 
 struct URLConstant {
     // MARK: - Base URL
-    static let baseURL = "https://togetup.shop"
+    static let baseURL = "https://togetup.shop/app/"
     
     // MARK: - Auth 로그인
-    static let login = "/app/auth/login"
+    static let login = "auth/login"
     
     // MARK: - User
-    static let withdrawl = "/app/users"
-    static let appleWithdrawl = "/app/users/apple"
+    static let withdrawl = "users"
+    static let appleWithdrawl = "users/apple"
+    static let sendFcmToken = "users/fcm-token"
+    static let getAvatarList = "users/avatars"
     
     // MARK: - 알람
-    static let getAlarmList = "/app/alarm"
-    static let createAlarm = "/app/alarm"
-    static let deleteAlarm = "/app/alarm/"
-    static let editAlarm = "/app/alarm/"
-    static let getSingleAlarm = "/app/alarm/"
+    static let getAlarmList = "alarm"
+    static let createAlarm = "alarm"
+    static let deleteAlarm = "alarm/"
+    static let editAlarm = "alarm/"
+    static let getSingleAlarm = "alarm/"
     
     // MARK: - 미션
-    static let missionDetection = "/app/mission/"
-    static let getMissionList = "/app/mission/"
+    static let missionDetection = "mission/"
+    static let getMissionList = "mission/"
     
     // MARK: - 그룹
-    static let getGroupList = "/app/room/"
-    static let createGroup = "/app/room/"
-    static let getMissionLog = "/app/room/user/mission-log"
-    static let getGroupDetail = "/app/room/"
-    static let joinGroup = "/app/room/join/"
-    static let deleteMember = "/app/room/"
+    static let getGroupList = "room/"
+    static let createGroup = "room/"
+    static let getMissionLog = "room/user/mission-log"
+    static let getGroupDetail = "room/"
+    static let joinGroup = "room/join/"
+    static let deleteMember = "room/"
+    
+    // MARK: - 홈
+    static let getTimeline = "home/brief-board/alarm/timeline"
 }
