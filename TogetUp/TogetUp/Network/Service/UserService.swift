@@ -1,5 +1,5 @@
 //
-//  WithdrawlService.swift
+//  UserService.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/09/03.
@@ -8,13 +8,14 @@
 import Foundation
 import Moya
 
-enum WithdrawlService {
+enum UserService {
     case deleteUser
     case deleteAppleUser(code: String)
-    
+    case sendFcmToken(fcmToken: String)
+    case getAvatarList
 }
 
-extension WithdrawlService: TargetType {
+extension UserService: TargetType {
     var baseURL: URL {
         return URL(string: URLConstant.baseURL)!
     }
@@ -25,6 +26,10 @@ extension WithdrawlService: TargetType {
             return URLConstant.withdrawl
         case .deleteAppleUser:
             return URLConstant.appleWithdrawl
+        case .sendFcmToken:
+            return URLConstant.sendFcmToken
+        case .getAvatarList:
+            return URLConstant.getAvatarList
         }
     }
     
@@ -32,15 +37,21 @@ extension WithdrawlService: TargetType {
         switch self {
         case .deleteUser, .deleteAppleUser:
             return .delete
+        case .sendFcmToken:
+            return .patch
+        case .getAvatarList:
+            return .get
         }
     }
     
-    var task: Task {
+    var task: Moya.Task {
         switch self {
-        case .deleteUser:
+        case .deleteUser, .getAvatarList:
             return .requestPlain
         case .deleteAppleUser(let code):
             return .requestParameters(parameters: ["authorizationCode": code], encoding: JSONEncoding.default)
+        case .sendFcmToken(let fcmToken):
+            return .requestParameters(parameters: ["fcmToken": fcmToken], encoding: URLEncoding.queryString)
         }
     }
     

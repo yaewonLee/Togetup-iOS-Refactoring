@@ -11,10 +11,10 @@ import Moya
 import RxMoya
 
 class SettingViewModel {
-    let provider: MoyaProvider<WithdrawlService>
+    let provider: MoyaProvider<UserService>
     
     init() {
-        self.provider = MoyaProvider<WithdrawlService>(plugins: [NetworkLogger()])
+        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
     }
     
     func deleteUser() -> Observable<WithdrawlResponse> {
