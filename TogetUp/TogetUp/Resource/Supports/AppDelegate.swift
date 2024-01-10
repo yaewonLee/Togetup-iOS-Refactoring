@@ -44,12 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("fcmToken: \(fcmToken)")
-        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "whatswrong")
-            .subscribe(onNext: { response in
-                print(response)
-            })
-            .disposed(by: disposeBag)
+//        print("fcmToken: \(fcmToken)")
+//        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
+//            .subscribe(onNext: { response in
+//                print(response)
+//            })
+//            .disposed(by: disposeBag)
     }
     
     // MARK: UISceneSession Lifecycle
