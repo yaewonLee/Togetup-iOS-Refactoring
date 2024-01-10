@@ -604,7 +604,7 @@
                                         <rect key="frame" x="20" y="95" width="240" height="31"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="vaQ-EF-U8g">
-                                                <rect key="frame" x="0.0" y="0.0" width="116" height="31"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="240" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" name="primary050"/>
                                                 <color key="tintColor" name="primary400"/>
@@ -613,8 +613,8 @@
                                                     <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="14"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-V8-Rdq">
-                                                <rect key="frame" x="124" y="0.0" width="116" height="31"/>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-V8-Rdq">
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="31"/>
                                                 <color key="backgroundColor" name="primary400"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>

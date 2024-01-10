@@ -152,11 +152,83 @@
                                 <rect key="frame" x="293" y="112" width="48" height="38"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="user-plus-01"/>
+                                <connections>
+                                    <action selector="inviteButton:" destination="yso-Th-bhi" eventType="touchUpInside" id="0bt-Bb-G68"/>
+                                </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TyL-xV-7UH">
+                                <rect key="frame" x="48.666666666666657" y="336.66666666666669" width="296" height="179.00000000000006"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초대코드로 참여하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XC-1T-uxb">
+                                        <rect key="frame" x="75.333333333333343" y="24" width="145" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="pDm-XS-tdM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="초대코드를 입력해주세요" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZKN-qp-wrg">
+                                        <rect key="frame" x="20" y="62" width="256" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="MID-8J-t7C"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TzX-TG-AIB">
+                                        <rect key="frame" x="20" y="118" width="256" height="37"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wbV-Er-Uzw">
+                                                <rect key="frame" x="0.0" y="0.0" width="124" height="37"/>
+                                                <color key="backgroundColor" name="primary050"/>
+                                                <color key="tintColor" name="primary400"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="취소">
+                                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="14"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="cancelInviteCodeButton:" destination="yso-Th-bhi" eventType="touchUpInside" id="y2E-OS-hEX"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POR-rs-hcq">
+                                                <rect key="frame" x="132" y="0.0" width="124" height="37"/>
+                                                <color key="backgroundColor" name="primary400"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="확인">
+                                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="14"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="okButtonTapped:" destination="yso-Th-bhi" eventType="touchUpInside" id="mbO-C7-M9f"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="37" id="v0F-bN-ml7"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="8XC-1T-uxb" firstAttribute="centerX" secondItem="TyL-xV-7UH" secondAttribute="centerX" id="7yG-Pn-ml9"/>
+                                    <constraint firstAttribute="height" constant="179" id="8Qf-g3-J6I"/>
+                                    <constraint firstItem="ZKN-qp-wrg" firstAttribute="leading" secondItem="TyL-xV-7UH" secondAttribute="leading" constant="20" id="H53-bI-RDv"/>
+                                    <constraint firstItem="TzX-TG-AIB" firstAttribute="leading" secondItem="TyL-xV-7UH" secondAttribute="leading" constant="20" id="MEX-0E-HoD"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZKN-qp-wrg" secondAttribute="trailing" constant="20" id="NBo-c6-Yyl"/>
+                                    <constraint firstItem="ZKN-qp-wrg" firstAttribute="top" secondItem="8XC-1T-uxb" secondAttribute="bottom" constant="16" id="UMA-2a-lEv"/>
+                                    <constraint firstItem="8XC-1T-uxb" firstAttribute="top" secondItem="TyL-xV-7UH" secondAttribute="top" constant="24" id="aYf-Bb-9E3"/>
+                                    <constraint firstItem="TzX-TG-AIB" firstAttribute="centerX" secondItem="TyL-xV-7UH" secondAttribute="centerX" id="eSp-iO-k2h"/>
+                                    <constraint firstItem="TzX-TG-AIB" firstAttribute="top" secondItem="ZKN-qp-wrg" secondAttribute="bottom" constant="8" id="mce-BM-XqB"/>
+                                    <constraint firstAttribute="width" constant="296" id="oGk-mj-1ti"/>
+                                    <constraint firstAttribute="trailing" secondItem="TzX-TG-AIB" secondAttribute="trailing" constant="20" id="ttS-nw-BnD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cyi-HB-nh4"/>
                         <color key="backgroundColor" name="primary025"/>
                         <constraints>
+                            <constraint firstItem="TyL-xV-7UH" firstAttribute="centerX" secondItem="Kpu-sO-Jzl" secondAttribute="centerX" id="7bA-kl-rmU"/>
                             <constraint firstItem="rme-yA-OOK" firstAttribute="top" secondItem="Cyi-HB-nh4" secondAttribute="top" constant="16" id="DIg-LI-lru"/>
                             <constraint firstItem="qP5-Du-Qq3" firstAttribute="width" secondItem="rme-yA-OOK" secondAttribute="width" multiplier="2" id="DNG-tA-o3L"/>
                             <constraint firstItem="lfp-A4-CfH" firstAttribute="leading" secondItem="Cyi-HB-nh4" secondAttribute="leading" constant="20" id="FFM-C5-ZBU"/>
@@ -165,6 +237,7 @@
                             <constraint firstItem="qP5-Du-Qq3" firstAttribute="height" secondItem="rme-yA-OOK" secondAttribute="height" multiplier="1.58333" id="SfL-QD-KuO"/>
                             <constraint firstItem="rme-yA-OOK" firstAttribute="leading" secondItem="qP5-Du-Qq3" secondAttribute="trailing" constant="8" id="TIE-oC-sz1"/>
                             <constraint firstItem="Cyi-HB-nh4" firstAttribute="trailing" secondItem="rme-yA-OOK" secondAttribute="trailing" constant="20" id="WUB-8Z-YyG"/>
+                            <constraint firstItem="TyL-xV-7UH" firstAttribute="centerY" secondItem="Kpu-sO-Jzl" secondAttribute="centerY" id="cD8-md-uds"/>
                             <constraint firstItem="qP5-Du-Qq3" firstAttribute="centerY" secondItem="rme-yA-OOK" secondAttribute="centerY" id="cFZ-8D-MGj"/>
                             <constraint firstItem="qrr-o8-wXh" firstAttribute="leading" secondItem="Cyi-HB-nh4" secondAttribute="leading" id="qus-85-S9L"/>
                             <constraint firstItem="qrr-o8-wXh" firstAttribute="top" secondItem="lfp-A4-CfH" secondAttribute="bottom" constant="28" id="tRb-2I-JvV"/>
@@ -173,7 +246,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="mCX-pP-ei2"/>
                     <connections>
+                        <outlet property="cancelButton" destination="wbV-Er-Uzw" id="ghr-5u-Nbq"/>
                         <outlet property="collectionView" destination="qrr-o8-wXh" id="aOo-cf-jQd"/>
+                        <outlet property="inviteCodeView" destination="TyL-xV-7UH" id="AAj-X2-g35"/>
+                        <outlet property="inviteTextField" destination="ZKN-qp-wrg" id="Jc4-Za-oml"/>
+                        <outlet property="okButton" destination="POR-rs-hcq" id="EGZ-cz-NO8"/>
                         <segue destination="nAU-tH-ko6" kind="show" identifier="toGroupBoardSegue" id="tgj-jA-gft"/>
                     </connections>
                 </viewController>
@@ -401,7 +478,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VE9-Ru-7ub" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="921.37404580152668" y="4.9295774647887329"/>
+            <point key="canvasLocation" x="940" y="4"/>
         </scene>
         <!--GroupBoardViewController-->
         <scene sceneID="yYY-sw-TCy">
@@ -423,7 +500,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NoMissionBear" translatesAutoresizingMaskIntoConstraints="NO" id="HxR-MY-uqY">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nomission_chick" translatesAutoresizingMaskIntoConstraints="NO" id="HxR-MY-uqY">
                                         <rect key="frame" x="72.666666666666686" y="202" width="248" height="248"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="248" id="eiD-eB-YnG"/>
@@ -431,7 +508,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" name="noMIssionBg_Bear"/>
+                                <color key="backgroundColor" name="chick"/>
                                 <constraints>
                                     <constraint firstItem="6UZ-Ur-Lw1" firstAttribute="top" secondItem="3RZ-n9-i9T" secondAttribute="top" constant="146" id="FWT-fh-F9d"/>
                                     <constraint firstItem="HxR-MY-uqY" firstAttribute="top" secondItem="6UZ-Ur-Lw1" secondAttribute="bottom" constant="32" id="bgr-fR-mgD"/>
@@ -439,7 +516,7 @@
                                     <constraint firstItem="6UZ-Ur-Lw1" firstAttribute="centerX" secondItem="3RZ-n9-i9T" secondAttribute="centerX" id="klH-u9-fLh"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg 1" translatesAutoresizingMaskIntoConstraints="NO" id="C8M-oO-Dmc">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_chick" translatesAutoresizingMaskIntoConstraints="NO" id="C8M-oO-Dmc">
                                 <rect key="frame" x="0.0" y="103" width="393" height="749"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mZZ-YS-3YP">
@@ -512,8 +589,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Pl-HL-6gL">
                                 <rect key="frame" x="0.0" y="103" width="393" height="52"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2023년 10월 4주차" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6C-re-1P3">
-                                        <rect key="frame" x="20" y="14" width="125" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2023년 12월 2주차" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6C-re-1P3">
+                                        <rect key="frame" x="20.000000000000007" y="14" width="122.66666666666669" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="fww-XD-OgC"/>
                                         </constraints>
@@ -582,21 +659,21 @@
                                     <constraint firstItem="zjJ-DG-VHg" firstAttribute="centerY" secondItem="ea8-HG-91W" secondAttribute="centerY" id="NRa-9B-kt5"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="groupBoardBear" translatesAutoresizingMaskIntoConstraints="NO" id="aTh-Jd-Yah">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="C_chick" translatesAutoresizingMaskIntoConstraints="NO" id="aTh-Jd-Yah">
                                 <rect key="frame" x="138" y="701" width="117" height="151"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="151" id="Ylc-ct-wSd"/>
                                     <constraint firstAttribute="width" constant="116.93000000000001" id="kpc-pe-kF7"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alien" translatesAutoresizingMaskIntoConstraints="NO" id="z2m-Vm-dz8">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="itemL_chick" translatesAutoresizingMaskIntoConstraints="NO" id="z2m-Vm-dz8">
                                 <rect key="frame" x="0.0" y="773.66666666666663" width="60" height="110.66666666666663"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="110.67" id="cIh-WU-0zi"/>
                                     <constraint firstAttribute="width" constant="60" id="sdq-yG-H28"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="groupBoardRocket" translatesAutoresizingMaskIntoConstraints="NO" id="HZI-nY-Xb3">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="itemR_chick" translatesAutoresizingMaskIntoConstraints="NO" id="HZI-nY-Xb3">
                                 <rect key="frame" x="356" y="633" width="37" height="91"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="91" id="5m5-JJ-xqC"/>
@@ -804,7 +881,7 @@
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3h-Nt-ChO">
                                                                             <rect key="frame" x="0.0" y="0.0" width="353" height="56"/>
                                                                             <subviews>
-                                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bearProfile" translatesAutoresizingMaskIntoConstraints="NO" id="hzU-BE-RD9">
+                                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_chick" translatesAutoresizingMaskIntoConstraints="NO" id="hzU-BE-RD9">
                                                                                     <rect key="frame" x="16" y="10" width="36" height="36"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="width" constant="36" id="5Pl-Cg-7h9"/>
@@ -1037,7 +1114,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIo-9B-hBP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="860" y="738"/>
+            <point key="canvasLocation" x="940" y="737"/>
         </scene>
         <!--GroupJoinViewController-->
         <scene sceneID="pfQ-zj-YQ4">
@@ -1252,33 +1329,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J3Z-jR-Dji" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1625" y="737"/>
+            <point key="canvasLocation" x="-695" y="737"/>
         </scene>
     </scenes>
     <resources>
+        <image name="C_chick" width="153" height="160"/>
         <image name="MISSION" width="45.333332061767578" height="8"/>
-        <image name="NoMissionBear" width="248" height="248"/>
-        <image name="alien" width="60" height="110.66666412353516"/>
         <image name="badge-manager" width="16" height="16"/>
         <image name="badge-me" width="16" height="16"/>
-        <image name="bearProfile" width="35.333332061767578" height="32.333332061767578"/>
         <image name="bell-off-02" width="24" height="24"/>
-        <image name="bg 1" width="500" height="1000"/>
+        <image name="bg_chick" width="500" height="1082.6666259765625"/>
         <image name="calendarLeft" width="32" height="32"/>
         <image name="calendarRight" width="32" height="32"/>
         <image name="chevron-down" width="24.333333969116211" height="24"/>
         <image name="group" width="24" height="24"/>
-        <image name="groupBoardBear" width="117" height="151"/>
-        <image name="groupBoardRocket" width="50" height="103.66666412353516"/>
         <image name="group_selected" width="24" height="24"/>
         <image name="homeCircle" width="443" height="443"/>
         <image name="homeFIilledCircle" width="771" height="771"/>
+        <image name="itemL_chick" width="52" height="104"/>
+        <image name="itemR_chick" width="52" height="104"/>
         <image name="log-out-02" width="24" height="24"/>
         <image name="message-plus-square" width="24" height="24"/>
         <image name="missionFail" width="166" height="166"/>
+        <image name="nomission_chick" width="248" height="248"/>
+        <image name="profile_chick" width="36" height="36"/>
         <image name="settings" width="24" height="24"/>
         <image name="user-plus-01" width="24" height="24"/>
         <image name="x" width="24" height="24"/>
+        <namedColor name="chick">
+            <color red="0.6705882352941176" green="0.82745098039215681" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="neutral050">
             <color red="0.9570000171661377" green="0.93699997663497925" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -1290,9 +1370,6 @@
         </namedColor>
         <namedColor name="neutral800">
             <color red="0.19215686274509805" green="0.18823529411764706" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="noMIssionBg_Bear">
-            <color red="0.29411764705882354" green="0.40392156862745099" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary025">
             <color red="0.96470588235294119" green="0.97647058823529409" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
