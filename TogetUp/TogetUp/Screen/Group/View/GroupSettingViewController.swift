@@ -76,11 +76,13 @@ class GroupSettingViewController: UIViewController {
                     cell.meButton.isHidden = true
                     cell.managerButton.isHidden = true
                 }
-                if row == 2 {
-                    cell.profileImageView.image = UIImage(named: "chickProfile")
-                } else if row == 3 {
-                    cell.profileImageView.image = UIImage(named: "pandaProfile")
-                }
+                cell.profileImageView.image = UIImage(named: "profile_chick")
+
+//                if row == 2 {
+//                    cell.profileImageView.image = UIImage(named: "chickProfile")
+//                } else {
+//                    cell.profileImageView.image = UIImage(named: "pandaProfile")
+//                }
             }
             .disposed(by: disposeBag)
     }
