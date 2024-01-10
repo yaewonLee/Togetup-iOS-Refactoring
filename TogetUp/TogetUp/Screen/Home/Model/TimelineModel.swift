@@ -26,7 +26,8 @@ struct AlarmModel: Codable {
     let icon: String
     let alarmTime: String
     let name: String
-    let missionObject: String
+    let missionObject: String?
+    let alarmType: String
 }
 
 
