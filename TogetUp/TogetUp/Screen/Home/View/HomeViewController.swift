@@ -12,8 +12,11 @@ import RxCocoa
 
 class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     // MARK: - UI Components
+    @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var coinView: UIView!
+    @IBOutlet weak var pointLabel: UILabel!
     @IBOutlet weak var avatarView: UIView!
     @IBOutlet weak var hangerButton: UIButton!
     @IBOutlet weak var avatarChooseCollectionView: UICollectionView!
@@ -26,13 +29,19 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private let disposeBag = DisposeBag()
     private var selectedIndex: IndexPath?
     var previousSelectedModel: AvatarResult?
+    var currentAvatarId = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
         setFloatingpanel()
+        setUpUserData()
         setCollectionView()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
     }
     
     // MARK: - Custom Methods
@@ -51,8 +60,21 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         hangerButton.layer.borderWidth = 2
     }
     
+    private func setUpUserData() {
+        if let currentUserData = UserDataManager.shared.currentUserData {
+            levelLabel.text = "Lv. \(currentUserData.userStat.level)"
+            pointLabel.text = "\(currentUserData.userStat.point)"
+            nameLabel.text = currentUserData.name
+            currentAvatarId = currentUserData.avatarId
+        } else {
+            print("사용자 데이터 없음")
+        }
+    }
+    
     private func setCollectionView() {
         avatarChooseCollectionView.delegate = self
+        avatarChooseCollectionView.dataSource = nil
+        
         viewModel.loadAvatars()
             .map { $0.result }
             .observe(on: MainScheduler.instance)
@@ -60,14 +82,13 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                 cell.setAttributes(with: model, isSelected: false)
             }
             .disposed(by: disposeBag)
-
-        // 데이터 로딩이 완료되었을 때 초기 선택을 설정
+        
         viewModel.loadAvatars()
             .map { $0.result }
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] result in
                 if !result.isEmpty {
-                    let initialIndex = IndexPath(row: 0, section: 0)
+                    let initialIndex = IndexPath(row: (self?.currentAvatarId ?? 1) - 1, section: 0)
                     self?.avatarChooseCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: [])
                     self?.collectionView(self!.avatarChooseCollectionView, didSelectItemAt: initialIndex)
                     self?.selectedIndex = initialIndex
@@ -121,24 +142,43 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         fpc.show()
         avatarView.isHidden = true
     }
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        // TODO: - 서버에 selectedIndex patch
+        
+        if let selectedIndex = selectedIndex {
+            let selectedAvatarId = selectedIndex.row + 1
+            
+            if var currentUserData = UserDataManager.shared.currentUserData {
+                currentUserData.avatarId = selectedAvatarId
+                UserDataManager.shared.updateUser(user: currentUserData)
+            }
+        }
+        
+        self.tabBarController?.tabBar.isHidden = false
+        hangerButton.isHidden = false
+        fpc.show()
+        avatarView.isHidden = true
+    }
+    
 }
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !viewModel.avatars.isEmpty else { return }
-
+        
         if let previousIndex = selectedIndex,
            let previousSelectedCell = collectionView.cellForItem(at: previousIndex) as? AvatarCollectionViewCell {
             previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false)
         }
-
+        
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? AvatarCollectionViewCell {
             let model = viewModel.avatars[indexPath.row]
             selectedCell.setAttributes(with: model, isSelected: true)
             viewModel.updateSelectedAvatar(at: indexPath.row)
             updateAvatarImageAndBackgroundColor(with: model)
         }
-
+        
         selectedIndex = indexPath
     }
 }
@@ -154,7 +194,7 @@ class CustomFloatingPanelLayout: FloatingPanelLayout {
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
         return [
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 80,  edge: .top, referenceGuide: .superview),
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 80,  edge: .top, referenceGuide: .safeArea),
             .half: FloatingPanelLayoutAnchor(absoluteInset: 175, edge: .bottom, referenceGuide: .safeArea),
             .tip: FloatingPanelLayoutAnchor(absoluteInset: 175, edge: .bottom, referenceGuide: .safeArea)
         ]
