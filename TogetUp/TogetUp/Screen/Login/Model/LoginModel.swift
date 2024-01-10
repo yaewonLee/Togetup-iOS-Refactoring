@@ -9,22 +9,30 @@ import Foundation
 import Moya
 
 struct LoginRequest: Codable {
-    var oauthAccessToken: String
-    var loginType: String
+    let oauthAccessToken: String
+    let loginType: String
     var userName: String?
 }
 
 struct LoginResponse: Codable {
-    var httpStatusCode: Int
-    var httpReasonPhrase: String
-    var message: String?
-    var result: LoginResult?
+    let httpStatusCode: Int
+    let httpReasonPhrase: String
+    let message: String?
+    let result: LoginResult?
 }
 
 struct LoginResult: Codable {
-    var userId: Int
-    var userName: String
-    var email: String?
-    var accessToken: String
+    let userId: Int?
+    let userName: String?
+    let email: String?
+    let accessToken: String
+    let avatarId: Int
+    let userStat: UserStatus
+}
+
+struct UserStatus: Codable {
+    let level: Int
+    let experience: Int
+    let point: Int
 }
 
