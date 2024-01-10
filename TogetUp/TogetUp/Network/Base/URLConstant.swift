@@ -30,6 +30,7 @@ struct URLConstant {
     // MARK: - 미션
     static let missionDetection = "mission/"
     static let getMissionList = "mission/"
+    static let missionComplete = "mission/complete"
     
     // MARK: - 그룹
     static let getGroupList = "room/"
@@ -38,6 +39,7 @@ struct URLConstant {
     static let getGroupDetail = "room/"
     static let joinGroup = "room/join/"
     static let deleteMember = "room/"
+    static let getGroupDetailWithCode = "room/information"
     
     // MARK: - 홈
     static let getTimeline = "home/brief-board/alarm/timeline"

@@ -14,6 +14,7 @@ enum GroupService {
     case getMissionLog(roomId: Int, localDateTime: String)
     case getGroupDetail(roomId: Int)
     case deleteMember(roomId: Int)
+    case getGroupDetailWithCode(code: String)
 }
 
 extension GroupService: TargetType {
@@ -33,12 +34,14 @@ extension GroupService: TargetType {
             return URLConstant.getMissionLog
         case .deleteMember(let roomId):
             return URLConstant.deleteMember + "\(roomId)" + "/member"
+        case .getGroupDetailWithCode:
+            return URLConstant.getGroupDetailWithCode
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getGroupList, .getGroupDetail,.getMissionLog:
+        case .getGroupList, .getGroupDetail,.getMissionLog, .getGroupDetailWithCode:
             return .get
         case .createGroup:
             return .post
@@ -57,12 +60,14 @@ extension GroupService: TargetType {
             let fixedTime = "11:55:38"
             let fullDateTime = "\(date) \(fixedTime)"
             return .requestParameters(parameters: ["roomId": roomId, "localDateTime": fullDateTime], encoding: URLEncoding.default)
+        case .getGroupDetailWithCode(let code):
+            return .requestParameters(parameters: ["invitationCode" : code], encoding: URLEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getGroupList, .createGroup, .getGroupDetail, .getMissionLog, .deleteMember:
+        case .getGroupList, .createGroup, .getGroupDetail, .getMissionLog, .deleteMember, .getGroupDetailWithCode:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",
