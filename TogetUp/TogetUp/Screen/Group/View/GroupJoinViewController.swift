@@ -14,6 +14,9 @@ class GroupJoinViewController: UIViewController {
     @IBOutlet weak var joinGroupButton: UIButton!
     @IBOutlet weak var exitButton: UIButton!
     
+    // MARK: - Properties
+    var code = ""
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
