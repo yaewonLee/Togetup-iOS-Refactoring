@@ -35,6 +35,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             
             if let email = appleIDCredential.email {
                 KeyChainManager.shared.saveUserInformation(name: fullName, email: email)
+                print("애플 로그인 이름과 이메일 키체인에 저장")
             }
             
             guard
@@ -50,7 +51,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             UserDefaults.standard.set("Apple", forKey: "loginMethod")
             var userName: String?
             let nameAndEmailInfoFromKeychain = KeyChainManager.shared.getUserInformation()
-            print(nameAndEmailInfoFromKeychain)
+            print("nameAndEmailInfoFromKeychain: \(nameAndEmailInfoFromKeychain)")
             if nameAndEmailInfoFromKeychain.name != nil {
                 userName = nameAndEmailInfoFromKeychain.name
             }
@@ -115,10 +116,18 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     private func sendLoginRequest(with request : LoginRequest) {
         viewModel.loginReqeust(param:request)
             .subscribe(onNext:{ [weak self] response in
-                print("회원가입 성공")
-                KeyChainManager.shared.saveToken(response.result!.accessToken)
-                KeyChainManager.shared.saveUserInformation(name: response.result!.userName , email: response.result?.email ?? "")
-                print(response)
+                print("*************** 회원가입 성공 ***************")
+                if let result = response.result {
+                    KeyChainManager.shared.saveToken(result.accessToken)
+                    KeyChainManager.shared.saveUserInformation(name: result.userName ?? "", email: result.email ?? "")
+                    let userStaus = UserStatus(level: result.userStat.level, experience: result.userStat.experience, point: result.userStat.point)
+                    let userData = UserData(avatarId: result.avatarId, name: result.userName ?? "", email: result.email ?? "", userStat: userStaus)
+                    UserDataManager.shared.updateUser(user: userData)
+                    print(response)
+                } else {
+                    print("아바타 정보 저장 실패")
+                }
+                
                 self?.switchView()
             }, onError:{ error in
                 let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
