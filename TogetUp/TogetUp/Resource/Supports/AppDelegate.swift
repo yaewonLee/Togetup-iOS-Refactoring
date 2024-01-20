@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
         
-        AlarmManager.shared.refreshAllScheduledNotifications()
+        AlarmScheduleManager.shared.refreshAllScheduledNotifications()
         
         return true
     }

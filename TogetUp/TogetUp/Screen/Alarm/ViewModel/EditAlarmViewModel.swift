@@ -63,7 +63,7 @@ class EditAlarmViewModel {
                     let realmInstance = try! Realm()
                     if let alarmToDelete = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
                         do {
-                            AlarmManager.shared.removeNotification(for: alarmId)
+                            AlarmScheduleManager.shared.removeNotification(for: alarmId)
                             try realmInstance.write {
                                 realmInstance.delete(alarmToDelete)
                             }
@@ -105,7 +105,7 @@ class EditAlarmViewModel {
             try? realmInstance.write {
                 updateAlarmFields(alarm: alarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmHour: alarmHour, alarmMinute: alarmMinute, days: days, isActivated: isActivated, missionName: missionName, missionEndpoint: missionEndpoint)
             }
-            AlarmManager.shared.toggleAlarmActivation(for: id)
+            AlarmScheduleManager.shared.toggleAlarmActivation(for: id)
         } else {
             let newAlarm = Alarm()
             newAlarm.id = id
@@ -113,7 +113,7 @@ class EditAlarmViewModel {
             try? realmInstance.write {
                 realmInstance.add(newAlarm, update: .modified)
             }
-            AlarmManager.shared.scheduleNotification(for: id)
+            AlarmScheduleManager.shared.scheduleNotification(for: id)
         }
     }
 

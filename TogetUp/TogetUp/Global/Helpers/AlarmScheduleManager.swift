@@ -1,5 +1,5 @@
 //
-//  AlarmManager.swift
+//  AlarmScheduleManager.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/09/26.
@@ -18,8 +18,8 @@ enum Weekday: Int, CaseIterable {
     }
 }
 
-class AlarmManager {
-    static let shared = AlarmManager()
+class AlarmScheduleManager {
+    static let shared = AlarmScheduleManager()
     
     private init() {}
     

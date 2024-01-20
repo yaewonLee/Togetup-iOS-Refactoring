@@ -146,7 +146,7 @@ class AlarmListViewController: UIViewController {
                     switch result {
                     case .success(let response):
                         self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
-                        AlarmManager.shared.toggleAlarmActivation(for: alarmId)
+                        AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
                     case .failure(let error):
                         print("알람 수정 오류: \(error.localizedDescription)")
                     }

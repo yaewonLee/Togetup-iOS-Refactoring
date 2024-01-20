@@ -103,7 +103,7 @@ class AlarmListViewModel {
             print(#function, "Invalid time format:", apiAlarm.alarmTime)
         }
 
-        AlarmManager.shared.refreshAllScheduledNotifications()        
+        AlarmScheduleManager.shared.refreshAllScheduledNotifications()        
         return alarm
     }
     
@@ -165,7 +165,7 @@ class AlarmListViewModel {
         provider.rx.request(.deleteAlarm(alarmId: alarmId))
             .filterSuccessfulStatusCodes()
             .subscribe(onSuccess: { [weak self] _ in
-                AlarmManager.shared.removeNotification(for: alarmId)
+                AlarmScheduleManager.shared.removeNotification(for: alarmId)
                 guard let self = self else { return }
                 
                 if let alarmToDelete = self.realmInstance.objects(Alarm.self).filter("id == %@", alarmId).first {
