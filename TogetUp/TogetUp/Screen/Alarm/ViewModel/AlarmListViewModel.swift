@@ -15,29 +15,20 @@ class AlarmListViewModel {
     private let provider = MoyaProvider<AlarmService>()
     var alarms = BehaviorSubject<[Alarm]>(value: [])
     private let disposeBag = DisposeBag()
+    private let realmManager = AlarmDataManager()
+    private let networkManager = AlarmNetworkManager()
     
     private lazy var realmInstance: Realm = {
         return try! Realm()
     }()
     
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        return formatter
-    }()
-    
-//    init(provider: MoyaProvider<AlarmService> = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])) {
-//            self.provider = provider
-//        }
+    //    init(provider: MoyaProvider<AlarmService> = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])) {
+    //            self.provider = provider
+    //        }
     
     func fetchAlarmsFromRealm() {
-        let alarmsFromRealm = realmInstance.objects(Alarm.self).sorted(by: {
-            let time1InMinutes = $0.alarmHour * 60 + $0.alarmMinute
-            let time2InMinutes = $1.alarmHour * 60 + $1.alarmMinute
-
-            return time1InMinutes < time2InMinutes
-        })
-        alarms.onNext(Array(alarmsFromRealm))
+        let alarmsFromRealm = realmManager.fetchAlarms()
+        alarms.onNext(alarmsFromRealm)
     }
     
     func getAndSaveAlarmList(type: String) {
@@ -65,98 +56,59 @@ class AlarmListViewModel {
         print(error.localizedDescription)
     }
     
-    private func createAlarmFrom(apiAlarm: GetAlarmResult) -> Alarm {
-        let alarm = Alarm()
-        alarm.id = apiAlarm.id
-        
-        if let missionId = apiAlarm.getMissionRes?.id,
-           let missionObjectId = apiAlarm.getMissionObjectRes?.id,
-           let missionName = apiAlarm.getMissionObjectRes?.kr,
-           let missionEndpoint = apiAlarm.getMissionObjectRes?.name {
-            alarm.missionId = missionId
-            alarm.missionObjectId = missionObjectId
-            alarm.missionName = missionName
-            alarm.missionEndpoint = missionEndpoint
-        }
-        
-        alarm.isSnoozeActivated = apiAlarm.isSnoozeActivated
-        alarm.name = apiAlarm.name
-        alarm.icon = apiAlarm.icon
-        alarm.isVibrate = apiAlarm.isVibrate
-        alarm.monday = apiAlarm.monday
-        alarm.tuesday = apiAlarm.tuesday
-        alarm.wednesday = apiAlarm.wednesday
-        alarm.thursday = apiAlarm.thursday
-        alarm.friday = apiAlarm.friday
-        alarm.saturday = apiAlarm.saturday
-        alarm.sunday = apiAlarm.sunday
-        alarm.isActivated = apiAlarm.isActivated
-        
-        let timeComponents = apiAlarm.alarmTime.split(separator: ":").map { Int($0) }
-
-        if timeComponents.count >= 2,
-           let hour = timeComponents[0],
-           let minute = timeComponents[1] {
-            alarm.alarmHour = hour
-            alarm.alarmMinute = minute
-        } else {
-            print(#function, "Invalid time format:", apiAlarm.alarmTime)
-        }
-
-        AlarmScheduleManager.shared.refreshAllScheduledNotifications()        
-        return alarm
-    }
-    
-    func editAlarm(alarmId: Int, param: CreateOrEditAlarmRequest) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
-        return handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: param)))
-    }
-    
-    func handleAPIRequest<T: Decodable>(_ request: Single<Response>) -> Single<Result<T, CreateAlarmError>> {
-        return request
-            .do(onSuccess: { response in
-                if let jsonResponse = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String: Any],
-                   let message = jsonResponse["message"] as? String {
-                    print("API Message:", message)
-                }
-            }, onError: { error in
-                print("API Error:", error)
-            })
-            .filterSuccessfulStatusAndRedirectCodes()
-            .map(T.self)
-            .map(Result.success)
-            .catch { error -> Single<Result<T, CreateAlarmError>> in
-                if let moyaError = error as? MoyaError {
-                    switch moyaError {
-                    case .statusCode(let response):
-                        return Single.just(.failure(.server(response.statusCode)))
-                    default:
-                        return Single.just(.failure(.network(moyaError)))
-                    }
-                } else {
-                    return Single.just(.failure(.network(MoyaError.underlying(error, nil))))
-                }
+    private func saveAlarmsToRealm(_ alarms: [GetAlarmResult]) {
+        realmManager.saveAlarms(alarms) { apiAlarm in
+            let alarm = Alarm()
+            alarm.id = apiAlarm.id
+            
+            if let missionId = apiAlarm.getMissionRes?.id,
+               let missionObjectId = apiAlarm.getMissionObjectRes?.id,
+               let missionName = apiAlarm.getMissionObjectRes?.kr,
+               let missionEndpoint = apiAlarm.getMissionObjectRes?.name {
+                alarm.missionId = missionId
+                alarm.missionObjectId = missionObjectId
+                alarm.missionName = missionName
+                alarm.missionEndpoint = missionEndpoint
             }
+            
+            alarm.isSnoozeActivated = apiAlarm.isSnoozeActivated
+            alarm.name = apiAlarm.name
+            alarm.icon = apiAlarm.icon
+            alarm.isVibrate = apiAlarm.isVibrate
+            alarm.monday = apiAlarm.monday
+            alarm.tuesday = apiAlarm.tuesday
+            alarm.wednesday = apiAlarm.wednesday
+            alarm.thursday = apiAlarm.thursday
+            alarm.friday = apiAlarm.friday
+            alarm.saturday = apiAlarm.saturday
+            alarm.sunday = apiAlarm.sunday
+            alarm.isActivated = apiAlarm.isActivated
+            
+            let timeComponents = apiAlarm.alarmTime.split(separator: ":").map { Int($0) }
+            
+            if timeComponents.count >= 2,
+               let hour = timeComponents[0],
+               let minute = timeComponents[1] {
+                alarm.alarmHour = hour
+                alarm.alarmMinute = minute
+            } else {
+                print(#function, "Invalid time format:", apiAlarm.alarmTime)
+            }
+            return alarm
+        }
+        AlarmScheduleManager.shared.refreshAllScheduledNotifications()
+    }
+    
+    func editAlarm(alarmId: Int) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
+        let alarmRequest = realmManager.createToggleAlarmRequest(alarmId: alarmId)
+        
+        return networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: alarmRequest)))
     }
     
     func updateRealmDatabaseWithResponse(_ response: CreateEditDeleteAlarmResponse, for alarmId: Int) {
-        let realm = try! Realm()
-        
-        if let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
-            try! realm.write {
-                if alarm.isActivated {
-                    alarm.isActivated.toggle()
-                } else {
-                    alarm.isActivated.toggle()
-                }
-            }
-        }
-    }
-    
-    private func saveAlarmsToRealm(_ alarms: [GetAlarmResult]) {
-        try! realmInstance.write {
-            for apiAlarm in alarms {
-                let alarm = createAlarmFrom(apiAlarm: apiAlarm)
-                realmInstance.add(alarm, update: .modified)
+        if let alarm = realmInstance.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
+            try! realmInstance.write {
+                alarm.isActivated.toggle()
             }
         }
     }
@@ -166,20 +118,9 @@ class AlarmListViewModel {
             .filterSuccessfulStatusCodes()
             .subscribe(onSuccess: { [weak self] _ in
                 AlarmScheduleManager.shared.removeNotification(for: alarmId)
-                guard let self = self else { return }
                 
-                if let alarmToDelete = self.realmInstance.objects(Alarm.self).filter("id == %@", alarmId).first {
-                    var currentAlarms = try? self.alarms.value()
-                    currentAlarms?.removeAll(where: { $0.id == alarmId })
-                    
-                    try? self.realmInstance.write {
-                        self.realmInstance.delete(alarmToDelete)
-                    }
-                    
-                    if let updatedAlarms = currentAlarms {
-                        self.alarms.onNext(updatedAlarms)
-                    }
-                }
+                self?.realmManager.deleteAlarm(alarmId: alarmId)
+                self?.fetchAlarmsFromRealm()
             }, onFailure: handleNetworkError)
             .disposed(by: disposeBag)
     }
