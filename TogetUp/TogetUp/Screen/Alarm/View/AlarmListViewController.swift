@@ -49,14 +49,6 @@ class AlarmListViewController: UIViewController {
         setCollectionViewFlowLayout()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        
-//        let statusBarHeight = view.safeAreaInsets.top
-//        print("Status Bar Height: \(statusBarHeight)")
-//    }
-
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function)
@@ -80,7 +72,7 @@ class AlarmListViewController: UIViewController {
                 self?.showDeleteAlert(for: alarm)
             }
             cell.onToggleSwitch = { [weak self] in
-                self?.editIsActivated(for: alarm)
+                self?.editIsActivatedToggle(for: alarm)
             }
         }
         .disposed(by: disposeBag)
@@ -110,49 +102,20 @@ class AlarmListViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func editIsActivated(for alarm: Alarm) {
-        let alarmId = alarm.id
-        
-        if let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
-            let alarmString = String(format: "%02d:%02d", storedAlarm.alarmHour, storedAlarm.alarmMinute)
-            var objectIdParam: Int? = storedAlarm.missionObjectId
-            if storedAlarm.missionId == 1 {
-                objectIdParam = nil
-            }
-            
-            let param = CreateOrEditAlarmRequest(
-                missionId: storedAlarm.missionId,
-                missionObjectId: objectIdParam,
-                isSnoozeActivated: storedAlarm.isSnoozeActivated,
-                name: storedAlarm.name,
-                icon: storedAlarm.icon,
-                isVibrate: storedAlarm.isVibrate,
-                alarmTime: alarmString,
-                monday: storedAlarm.monday,
-                tuesday: storedAlarm.tuesday,
-                wednesday: storedAlarm.wednesday,
-                thursday: storedAlarm.thursday,
-                friday: storedAlarm.friday,
-                saturday: storedAlarm.saturday,
-                sunday: storedAlarm.sunday,
-                isActivated: !storedAlarm.isActivated,
-                roomId: nil,
-                snoozeInterval: 0,
-                snoozeCnt: 0
-            )
-            
-            viewModel.editAlarm(alarmId: alarmId, param: param)
-                .subscribe(onSuccess: { [weak self] result in
-                    switch result {
-                    case .success(let response):
-                        self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
-                        AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
-                    case .failure(let error):
-                        print("알람 수정 오류: \(error.localizedDescription)")
-                    }
-                })
-                .disposed(by: disposeBag)
-        }
+    func editIsActivatedToggle(for alarm: Alarm) {
+        let alarmId = alarm.id        
+        viewModel.editAlarm(alarmId: alarmId)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
+                    AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
+                case .failure(let error):
+                    print("알람 수정 오류: \(error.localizedDescription)")
+                    
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     func showDeleteAlert(for alarm: Alarm) {
@@ -170,7 +133,6 @@ class AlarmListViewController: UIViewController {
     
     
     private func fetchAndSaveAlarmsIfFirstLaunch() {
-        //print("fetchAndSaveAlarmsIfFirstLaunch if AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         if AppStatusManager.shared.isFirstLaunch {
             viewModel.getAndSaveAlarmList(type: "personal")
             AppStatusManager.shared.markAsLaunched()
@@ -180,10 +142,10 @@ class AlarmListViewController: UIViewController {
     private func getGroupAlarmList() {
         viewModel.getGroupAlarmList()
             .bind(to: groupCollectionView.rx.items(cellIdentifier: GroupAlarmListCollectionViewCell.identifier,
-                                              cellType: GroupAlarmListCollectionViewCell.self)) { index, model, cell in
+                                                   cellType: GroupAlarmListCollectionViewCell.self)) { index, model, cell in
                 cell.setAttributes(with: model)
             }
-            .disposed(by: disposeBag)
+                                                   .disposed(by: disposeBag)
     }
     
     private func setCollectionViewFlowLayout() {
