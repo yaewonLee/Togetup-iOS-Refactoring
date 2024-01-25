@@ -47,6 +47,7 @@ class AlarmListViewController: UIViewController {
         setUpNavigationBar()
         customSegmentedControl()
         setCollectionViewFlowLayout()
+        personalCollectionViewItemSelected()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +77,9 @@ class AlarmListViewController: UIViewController {
             }
         }
         .disposed(by: disposeBag)
-        
+    }
+    
+    private func personalCollectionViewItemSelected() {
         personalCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
@@ -103,19 +106,7 @@ class AlarmListViewController: UIViewController {
     }
     
     func editIsActivatedToggle(for alarm: Alarm) {
-        let alarmId = alarm.id        
-        viewModel.editAlarm(alarmId: alarmId)
-            .subscribe(onSuccess: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.viewModel.updateRealmDatabaseWithResponse(response, for: alarmId)
-                    AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
-                case .failure(let error):
-                    print("알람 수정 오류: \(error.localizedDescription)")
-                    
-                }
-            })
-            .disposed(by: disposeBag)
+        viewModel.editAlarmToggle(alarmId: alarm.id)
     }
     
     func showDeleteAlert(for alarm: Alarm) {
@@ -130,7 +121,6 @@ class AlarmListViewController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
     
     private func fetchAndSaveAlarmsIfFirstLaunch() {
         if AppStatusManager.shared.isFirstLaunch {
