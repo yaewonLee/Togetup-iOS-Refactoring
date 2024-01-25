@@ -22,10 +22,6 @@ class AlarmListViewModel {
         return try! Realm()
     }()
     
-    //    init(provider: MoyaProvider<AlarmService> = MoyaProvider<AlarmService>(plugins: [NetworkLogger()])) {
-    //            self.provider = provider
-    //        }
-    
     func fetchAlarmsFromRealm() {
         let alarmsFromRealm = realmManager.fetchAlarms()
         alarms.onNext(alarmsFromRealm)
@@ -99,31 +95,41 @@ class AlarmListViewModel {
         AlarmScheduleManager.shared.refreshAllScheduledNotifications()
     }
     
-    func editAlarm(alarmId: Int) -> Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>> {
+    func editAlarmToggle(alarmId: Int) {
         let alarmRequest = realmManager.createToggleAlarmRequest(alarmId: alarmId)
         
-        return networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: alarmRequest)))
+        networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: alarmRequest)), dataType: CreateEditDeleteAlarmResponse.self)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.updateRealmDatabaseWithResponse(response, for: alarmId)
+                    AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
+                case .failure(let error):
+                    print("알람 수정 오류: \(error.localizedDescription)")
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
-    func updateRealmDatabaseWithResponse(_ response: CreateEditDeleteAlarmResponse, for alarmId: Int) {
+    private func updateRealmDatabaseWithResponse(_ response: CreateEditDeleteAlarmResponse, for alarmId: Int) {
         if let alarm = realmInstance.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
             try! realmInstance.write {
                 alarm.isActivated.toggle()
             }
         }
     }
-    
+
     func deleteAlarm(alarmId: Int) {
-        provider.rx.request(.deleteAlarm(alarmId: alarmId))
-            .filterSuccessfulStatusCodes()
-            .subscribe(onSuccess: { [weak self] _ in
-                AlarmScheduleManager.shared.removeNotification(for: alarmId)
-                
-                self?.realmManager.deleteAlarm(alarmId: alarmId)
-                self?.fetchAlarmsFromRealm()
-            }, onFailure: handleNetworkError)
+        networkManager.handleAPIRequest(provider.rx.request(.deleteAlarm(alarmId: alarmId)), dataType: CreateEditDeleteAlarmResponse.self)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.realmManager.deleteAlarm(alarmId: alarmId)
+                    self?.fetchAlarmsFromRealm()
+                case .failure(let error):
+                    self?.handleNetworkError(error)
+                }
+            })
             .disposed(by: disposeBag)
     }
 }
-
-
