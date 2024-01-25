@@ -51,7 +51,7 @@ struct CreateOrEditAlarmRequest: Codable {
 
 struct GetAlarmResult: Codable {
     let id: Int
-    let userId: Int
+    let userId: Int?
     let name: String
     let icon: String
     let snoozeInterval: Int
