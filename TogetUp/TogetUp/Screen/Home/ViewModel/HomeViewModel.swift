@@ -11,13 +11,13 @@ import Moya
 import RxMoya
 
 class HomeViewModel {
-    private let provider: MoyaProvider<UserService>    
+    private let provider = MoyaProvider<UserService>()
     var avatars: [AvatarResult] = []
     var selectedAvatar: AvatarResult?
-
-    init() {
-        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
-    }
+//
+//    init() {
+//        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
+//    }
     
     func loadAvatars() -> Observable<AvatarResponse> {
         return provider.rx.request(.getAvatarList)
