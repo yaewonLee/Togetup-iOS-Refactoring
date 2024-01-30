@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 if let result = response.result {
                     KeyChainManager.shared.saveToken(result.accessToken)
                     KeyChainManager.shared.saveUserInformation(name: result.userName ?? "", email: result.email ?? "")
-                    let userStaus = UserStatus(level: result.userStat.level, experience: result.userStat.experience, point: result.userStat.point)
+                    let userStaus = UserStatus(level: result.userStat.level, expPercentage: result.userStat.expPercentage, point: result.userStat.point)
                     let userData = UserData(avatarId: result.avatarId, name: result.userName ?? "", email: result.email ?? "", userStat: userStaus)
                     UserDataManager.shared.updateUser(user: userData)
                     print(response)

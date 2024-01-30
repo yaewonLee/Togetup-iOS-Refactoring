@@ -32,7 +32,7 @@ struct LoginResult: Codable {
 
 struct UserStatus: Codable {
     let level: Int
-    let experience: Int
+    let expPercentage: Int
     let point: Int
 }
 
