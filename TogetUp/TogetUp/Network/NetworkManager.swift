@@ -49,5 +49,20 @@ class NetworkManager {
                 }
             }
     }
+    
+    func errorMessage(for error: Error) -> String {
+            if let alarmError = error as? CreateAlarmError {
+                switch alarmError {
+                case .network, .noInternetConnection:
+                    return "네트워크 연결이 원활하지 않습니다."
+                case .server(let statusCode):
+                    return "서버 에러가 발생했습니다. 에러 코드: \(statusCode)"
+                default:
+                    return "알 수 없는 에러가 발생했습니다."
+                }
+            } else {
+                return "알 수 없는 에러가 발생했습니다."
+            }
+        }
 }
 
