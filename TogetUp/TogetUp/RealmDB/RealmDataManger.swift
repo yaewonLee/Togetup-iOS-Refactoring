@@ -18,28 +18,21 @@ class AlarmDataManager {
     }
     
     func fetchAlarms() -> [Alarm] {
-        return Array(realm.objects(Alarm.self).sorted(by: {
-            let time1InMinutes = $0.alarmHour * 60 + $0.alarmMinute
-            let time2InMinutes = $1.alarmHour * 60 + $1.alarmMinute
-            return time1InMinutes < time2InMinutes
-        }))
-    }
-    
-    func saveAlarms<T>(_ alarms: [T], transform: (T) -> Alarm) -> Result<[Alarm], Error> {
-        do {
-            var savedAlarms = [Alarm]()
-            try realm.write {
-                for alarmData in alarms {
-                    let alarm = transform(alarmData)
-                    realm.add(alarm, update: .modified)
-                    savedAlarms.append(alarm)
-                }
+            let alarms = realm.objects(Alarm.self).sorted {
+                ($0.alarmHour * 60 + $0.alarmMinute) < ($1.alarmHour * 60 + $1.alarmMinute)
             }
-            return .success(savedAlarms)
-        } catch {
-            return .failure(error)
+            return Array(alarms)
         }
-    }
+    
+    func saveAlarms<T>(_ alarms: [T], transform: (T) -> Alarm) {
+            do {
+                try realm.write {
+                    alarms.map(transform).forEach { realm.add($0, update: .modified) }
+                }
+            } catch {
+                print("Error saving alarms: \(error)")
+            }
+        }
     
     func updateIsActivated(alarmId: Int, field: String, value: Any) -> Result<Void, Error> {
         do {
@@ -55,22 +48,24 @@ class AlarmDataManager {
         }
     }
     
-    func updateAlarm(alarmId: Int, with newData: Alarm) -> Result<Void, Error> {
+    func updateAlarm(with request: CreateOrEditAlarmRequest, for alarmId: Int, missionEndpoint: String) {
         do {
             try realm.write {
-                guard let alarmToUpdate = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
-                    throw RealmError.alarmNotFound
+                let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId)
+                if alarm == nil {
+                    let newAlarm = Alarm()
+                    newAlarm.id = alarmId 
+                    mapRequestToAlarm(request, alarm: newAlarm, missionEndpoint: missionEndpoint)
+                    realm.add(newAlarm)
+                } else {
+                    mapRequestToAlarm(request, alarm: alarm!, missionEndpoint: missionEndpoint)
                 }
-                //필드 업데이트 로직
-                alarmToUpdate.name = newData.name
-                alarmToUpdate.isActivated = newData.isActivated
             }
-            return .success(())
         } catch {
-            return .failure(error)
+            print("Error updating or adding alarm: \(error)")
         }
     }
-    
+
     func deleteAlarm(alarmId: Int) {
         do {
             if let alarmToDelete = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
@@ -116,7 +111,7 @@ class AlarmDataManager {
         )
     }
     
-    private func mapRequestToAlarm(_ request: CreateOrEditAlarmRequest, alarm: Alarm) {
+    private func mapRequestToAlarm(_ request: CreateOrEditAlarmRequest, alarm: Alarm, missionEndpoint: String) {
         alarm.missionId = request.missionId
         alarm.missionObjectId = request.missionObjectId ?? 1
         alarm.isSnoozeActivated = request.isSnoozeActivated
@@ -125,10 +120,16 @@ class AlarmDataManager {
         alarm.isVibrate = request.isVibrate
         alarm.alarmHour = getHour(from: request.alarmTime)
         alarm.alarmMinute = getMinute(from: request.alarmTime)
-        alarm.days = [request.monday, request.tuesday, request.wednesday, request.thursday, request.friday, request.saturday, request.sunday]
+        alarm.monday = request.monday
+        alarm.tuesday = request.tuesday
+        alarm.wednesday = request.wednesday
+        alarm.thursday = request.thursday
+        alarm.friday = request.friday
+        alarm.saturday = request.saturday
+        alarm.sunday = request.sunday
         alarm.isActivated = request.isActivated
         alarm.missionName = request.name
-        alarm.missionEndpoint = request.missionEndpoint
+        alarm.missionEndpoint = missionEndpoint
     }
     
     private func getHour(from time: String) -> Int {
@@ -139,45 +140,5 @@ class AlarmDataManager {
     private func getMinute(from time: String) -> Int {
         let components = time.split(separator: ":").map(String.init)
         return Int(components.count > 1 ? components[1] : "0") ?? 0
-    }
-    
-    func updateAlarmFields(alarm: Alarm, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmHour: Int, alarmMinute: Int, days: [Bool], isActivated: Bool, missionName: String, missionEndpoint: String) {
-        alarm.missionId = missionId
-        alarm.missionObjectId = missionObjectId
-        alarm.isSnoozeActivated = isSnoozeActivated
-        alarm.name = name
-        alarm.icon = icon
-        alarm.isVibrate = isVibrate
-        alarm.alarmHour = alarmHour
-        alarm.alarmMinute = alarmMinute
-        alarm.monday = days[0]
-        alarm.tuesday = days[1]
-        alarm.wednesday = days[2]
-        alarm.thursday = days[3]
-        alarm.friday = days[4]
-        alarm.saturday = days[5]
-        alarm.sunday = days[6]
-        alarm.isActivated = isActivated
-        alarm.missionName = missionName
-        alarm.missionEndpoint = missionEndpoint
-    }
-    
-    func saveOrUpdateAlarmInRealm(id: Int, missionId: Int, missionObjectId: Int, isSnoozeActivated: Bool, name: String, icon: String, isVibrate: Bool, alarmHour: Int, alarmMinute: Int, days: [Bool], isActivated: Bool, missionName: String, missionEndpoint: String) {
-        let realmInstance = try! Realm()
-        
-        if let alarm = realmInstance.objects(Alarm.self).filter("id == \(id)").first {
-            try? realmInstance.write {
-                updateAlarmFields(alarm: alarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmHour: alarmHour, alarmMinute: alarmMinute, days: days, isActivated: isActivated, missionName: missionName, missionEndpoint: missionEndpoint)
-            }
-            AlarmScheduleManager.shared.toggleAlarmActivation(for: id)
-        } else {
-            let newAlarm = Alarm()
-            newAlarm.id = id
-            updateAlarmFields(alarm: newAlarm, missionId: missionId, missionObjectId: missionObjectId, isSnoozeActivated: isSnoozeActivated, name: name, icon: icon, isVibrate: isVibrate, alarmHour: alarmHour, alarmMinute: alarmMinute, days: days, isActivated: isActivated, missionName: missionName, missionEndpoint: missionEndpoint)
-            try? realmInstance.write {
-                realmInstance.add(newAlarm, update: .modified)
-            }
-            AlarmScheduleManager.shared.scheduleNotification(for: id)
-        }
     }
 }
