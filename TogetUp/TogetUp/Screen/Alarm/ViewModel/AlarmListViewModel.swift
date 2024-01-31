@@ -16,7 +16,7 @@ class AlarmListViewModel {
     var alarms = BehaviorSubject<[Alarm]>(value: [])
     private let disposeBag = DisposeBag()
     private let realmManager = AlarmDataManager()
-    private let networkManager = AlarmNetworkManager()
+    private let networkManager = NetworkManager()
     
     private lazy var realmInstance: Realm = {
         return try! Realm()

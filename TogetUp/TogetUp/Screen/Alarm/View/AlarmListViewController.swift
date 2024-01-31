@@ -35,13 +35,11 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        UNUserNotificationCenter.current().requestAuthorization (
-            options: [.alert, .sound],
-            completionHandler: { (granted, error) in
-                print("granted notification, \(granted)")
-            }
-        )
+        let alarms = realm.objects(Alarm.self)
+        for alarm in alarms {
+            print("Alarm ID: \(alarm.id), Name: \(alarm.name), Time: \(alarm.alarmHour):\(alarm.alarmMinute)")
+        }
+        requestAuthorization()
         fetchAndSaveAlarmsIfFirstLaunch()
         getGroupAlarmList()
         setUpNavigationBar()
@@ -52,18 +50,27 @@ class AlarmListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(#function)
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            for request in requests {
-                print("----------request:---------------")
-                print(request.identifier)
-            }
-        }
+//        print(#function)
+//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+//            for request in requests {
+//                print("----------request:---------------")
+//                print(request.identifier)
+//            }
+//        }
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
     }
     
     // MARK: - Custom Method
+    private func requestAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization (
+            options: [.alert, .sound],
+            completionHandler: { (granted, error) in
+                print("granted notification, \(granted)")
+            }
+        )
+    }
+    
     private func setCollectionView() {
         self.personalCollectionView.delegate = nil
         self.personalCollectionView.dataSource = nil
@@ -131,11 +138,13 @@ class AlarmListViewController: UIViewController {
     
     private func getGroupAlarmList() {
         viewModel.getGroupAlarmList()
-            .bind(to: groupCollectionView.rx.items(cellIdentifier: GroupAlarmListCollectionViewCell.identifier,
-                                                   cellType: GroupAlarmListCollectionViewCell.self)) { index, model, cell in
+            .bind(to: groupCollectionView.rx
+                .items(cellIdentifier:
+                        GroupAlarmListCollectionViewCell.identifier,
+                       cellType: GroupAlarmListCollectionViewCell.self)) { index, model, cell in
                 cell.setAttributes(with: model)
             }
-                                                   .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func setCollectionViewFlowLayout() {
