@@ -44,7 +44,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     private var alarmHour = 0
     private var alarmMinute = 0
-    
     var alarmId: Int?
     var navigatedFromScreen = "CreateAlarm"
     //navigatedFromScreen = "AlarmList", "CreateAlarm", "CreateGroupAlarm"
@@ -54,29 +53,11 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(navigatedFromScreen)
         customUI()
         setUpRepeatButtons()
-        alarmNameTextField.delegate = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
-        
-        if navigatedFromScreen == "AlarmList", let id = alarmId {
-            loadAlarmData(id: id)
-            self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
-            setUpDatePicker()
-        } else {
-            setUpDatePicker()
-        }
-        
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+        addKeyboardTapGesture()
+        addMissionNotificationCenter()
+        setUpScreenStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,44 +66,41 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     // MARK: - Custom Method
+    private func addMissionNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(missionSelected(_:)), name: .init("MissionSelected"), object: nil)
+    }
+    
+    private func addKeyboardTapGesture() {
+        alarmNameTextField.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setUpScreenStatus() {
+        if navigatedFromScreen == "AlarmList", let id = alarmId {
+            loadAlarmData(id: id)
+            self.addEmojiButton.setImage(UIImage(named: "iconExist"), for: .normal)
+            setUpDatePicker()
+        } else {
+            setUpDatePicker()
+        }
+    }
+    
     private func loadAlarmData(id: Int) {
-        viewModel.getSingleAlarm(id: id)
+        viewModel.getSingleAlarm(alarmId: id)
             .observe(on: MainScheduler.instance)
-            .subscribe(
-                onSuccess: { [weak self] alarmResult in
-                    switch alarmResult {
-                    case .success(let alarm):
-                        self?.updateUI(with: alarm)
-                        self?.setUpDatePicker()
-                    case .failure(let error):
-                        print("Error retrieving alarm:", error)
-                    }
-                },
-                onFailure: { error in
-                    print(error.localizedDescription)
-                }
-            )
+            .subscribe(onSuccess: { [weak self] alarmResponse in
+                self?.updateUI(with: alarmResponse)
+            }, onFailure: { [weak self] error in
+                self?.showErrorAlertAndDismiss(message: "잠시후 다시 시도해주세요")
+            })
             .disposed(by: disposeBag)
     }
     
     private func updateUI(with response: GetSingleAlarmResponse) {
         guard let result = response.result else { return }
-        print(result)
         
-        if let missionResId = result.getMissionRes?.id, missionResId == 1 {
-            missionTitleLabel.text = "직접 등록 미션"
-            missionIconLabel.text = "📷"
-            self.missionId = 1
-            self.missionObjectId = nil
-        } else if let missionObjectRes = result.getMissionObjectRes {
-            missionTitleLabel.text = missionObjectRes.kr
-            missionIconLabel.text = missionObjectRes.icon
-            if let missionResId = result.getMissionRes?.id {
-                missionId = missionResId
-            }
-            missionObjectId = missionObjectRes.id
-            missionEndpoint = missionObjectRes.name
-        }
+        configureMission(with: result)
         
         alarmNameTextField.text = result.name
         alarmIconLabel.text = result.icon
@@ -193,7 +171,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func setUpDatePicker() {
-        print(timePicker.date)
         setStandardizedAlarmTime(from: timePicker.date)
     }
     
@@ -206,6 +183,97 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
         print(alarmTimeString)
+    }
+    
+    private func configureMission(with result: GetAlarmResult) {
+        if let missionResId = result.getMissionRes?.id, missionResId == 1 {
+            missionTitleLabel.text = "직접 등록 미션"
+            missionIconLabel.text = "📷"
+            self.missionId = 1
+            self.missionObjectId = nil
+        } else if let missionObjectRes = result.getMissionObjectRes {
+            missionTitleLabel.text = missionObjectRes.kr
+            missionIconLabel.text = missionObjectRes.icon
+            self.missionId = result.getMissionRes?.id ?? 0
+            self.missionObjectId = missionObjectRes.id
+            self.missionEndpoint = missionObjectRes.name
+        }
+    }
+    
+    private func createAlarmRequestParam() -> CreateOrEditAlarmRequest {
+        var paramMissionObjId: Int? = missionObjectId
+        if self.missionId == 1 && self.missionObjectId == 1 {
+            paramMissionObjId = nil
+        }
+        let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
+        let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
+
+        return CreateOrEditAlarmRequest(
+            missionId: self.missionId,
+            missionObjectId: paramMissionObjId,
+            isSnoozeActivated: isRepeat.isOn,
+            name: alarmName,
+            icon: alarmIcon,
+            isVibrate: isVibrate.isOn,
+            alarmTime: self.alarmTimeString,
+            monday: monday.isSelected,
+            tuesday: tuesday.isSelected,
+            wednesday: wednesday.isSelected,
+            thursday: thursday.isSelected,
+            friday: friday.isSelected,
+            saturday: saturday.isSelected,
+            sunday: sunday.isSelected,
+            isActivated: true,
+            roomId: nil,
+            snoozeInterval: 0,
+            snoozeCnt: 0
+        )
+    }
+    
+    private func createAlarm(with param: CreateOrEditAlarmRequest) {
+        viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.presentingViewController?.dismiss(animated: true)
+                case .failure(_):
+                    self?.showErrorAlert(message: "잠시후 다시 시도해주세요")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func editAlarm(with param: CreateOrEditAlarmRequest) {
+        viewModel.editAlarm(param: param, missionEndpoint: self.missionEndpoint, alarmId: self.alarmId ?? 0)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.presentingViewController?.dismiss(animated: true)
+                case .failure(_):
+                    self?.showErrorAlert(message: "잠시후 다시 시도해주세요")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func getMissionEndPoint(alarmId: Int) -> String? {
+        let realm = try! Realm()
+        return realm.object(ofType: Alarm.self, forPrimaryKey: alarmId)?.missionEndpoint
+    }
+    
+    private func showErrorAlertAndDismiss(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.presentingViewController?.dismiss(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     // MARK: - @
@@ -231,73 +299,12 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        var paramMissionObjId: Int? = missionObjectId
-        if self.missionId == 1 && self.missionObjectId == 1 {
-            paramMissionObjId = nil
-        }
-        
-        let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
-        let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
-        
-        let param = CreateOrEditAlarmRequest(missionId: self.missionId, missionObjectId: paramMissionObjId, isSnoozeActivated: isRepeat.isOn, name: alarmName, icon: alarmIcon, isVibrate: isVibrate.isOn, alarmTime: self.alarmTimeString, monday: monday.isSelected, tuesday: tuesday.isSelected, wednesday: wednesday.isSelected, thursday: thursday.isSelected, friday: friday.isSelected, saturday: saturday.isSelected, sunday: sunday.isSelected, isActivated: true, roomId: nil, snoozeInterval: 0, snoozeCnt: 0)
-        
-        var apiRequest: Single<Result<CreateEditDeleteAlarmResponse, CreateAlarmError>>?
-        
+        let param = createAlarmRequestParam()
         if navigatedFromScreen == "AlarmList" {
-            apiRequest = viewModel.editAlarm(alarmId: self.alarmId!, param: param)
-        } else if navigatedFromScreen == "CreateGroupAlarm" {
-            delegate?.didUpdateAlarm(name: alarmName, icon: alarmIcon, alarmTime: self.alarmTimeString, monday: self.monday.isSelected, tuesday: self.tuesday.isSelected, wednesday: self.wednesday.isSelected, thursday: self.thursday.isSelected, friday: self.friday.isSelected, saturday: self.saturday.isSelected, sunday: self.sunday.isSelected, isSnoozeActivated: self.isRepeat.isOn, isVibrate: self.isVibrate.isOn, missionId: self.missionId, missionObjectId: paramMissionObjId, missionKr: self.missionTitleLabel.text!)
-            self.presentingViewController?.dismiss(animated: true)
-            
-        } else {
-            apiRequest = viewModel.postAlarm(param: param)
+            self.editAlarm(with: param)
+        } else if navigatedFromScreen == "CreateAlarm" {
+            self.createAlarm(with: param)
         }
-        
-        
-        if missionId == 1 {
-            self.missionObjectId = 1
-        }
-        guard let request = apiRequest else {
-            return
-        }
-        request.subscribe(
-            onSuccess: { result in
-                switch result {
-                case .success(let response):
-                    print(response)
-                    // Realm에 알람 정보 업데이트
-                    self.viewModel.saveOrUpdateAlarmInRealm(
-                        id: response.result ?? 0,
-                        missionId: self.missionId,
-                        missionObjectId: self.missionObjectId!,
-                        isSnoozeActivated: self.isRepeat.isOn,
-                        name: alarmName,
-                        icon: alarmIcon,
-                        isVibrate: self.isVibrate.isOn,
-                        alarmHour:  self.alarmHour,
-                        alarmMinute: self.alarmMinute,
-                        days: [self.monday.isSelected, self.tuesday.isSelected, self.wednesday.isSelected, self.thursday.isSelected, self.friday.isSelected, self.saturday.isSelected, self.sunday.isSelected],
-                        isActivated: true,
-                        missionName: self.missionTitleLabel.text!,
-                        missionEndpoint: self.missionEndpoint
-                    )
-                    
-                    self.presentingViewController?.dismiss(animated: true)
-                    
-                case .failure(let error):
-                    switch error {
-                    case .network(let moyaError):
-                        print("Network error:", moyaError.localizedDescription)
-                        
-                    case .server(let statusCode):
-                        print("Server returned status code:", statusCode)
-                    }
-                }
-            },
-            onFailure: { error in
-                print(error.localizedDescription)
-            }
-        ).disposed(by: self.disposeBag)
     }
     
     @objc func missionSelected(_ notification: Notification) {
@@ -319,7 +326,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
-        
     }
     
     @IBAction func back(_ sender: Any) {
@@ -353,37 +359,26 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: "알람을 삭제하시겠습니까?", preferredStyle: .alert)
-        
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
             guard let self = self, let alarmId = self.alarmId else { return }
             
             self.viewModel.deleteAlarm(alarmId: alarmId)
-                .subscribe(onSuccess: { _ in
-                    self.presentingViewController?.dismiss(animated: true)
-                }, onFailure: { error in
-                    if let alarmError = error as? CreateAlarmError {
-                        switch alarmError {
-                        case .network:
-                            self.showAlert(message: "잠시후 다시 시도해주세요")
-                        case .server(let statusCode):
-                            print(statusCode)
-                            self.showAlert(message: "잠시후 다시 시도해주세요")
-                        }
+                .subscribe(onSuccess: { [weak self] result in
+                    switch result {
+                    case .success:
+                        self?.presentingViewController?.dismiss(animated: true)
+                    case .failure(_):
+                        self?.showErrorAlert(message: "잠시후 다시 시도해주세요")
                     }
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: disposeBag)
         }
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true)
-    }
-    
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true)
     }
 }
