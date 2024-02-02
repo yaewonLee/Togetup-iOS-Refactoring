@@ -48,7 +48,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     var navigatedFromScreen = "CreateAlarm"
     //navigatedFromScreen = "AlarmList", "CreateAlarm", "CreateGroupAlarm"
     var missionEndpoint = "person"
-    weak var delegate: EditAlarmDelegate?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
