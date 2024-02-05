@@ -14,7 +14,6 @@ class EditAlarmViewModel {
     private let provider = MoyaProvider<AlarmService>()
     private let realmManager = AlarmDataManager()
     private let networkManager = NetworkManager()
-    private let disposeBag = DisposeBag()
     
     var errorMessage = PublishSubject<String>()
     
