@@ -29,6 +29,7 @@ class UserDataManager {
             let encoder = JSONEncoder()
             if let encoded = try? encoder.encode(userData) {
                 UserDefaults.standard.set(encoded, forKey: "currentUserData")
+                print("유저 정보 저장 완료")
             }
         } else {
             UserDefaults.standard.removeObject(forKey: "currentUserData")
@@ -45,5 +46,6 @@ class UserDataManager {
 
 struct HomeData: Codable {
     var avatarId: Int
+    var name: String
     var userStat: UserStatus
 }

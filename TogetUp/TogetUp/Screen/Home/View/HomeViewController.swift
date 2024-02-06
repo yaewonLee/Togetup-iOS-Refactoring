@@ -151,7 +151,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             
             if var currentUserData = UserDataManager.shared.currentUserData {
                 currentUserData.avatarId = selectedAvatarId
-                UserDataManager.shared.updateUser(user: currentUserData)
+                UserDataManager.shared.updateHomeData(data: currentUserData)
             }
         }
         
