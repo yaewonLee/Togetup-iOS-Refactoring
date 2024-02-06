@@ -12,15 +12,37 @@ import RxMoya
 
 struct LoginViewModel {
     private let provider: MoyaProvider<LoginService>
+    private let networkManager = NetworkManager()
     
     init() {
         self.provider = MoyaProvider<LoginService>(plugins: [NetworkLogger()])
     }
-    
-    func loginReqeust(param: LoginRequest) -> Observable<LoginResponse> {
-        return provider.rx.request(.kakao(param: param))
-            .filterSuccessfulStatusCodes()
-            .map(LoginResponse.self)
-            .asObservable()
+
+    func loginReqeust(param: LoginRequest) -> Single<Result<Void, Error>> {
+        return networkManager.handleAPIRequest(provider.rx.request(.kakao(param: param)), dataType: LoginResponse.self)
+            .flatMap { result -> Single<Result<Void, Error>> in
+                switch result {
+                case .success(let response):
+                    self.saveUserInfo(response: response)
+                    return .just(.success(()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
     }
+    
+    private func saveUserInfo(response: LoginResponse) {
+           guard let result = response.result else {
+               print("유저 정보 저장 실패")
+               return
+           }
+
+           KeyChainManager.shared.saveToken(result.accessToken)
+           KeyChainManager.shared.saveUserInformation(name: result.userName ?? "", email: result.email ?? "")
+           let userStatus = UserStatus(level: result.userStat.level, expPercentage: result.userStat.expPercentage, point: result.userStat.point)
+           let userData = UserData(avatarId: result.avatarId, name: result.userName ?? "", email: result.email ?? "", userStat: userStatus)
+           UserDataManager.shared.updateUser(user: userData)
+       }
 }
+
+
