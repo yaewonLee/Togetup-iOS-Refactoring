@@ -15,7 +15,6 @@ import RxKakaoSDKUser
 import KakaoSDKCommon
 
 class SplashViewController: UIViewController {
-    
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -28,7 +27,7 @@ class SplashViewController: UIViewController {
             if appDelegate.isLoggedIn {
                     self.checkLoginMethodAndNavigate()
             } else {
-                    self.navigateToLoginScreen()
+                self.navigate(to: "LoginViewController")
             }
         }
     }
@@ -39,9 +38,9 @@ class SplashViewController: UIViewController {
             appleIDProvider.getCredentialState(forUserID: KeyChainManager.shared.getUserIdentifier()!) { (credentialState, error) in
                 switch credentialState {
                 case .authorized:
-                    self.navigateToMainScreen()
+                    self.navigate(to: "TabBarViewController")
                 case .revoked, .notFound:
-                    self.navigateToLoginScreen()
+                    self.navigate(to: "LoginViewController")
                 default:
                     print(error?.localizedDescription as Any)
                 }
@@ -50,34 +49,24 @@ class SplashViewController: UIViewController {
             if (AuthApi.hasToken()) {
                 UserApi.shared.rx.accessTokenInfo()
                     .subscribe(onSuccess:{ (_) in
-                        self.navigateToMainScreen()
+                        self.navigate(to: "TabBarViewController")
                     }, onFailure: {error in
                         if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-                            self.navigateToLoginScreen()
+                            self.navigate(to: "LoginViewController")
                         } else {
                             print(error.localizedDescription)
                         }
                     })
                     .disposed(by: disposeBag)
             } else {
-                navigateToLoginScreen()
+                self.navigate(to: "LoginViewController")
             }
         }
     }
     
-    private func navigateToMainScreen() {
+    private func navigate(to screen: String) {
         DispatchQueue.main.async {
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
-                return
-            }
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        }
-    }
-    
-    private func navigateToLoginScreen() {
-        DispatchQueue.main.async {
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") else {
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: screen) else {
                 return
             }
             vc.modalPresentationStyle = .fullScreen
@@ -85,4 +74,3 @@ class SplashViewController: UIViewController {
         }
     }
 }
-
