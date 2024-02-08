@@ -20,6 +20,7 @@
 		F93140662A8FBBFB000FB717 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140652A8FBBFB000FB717 /* TabBarViewController.swift */; };
 		F93140672A8FBD30000FB717 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93140692A8FBD30000FB717 /* Home.storyboard */; };
 		F9387BC62AD569D9000A5121 /* alarmSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F9387BC52AD569D9000A5121 /* alarmSound.mp3 */; };
+		F939222A2B73486300BAA171 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = F93922292B73486300BAA171 /* KeychainAccess */; };
 		F945D14D2AA4A8C60093F896 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945D14C2AA4A8C60093F896 /* UserService.swift */; };
 		F945D14F2AA4AA1E0093F896 /* WithdrawlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945D14E2AA4AA1E0093F896 /* WithdrawlModel.swift */; };
 		F945D1512AA4AAFE0093F896 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945D1502AA4AAFE0093F896 /* SettingViewModel.swift */; };
@@ -171,6 +172,7 @@
 				F98601052AB8084700595646 /* RxSwift in Frameworks */,
 				F9F385A12AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				F9C8ADC62A98BDF000F541FD /* FirebaseMessaging in Frameworks */,
+				F939222A2B73486300BAA171 /* KeychainAccess in Frameworks */,
 				F9F3859B2AD7B97B009D15EF /* FirebaseAnalytics in Frameworks */,
 				F9F3859D2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				F91C791C2AF4F64400D4E34D /* FloatingPanel in Frameworks */,
@@ -597,6 +599,7 @@
 				F93012AF2ADEBD180086C348 /* FSCalendar */,
 				F9BF13822AE2D4CF006A262A /* Kingfisher */,
 				F91C791B2AF4F64400D4E34D /* FloatingPanel */,
+				F93922292B73486300BAA171 /* KeychainAccess */,
 			);
 			productName = TogetUp;
 			productReference = F96B32602A8A002800BD3BF9 /* TogetUp.app */;
@@ -1105,6 +1108,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		F93922292B73486300BAA171 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		F96B327E2A8A358000BD3BF9 /* RxMoya */ = {
 			isa = XCSwiftPackageProductDependency;
