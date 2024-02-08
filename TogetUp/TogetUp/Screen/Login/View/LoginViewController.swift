@@ -41,7 +41,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             guard
                 let authorizationCode = appleIDCredential.authorizationCode,
                 let identityToken = appleIDCredential.identityToken,
-                let authString = String(data: authorizationCode, encoding: .utf8),
                 let tokenString = String(data: identityToken, encoding: .utf8)
             else { return }
             
@@ -100,8 +99,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             UserApi.shared.rx.loginWithKakaoAccount()
                 .subscribe(onNext:{ (oauthToken) in
                     print("===========loginWithKakaoAccount() success.===========")
-                    let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken, loginType : "KAKAO")
-                    self.sendLoginRequest(with : loginRequest)
+                    let loginRequest = LoginRequest(oauthAccessToken: oauthToken.accessToken, loginType: "KAKAO")
+                    self.sendLoginRequest(with: loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
                 })
@@ -116,10 +115,11 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 case .success:
                     print("*************** 회원가입 성공 ***************")
                     self?.switchView()
-                case .failure:
+                case .failure(let error):
                     let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
                     let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
                     alertController.addAction(cancelAction)
+                    self?.present(alertController, animated: true)
                 }
             })
             .disposed(by: disposeBag)

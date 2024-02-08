@@ -19,7 +19,7 @@ struct LoginViewModel {
     }
 
     func loginReqeust(param: LoginRequest) -> Single<Result<Void, Error>> {
-        return networkManager.handleAPIRequest(provider.rx.request(.kakao(param: param)), dataType: LoginResponse.self)
+        return networkManager.handleAPIRequest(provider.rx.request(.login(param: param)), dataType: LoginResponse.self)
             .flatMap { result -> Single<Result<Void, Error>> in
                 switch result {
                 case .success(let response):
