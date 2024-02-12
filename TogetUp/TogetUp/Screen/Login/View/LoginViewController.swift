@@ -41,12 +41,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             guard
                 let authorizationCode = appleIDCredential.authorizationCode,
                 let identityToken = appleIDCredential.identityToken,
-                let authString = String(data: authorizationCode, encoding: .utf8),
                 let tokenString = String(data: identityToken, encoding: .utf8)
             else { return }
-            
-            print("authString: \(authString)")
-            print("tokenString: \(tokenString)")
             
             UserDefaults.standard.set("Apple", forKey: "loginMethod")
             var userName: String?
@@ -55,7 +51,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             if nameAndEmailInfoFromKeychain.name != nil {
                 userName = nameAndEmailInfoFromKeychain.name
             }
-                        
+            
             let loginRequest = LoginRequest(oauthAccessToken: tokenString, loginType: "APPLE", userName: userName)
             self.sendLoginRequest(with : loginRequest)
         }
@@ -93,7 +89,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                     UserDefaults.standard.set("Kakao", forKey: "loginMethod")
                     let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken,
                                                     loginType : "KAKAO")
-                    print(oauthToken.accessToken)
                     self.sendLoginRequest(with : loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
@@ -104,8 +99,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             UserApi.shared.rx.loginWithKakaoAccount()
                 .subscribe(onNext:{ (oauthToken) in
                     print("===========loginWithKakaoAccount() success.===========")
-                    let loginRequest = LoginRequest(oauthAccessToken : oauthToken.accessToken, loginType : "KAKAO")
-                    self.sendLoginRequest(with : loginRequest)
+                    let loginRequest = LoginRequest(oauthAccessToken: oauthToken.accessToken, loginType: "KAKAO")
+                    self.sendLoginRequest(with: loginRequest)
                 }, onError: {error in
                     print(error.localizedDescription)
                 })
@@ -115,25 +110,18 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     private func sendLoginRequest(with request : LoginRequest) {
         viewModel.loginReqeust(param:request)
-            .subscribe(onNext:{ [weak self] response in
-                print("*************** 회원가입 성공 ***************")
-                if let result = response.result {
-                    KeyChainManager.shared.saveToken(result.accessToken)
-                    KeyChainManager.shared.saveUserInformation(name: result.userName ?? "", email: result.email ?? "")
-                    let userStaus = UserStatus(level: result.userStat.level, expPercentage: result.userStat.expPercentage, point: result.userStat.point)
-                    let userData = UserData(avatarId: result.avatarId, name: result.userName ?? "", email: result.email ?? "", userStat: userStaus)
-                    UserDataManager.shared.updateUser(user: userData)
-                    print(response)
-                } else {
-                    print("아바타 정보 저장 실패")
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    print("*************** 회원가입 성공 ***************")
+                    self?.switchView()
+                case .failure(let error):
+                    let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    self?.present(alertController, animated: true)
                 }
-                
-                self?.switchView()
-            }, onError:{ error in
-                let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-                alertController.addAction(cancelAction)
-                print(error.localizedDescription)
-            }).disposed(by:self.disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
 }

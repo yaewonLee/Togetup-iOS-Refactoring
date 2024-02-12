@@ -9,7 +9,8 @@ import Foundation
 import Moya
 
 enum LoginService {
-    case kakao(param: LoginRequest)
+    case login(param: LoginRequest)
+   // case apple(param: LoginRequest)
 }
 
 extension LoginService: TargetType {
@@ -19,21 +20,21 @@ extension LoginService: TargetType {
     
     var path: String {
         switch self {
-        case .kakao:
+        case .login:
             return URLConstant.login
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .kakao:
+        case .login:
             return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .kakao(let param):
+        case .login(let param):
             return .requestJSONEncodable(param)
         }
     }

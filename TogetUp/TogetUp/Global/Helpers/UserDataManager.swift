@@ -10,7 +10,7 @@ import Foundation
 class UserDataManager {
     static let shared = UserDataManager()
 
-    var currentUserData: UserData? {
+    var currentUserData: HomeData? {
         didSet {
             saveUserData()
         }
@@ -20,8 +20,8 @@ class UserDataManager {
         loadUserData()
     }
 
-    func updateUser(user: UserData) {
-        currentUserData = user
+    func updateHomeData(data: HomeData) {
+        currentUserData = data
     }
 
     private func saveUserData() {
@@ -29,6 +29,7 @@ class UserDataManager {
             let encoder = JSONEncoder()
             if let encoded = try? encoder.encode(userData) {
                 UserDefaults.standard.set(encoded, forKey: "currentUserData")
+                print("유저 정보 저장 완료")
             }
         } else {
             UserDefaults.standard.removeObject(forKey: "currentUserData")
@@ -37,17 +38,14 @@ class UserDataManager {
 
     private func loadUserData() {
         if let userData = UserDefaults.standard.data(forKey: "currentUserData"),
-           let decodedUserData = try? JSONDecoder().decode(UserData.self, from: userData) {
+           let decodedUserData = try? JSONDecoder().decode(HomeData.self, from: userData) {
             currentUserData = decodedUserData
         }
     }
 }
 
-struct UserData: Codable {
+struct HomeData: Codable {
     var avatarId: Int
     var name: String
-    var email: String
     var userStat: UserStatus
 }
-
-

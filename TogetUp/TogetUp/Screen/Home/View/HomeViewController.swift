@@ -23,25 +23,26 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     @IBOutlet weak var mainAvatarImageView: UIImageView!
     
     // MARK: - Properties
-    var fpc: FloatingPanelController!
-    var myFloatingPanelController: FloatingPannelViewController!
+    private var fpc: FloatingPanelController!
+    private var myFloatingPanelController: FloatingPannelViewController!
     private let viewModel = HomeViewModel()
     private let disposeBag = DisposeBag()
     private var selectedIndex: IndexPath?
-    var previousSelectedModel: AvatarResult?
-    var currentAvatarId = 1
+    private var previousSelectedModel: AvatarResult?
+    private var currentAvatarId = 1
+    private var progressPercent = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        customUI()
         setFloatingpanel()
         setUpUserData()
-        setCollectionView()
+     //   setCollectionView()
+        customUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
     }
     
     // MARK: - Custom Methods
@@ -50,7 +51,8 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         
         progressBar.clipsToBounds = true
         progressBar.layer.borderWidth = 2
-        
+        progressBar.progress = Float(self.progressPercent) * 0.01
+
         progressBar.layer.sublayers![1].cornerRadius = 5
         progressBar.layer.sublayers![1].borderWidth = 2
         progressBar.subviews[1].clipsToBounds = true
@@ -63,9 +65,10 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private func setUpUserData() {
         if let currentUserData = UserDataManager.shared.currentUserData {
             levelLabel.text = "Lv. \(currentUserData.userStat.level)"
-            pointLabel.text = "\(currentUserData.userStat.point)"
+            pointLabel.text = "\(currentUserData.userStat.coin)"
             nameLabel.text = currentUserData.name
             currentAvatarId = currentUserData.avatarId
+            progressPercent = currentUserData.userStat.expPercentage
         } else {
             print("사용자 데이터 없음")
         }
@@ -151,7 +154,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             
             if var currentUserData = UserDataManager.shared.currentUserData {
                 currentUserData.avatarId = selectedAvatarId
-                UserDataManager.shared.updateUser(user: currentUserData)
+                UserDataManager.shared.updateHomeData(data: currentUserData)
             }
         }
         
@@ -160,7 +163,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         fpc.show()
         avatarView.isHidden = true
     }
-    
 }
 
 extension HomeViewController: UICollectionViewDelegate {
@@ -178,31 +180,6 @@ extension HomeViewController: UICollectionViewDelegate {
             viewModel.updateSelectedAvatar(at: indexPath.row)
             updateAvatarImageAndBackgroundColor(with: model)
         }
-        
         selectedIndex = indexPath
     }
 }
-
-class CustomFloatingPanelLayout: FloatingPanelLayout {
-    var position: FloatingPanelPosition {
-        return .bottom
-    }
-    
-    var initialState: FloatingPanelState {
-        return .tip
-    }
-    
-    var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
-        return [
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 80,  edge: .top, referenceGuide: .safeArea),
-            .half: FloatingPanelLayoutAnchor(absoluteInset: 175, edge: .bottom, referenceGuide: .safeArea),
-            .tip: FloatingPanelLayoutAnchor(absoluteInset: 175, edge: .bottom, referenceGuide: .safeArea)
-        ]
-    }
-    
-    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
-        return state == .full ? 0.3 : 0.0
-    }
-}
-
-
