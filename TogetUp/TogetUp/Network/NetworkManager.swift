@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 
-enum CreateAlarmError: Error {
+enum NetWorkingError: Error {
     case network(MoyaError)
     case server(Int)
     case parsingError
@@ -19,7 +19,7 @@ enum CreateAlarmError: Error {
 }
 
 class NetworkManager {
-    func handleAPIRequest<T: Decodable>(_ request: Single<Response>, dataType: T.Type) -> Single<Result<T, CreateAlarmError>> {
+    func handleAPIRequest<T: Decodable>(_ request: Single<Response>, dataType: T.Type) -> Single<Result<T, NetWorkingError>> {
         return request
             .do(onSuccess: { response in
                 print("API Request \(response.request?.httpMethod?.description ?? "") succeeded with status code \(response.statusCode)")
@@ -29,7 +29,7 @@ class NetworkManager {
             .filterSuccessfulStatusAndRedirectCodes()
             .map(dataType)
             .map(Result.success)
-            .catch { error -> Single<Result<T, CreateAlarmError>> in
+            .catch { error -> Single<Result<T, NetWorkingError>> in
                 if let moyaError = error as? MoyaError {
                     switch moyaError {
                     case .statusCode(let response):
@@ -51,7 +51,7 @@ class NetworkManager {
     }
     
     func errorMessage(for error: Error) -> String {
-            if let alarmError = error as? CreateAlarmError {
+            if let alarmError = error as? NetWorkingError {
                 switch alarmError {
                 case .network, .noInternetConnection:
                     return "네트워크 연결이 원활하지 않습니다."

@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         super.viewDidLoad()
         setFloatingpanel()
         setUpUserData()
-        setCollectionView()
+     //   setCollectionView()
         customUI()
     }
     
@@ -65,7 +65,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private func setUpUserData() {
         if let currentUserData = UserDataManager.shared.currentUserData {
             levelLabel.text = "Lv. \(currentUserData.userStat.level)"
-            pointLabel.text = "\(currentUserData.userStat.point)"
+            pointLabel.text = "\(currentUserData.userStat.coin)"
             nameLabel.text = currentUserData.name
             currentAvatarId = currentUserData.avatarId
             progressPercent = currentUserData.userStat.expPercentage
