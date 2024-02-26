@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         print("AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
         print("=========isLoggedIn: \(isLoggedIn)=========")
-        
+        print(KeyChainManager.shared.getToken())
         RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
         FirebaseApp.configure()
         Messaging.messaging().delegate = self

@@ -33,4 +33,3 @@ class HomeViewModel {
         selectedAvatar = avatars[index]
     }
 }
-
