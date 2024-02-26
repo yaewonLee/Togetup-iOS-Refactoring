@@ -38,7 +38,7 @@ struct LoginViewModel {
         }
         KeyChainManager.shared.saveToken(result.accessToken)
         KeyChainManager.shared.saveUserInformation(name: result.userName ?? "", email: result.email ?? "")
-        let userStatus = UserStatus(level: result.userStat.level, expPercentage: result.userStat.expPercentage, coin: result.userStat.coin)
+        let userStatus = UserStatus(level: result.userStat.level, expPercentage: result.userStat.expPercentage)
         let userData = HomeData(avatarId: result.avatarId, name: result.userName ?? "", userStat: userStatus)
         UserDataManager.shared.updateHomeData(data: userData)
     }
