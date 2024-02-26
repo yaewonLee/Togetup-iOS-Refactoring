@@ -32,32 +32,18 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         setFloatingpanel()
         setUpUserData()
         bindAvatarCollectionView()
         customUI()
-        
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
     }
     
     // MARK: - Custom Methods
     private func customUI() {
         progressBar.layer.cornerRadius = 5
-        
         progressBar.clipsToBounds = true
         progressBar.layer.borderWidth = 2
         progressBar.progress = Float(self.progressPercent) * 0.01
-        
         progressBar.layer.sublayers![1].cornerRadius = 5
         progressBar.layer.sublayers![1].borderWidth = 2
         progressBar.subviews[1].clipsToBounds = true
@@ -87,7 +73,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         sharedAvatarsObservable
             .map { $0 ?? [] }
             .bind(to: avatarChooseCollectionView.rx.items(cellIdentifier: AvatarCollectionViewCell.identifier, cellType: AvatarCollectionViewCell.self)) { index, model, cell in
-                cell.setAttributes(with: model, isSelected: self.viewModel.selectedAvatar?.avatarId == model.avatarId, unlockLevel: model.unlockLevel)
+                cell.setAttributes(with: model, isSelected: self.viewModel.selectedAvatar?.avatarId == model.avatarId)
             }
             .disposed(by: disposeBag)
         
@@ -185,13 +171,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        print(selectedIndex?.row)
         viewModel.changeAvatar(avatarId: (selectedIndex?.row ?? 0) + 1)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
                     if var currentUserData = UserDataManager.shared.currentUserData {
-                        currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
+                        currentUserData.avatarId = (self?.selectedIndex?.row ?? 0)
                         UserDataManager.shared.updateHomeData(data: currentUserData)
                     }
                     
@@ -204,8 +189,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                 }
             })
             .disposed(by: disposeBag)
-        
-        
     }
 }
 
@@ -217,12 +200,12 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         if let previousIndex = selectedIndex,
            let previousSelectedCell = collectionView.cellForItem(at: previousIndex) as? AvatarCollectionViewCell {
-            previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false, unlockLevel: viewModel.avatars[previousIndex.row].unlockLevel)
+            previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false)
         }
         
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? AvatarCollectionViewCell {
             let model = viewModel.avatars[indexPath.row]
-            selectedCell.setAttributes(with: model, isSelected: true, unlockLevel: model.unlockLevel)
+            selectedCell.setAttributes(with: model, isSelected: true)
             viewModel.updateSelectedAvatar(at: indexPath.row)
             updateAvatarImageAndBackgroundColor(with: model)
         }
