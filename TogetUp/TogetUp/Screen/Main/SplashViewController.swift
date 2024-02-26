@@ -70,7 +70,7 @@ class SplashViewController: UIViewController {
                 return
             }
             vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+            self.present(vc, animated: false)
         }
     }
 }
