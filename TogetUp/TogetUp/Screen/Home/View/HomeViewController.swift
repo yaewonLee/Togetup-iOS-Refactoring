@@ -15,8 +15,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var coinView: UIView!
-    @IBOutlet weak var pointLabel: UILabel!
     @IBOutlet weak var avatarView: UIView!
     @IBOutlet weak var hangerButton: UIButton!
     @IBOutlet weak var avatarChooseCollectionView: UICollectionView!
@@ -34,14 +32,21 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
         setFloatingpanel()
         setUpUserData()
-     //   setCollectionView()
+        bindAvatarCollectionView()
         customUI()
+        
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         
     }
     
@@ -52,12 +57,11 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         progressBar.clipsToBounds = true
         progressBar.layer.borderWidth = 2
         progressBar.progress = Float(self.progressPercent) * 0.01
-
+        
         progressBar.layer.sublayers![1].cornerRadius = 5
         progressBar.layer.sublayers![1].borderWidth = 2
         progressBar.subviews[1].clipsToBounds = true
         
-        coinView.layer.cornerRadius = 14
         hangerButton.layer.cornerRadius = 22
         hangerButton.layer.borderWidth = 2
     }
@@ -65,7 +69,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private func setUpUserData() {
         if let currentUserData = UserDataManager.shared.currentUserData {
             levelLabel.text = "Lv. \(currentUserData.userStat.level)"
-            pointLabel.text = "\(currentUserData.userStat.coin)"
             nameLabel.text = currentUserData.name
             currentAvatarId = currentUserData.avatarId
             progressPercent = currentUserData.userStat.expPercentage
@@ -74,43 +77,68 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         }
     }
     
-    private func setCollectionView() {
+    private func bindAvatarCollectionView() {
         avatarChooseCollectionView.delegate = self
         avatarChooseCollectionView.dataSource = nil
-        
-        viewModel.loadAvatars()
+        let sharedAvatarsObservable = viewModel.loadAvatars()
             .map { $0.result }
-            .observe(on: MainScheduler.instance)
+            .share(replay: 1, scope: .whileConnected)
+        
+        sharedAvatarsObservable
             .bind(to: avatarChooseCollectionView.rx.items(cellIdentifier: AvatarCollectionViewCell.identifier, cellType: AvatarCollectionViewCell.self)) { index, model, cell in
-                cell.setAttributes(with: model, isSelected: false)
+                cell.setAttributes(with: model, isSelected: self.viewModel.selectedAvatar?.avatarId == model.avatarId, unlockLevel: model.unlockLevel)
             }
             .disposed(by: disposeBag)
         
-        viewModel.loadAvatars()
-            .map { $0.result }
+        sharedAvatarsObservable
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] result in
-                if !result.isEmpty {
-                    let initialIndex = IndexPath(row: (self?.currentAvatarId ?? 1) - 1, section: 0)
-                    self?.avatarChooseCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: [])
-                    self?.collectionView(self!.avatarChooseCollectionView, didSelectItemAt: initialIndex)
-                    self?.selectedIndex = initialIndex
+            .subscribe(onNext: { [weak self] avatars in
+                DispatchQueue.main.async { [weak self] in
+                    self?.avatarChooseCollectionView.layoutIfNeeded()
+                    self?.selectInitialAvatar(from: avatars)
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func selectInitialAvatar(from avatars: [AvatarResult]) {
+        if let index = avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
+            
+            if let avatar = avatars.first(where: { $0.avatarId == currentAvatarId }) {
+                updateAvatarImageAndBackgroundColor(with: avatar)
+            }
+        }
+    }
+    
+    private func selectInitialAvatarIfNeeded() {
+        let avatars = viewModel.avatars
+        if let index = avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
+        }
     }
     
     private func updateAvatarImageAndBackgroundColor(with model: AvatarResult) {
         let themeToImageName: [String: String] = [
             "신입 병아리": "main_chick",
             "눈을 반짝이는 곰돌이": "main_bear",
-            "깜찍한 토끼": "main_rabbit"
+            "깜찍한 토끼": "main_rabbit",
+            "먹보 판다": "main_panda",
+            "비 오는날 강아지": "main_puppy",
+            "철학자 너구리": "main_racoon"
         ]
         
         let themeToColorName: [String: String] = [
             "신입 병아리": "chick",
             "눈을 반짝이는 곰돌이": "bear",
-            "깜찍한 토끼": "rabbit"
+            "깜찍한 토끼": "rabbit",
+            "먹보 판다": "panda",
+            "비 오는날 강아지": "puppy",
+            "철학자 너구리": "racoon"
         ]
         
         if let imageName = themeToImageName[model.theme], let colorName = themeToColorName[model.theme] {
@@ -137,6 +165,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         fpc.hide(animated: false, completion: nil)
         avatarView.isHidden = false
         
+        selectInitialAvatarIfNeeded()
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
@@ -167,16 +196,18 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard !viewModel.avatars.isEmpty else { return }
-        
+        guard !viewModel.avatars.isEmpty else {
+            print("viewModel.avatars are empty")
+            return
+        }
         if let previousIndex = selectedIndex,
            let previousSelectedCell = collectionView.cellForItem(at: previousIndex) as? AvatarCollectionViewCell {
-            previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false)
+            previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false, unlockLevel: viewModel.avatars[previousIndex.row].unlockLevel)
         }
         
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? AvatarCollectionViewCell {
             let model = viewModel.avatars[indexPath.row]
-            selectedCell.setAttributes(with: model, isSelected: true)
+            selectedCell.setAttributes(with: model, isSelected: true, unlockLevel: model.unlockLevel)
             viewModel.updateSelectedAvatar(at: indexPath.row)
             updateAvatarImageAndBackgroundColor(with: model)
         }
