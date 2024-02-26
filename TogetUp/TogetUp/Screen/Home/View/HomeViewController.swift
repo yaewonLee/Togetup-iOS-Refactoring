@@ -85,6 +85,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             .share(replay: 1, scope: .whileConnected)
         
         sharedAvatarsObservable
+            .map { $0 ?? [] }
             .bind(to: avatarChooseCollectionView.rx.items(cellIdentifier: AvatarCollectionViewCell.identifier, cellType: AvatarCollectionViewCell.self)) { index, model, cell in
                 cell.setAttributes(with: model, isSelected: self.viewModel.selectedAvatar?.avatarId == model.avatarId, unlockLevel: model.unlockLevel)
             }
@@ -95,7 +96,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             .subscribe(onNext: { [weak self] avatars in
                 DispatchQueue.main.async { [weak self] in
                     self?.avatarChooseCollectionView.layoutIfNeeded()
-                    self?.selectInitialAvatar(from: avatars)
+                    self?.selectInitialAvatar(from: avatars ?? [])
                 }
             })
             .disposed(by: disposeBag)
@@ -158,6 +159,14 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         fpc.addPanel(toParent: self, animated: true)
     }
     
+    private func showErrorAlertAndDismiss(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.presentingViewController?.dismiss(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
     
     @IBAction func showAvatarView(_ sender: Any) {
         self.tabBarController?.tabBar.isHidden = true
@@ -176,21 +185,27 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        // TODO: - 서버에 selectedIndex patch
+        print(selectedIndex?.row)
+        viewModel.changeAvatar(avatarId: (selectedIndex?.row ?? 0) + 1)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    if var currentUserData = UserDataManager.shared.currentUserData {
+                        currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
+                        UserDataManager.shared.updateHomeData(data: currentUserData)
+                    }
+                    
+                    self?.tabBarController?.tabBar.isHidden = false
+                    self?.hangerButton.isHidden = false
+                    self?.fpc.show()
+                    self?.avatarView.isHidden = true
+                case .failure(_):
+                    self?.showErrorAlertAndDismiss(message: "잠시후 다시 시도해주세요")
+                }
+            })
+            .disposed(by: disposeBag)
         
-        if let selectedIndex = selectedIndex {
-            let selectedAvatarId = selectedIndex.row + 1
-            
-            if var currentUserData = UserDataManager.shared.currentUserData {
-                currentUserData.avatarId = selectedAvatarId
-                UserDataManager.shared.updateHomeData(data: currentUserData)
-            }
-        }
         
-        self.tabBarController?.tabBar.isHidden = false
-        hangerButton.isHidden = false
-        fpc.show()
-        avatarView.isHidden = true
     }
 }
 

@@ -11,22 +11,35 @@ import Moya
 import RxMoya
 
 class HomeViewModel {
-    private let provider = MoyaProvider<UserService>()
+    private let provider: MoyaProvider<UserService>
     var avatars: [AvatarResult] = []
     var selectedAvatar: AvatarResult?
-//
-//    init() {
-//        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
-//    }
+    private let networkManager = NetworkManager()
+
+    init() {
+        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
+    }
     
     func loadAvatars() -> Observable<AvatarResponse> {
         return provider.rx.request(.getAvatarList)
             .filterSuccessfulStatusCodes()
             .map(AvatarResponse.self)
             .do(onSuccess: { [weak self] response in
-                self?.avatars = response.result
+                self?.avatars = response.result ?? []
             })
             .asObservable()
+    }
+    
+    func changeAvatar(avatarId: Int) -> Single<Result<Void, Error>> {
+        return networkManager.handleAPIRequest(provider.rx.request(.changeAvatar(avatarId: avatarId)), dataType: AvatarResponse.self)
+            .flatMap { result -> Single<Result<Void, Error>> in
+                switch result {
+                case .success(let response):
+                    return .just(.success(()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
     }
 
     func updateSelectedAvatar(at index: Int) {
