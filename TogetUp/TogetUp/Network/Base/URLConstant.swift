@@ -19,6 +19,7 @@ struct URLConstant {
     static let appleWithdrawl = "users/apple"
     static let sendFcmToken = "users/fcm-token"
     static let getAvatarList = "users/avatars"
+    static let changeAvatar = "users/avatars"
     
     // MARK: - 알람
     static let getAlarmList = "alarm"

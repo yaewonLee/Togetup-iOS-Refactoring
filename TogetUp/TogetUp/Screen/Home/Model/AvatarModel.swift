@@ -11,7 +11,7 @@ struct AvatarResponse: Codable {
     let httpStatusCode: Int
     let httpReasonPhrase: String
     let message: String
-    let result: [AvatarResult]
+    let result: [AvatarResult]?
 }
 
 struct AvatarResult: Codable {
