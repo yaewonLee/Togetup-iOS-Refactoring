@@ -104,8 +104,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         let avatars = viewModel.avatars
         if let index = avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
             let indexPath = IndexPath(row: index, section: 0)
-            print(#function)
-            print(indexPath)
             avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
         }
@@ -113,9 +111,9 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     
     private func updateAvatarImageAndBackgroundColor(with model: AvatarResult) {
         if let theme = ThemeManager.shared.themes.first(where: { $0.koreanName == model.theme }) {
-                mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
-                self.view.backgroundColor = UIColor(named: theme.colorName)
-            }
+            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
+            self.view.backgroundColor = UIColor(named: theme.colorName)
+        }
     }
     
     private func setFloatingpanel() {
@@ -138,22 +136,28 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         present(alert, animated: true)
     }
     
-    @IBAction func showAvatarView(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = true
-        hangerButton.isHidden = true
-        fpc.hide(animated: false, completion: nil)
-        avatarView.isHidden = false
-        
-        selectInitialAvatarIfNeeded()
+    private func updateUIComponentsVisibility(isAvatarViewVisible: Bool) {
+        self.tabBarController?.tabBar.isHidden = isAvatarViewVisible
+        hangerButton.isHidden = isAvatarViewVisible
+        if isAvatarViewVisible {
+            fpc.hide()
+        } else {
+            fpc.show()
+        }
+        avatarView.isHidden = !isAvatarViewVisible
     }
     
     // MARK: - @
+    @IBAction func showAvatarView(_ sender: Any) {
+        updateUIComponentsVisibility(isAvatarViewVisible: true)
+        if let currentUserData = UserDataManager.shared.currentUserData {
+            currentAvatarId = currentUserData.avatarId
+        }
+        selectInitialAvatarIfNeeded()
+    }
+    
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = false
-        hangerButton.isHidden = false
-        fpc.show()
-        avatarView.isHidden = true
-        
+        updateUIComponentsVisibility(isAvatarViewVisible: false)        
         if let currentUserData = UserDataManager.shared.currentUserData {
             let currentAvatarId = currentUserData.avatarId
             if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
@@ -170,10 +174,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                     if var currentUserData = UserDataManager.shared.currentUserData {
                         currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
                         UserDataManager.shared.updateHomeData(data: currentUserData)
-                        print(#function)
-                        print(currentUserData)
                     }
-                    
                     
                     self?.tabBarController?.tabBar.isHidden = false
                     self?.hangerButton.isHidden = false
@@ -189,8 +190,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function)
-        print(indexPath)
         guard !viewModel.avatars.isEmpty else {
             print("viewModel.avatars are empty")
             return
