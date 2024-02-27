@@ -82,30 +82,22 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             .subscribe(onNext: { [weak self] avatars in
                 DispatchQueue.main.async { [weak self] in
                     self?.avatarChooseCollectionView.layoutIfNeeded()
-                    self?.selectInitialAvatar(from: avatars ?? [])
+                    self?.selectInitialAvatar()
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    private func selectInitialAvatar(from avatars: [AvatarResult]) {
-        if let index = avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+    private func selectInitialAvatar() {
+        let targetAvatarId = currentAvatarId
+        if let index = viewModel.avatars.firstIndex(where: { $0.avatarId == targetAvatarId }) {
             let indexPath = IndexPath(row: index, section: 0)
             avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
             
-            if let avatar = avatars.first(where: { $0.avatarId == currentAvatarId }) {
+            if let avatar = viewModel.avatars.first(where: { $0.avatarId == targetAvatarId }) {
                 updateAvatarImageAndBackgroundColor(with: avatar)
             }
-        }
-    }
-    
-    private func selectInitialAvatarIfNeeded() {
-        let avatars = viewModel.avatars
-        if let index = avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
-            let indexPath = IndexPath(row: index, section: 0)
-            avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-            collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
         }
     }
     
@@ -153,11 +145,11 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         if let currentUserData = UserDataManager.shared.currentUserData {
             currentAvatarId = currentUserData.avatarId
         }
-        selectInitialAvatarIfNeeded()
+        selectInitialAvatar()
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        updateUIComponentsVisibility(isAvatarViewVisible: false)        
+        updateUIComponentsVisibility(isAvatarViewVisible: false)
         if let currentUserData = UserDataManager.shared.currentUserData {
             let currentAvatarId = currentUserData.avatarId
             if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
