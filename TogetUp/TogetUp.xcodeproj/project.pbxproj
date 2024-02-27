@@ -69,6 +69,7 @@
 		F99BE8012AA1BA4C0005E66F /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8002AA1BA4C0005E66F /* NetworkLogger.swift */; };
 		F99BE8032AA1BBC80005E66F /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8022AA1BBC80005E66F /* LoginService.swift */; };
 		F99BE8062AA1CC740005E66F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8052AA1CC740005E66F /* LoginViewModel.swift */; };
+		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
 		F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9BF13822AE2D4CF006A262A /* Kingfisher */; };
 		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
 		F9C602302B72044D008A43A0 /* CustomFloatingPanelLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */; };
@@ -148,6 +149,7 @@
 		F99BE8002AA1BA4C0005E66F /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		F99BE8022AA1BBC80005E66F /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F99BE8052AA1CC740005E66F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F9A7CC322B8DA36600C73401 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupAlarmListCollectionViewCell.swift; path = "/Users/yaewon/Desktop/Togetup-iOS-Refatoring/TogetUp/TogetUp/Screen/Alarm/View/Cell/GroupAlarmListCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFloatingPanelLayout.swift; sourceTree = "<group>"; };
 		F9C8ADC72A9CDF7500F541FD /* MissionListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionListDetailViewController.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */,
 				F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */,
 				F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */,
+				F9A7CC322B8DA36600C73401 /* ThemeManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				F9523E4D2B5C1F7B00B16CCB /* RealmDataManger.swift in Sources */,
 				F9C8ADC82A9CDF7500F541FD /* MissionListDetailViewController.swift in Sources */,
 				F9C602302B72044D008A43A0 /* CustomFloatingPanelLayout.swift in Sources */,
+				F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */,
 				F99BE8032AA1BBC80005E66F /* LoginService.swift in Sources */,
 				F91AA8882AB890BE00BDA437 /* AppStatusManager.swift in Sources */,
 				F9D679D62AC1A177006B1643 /* MissionDetectModel.swift in Sources */,
