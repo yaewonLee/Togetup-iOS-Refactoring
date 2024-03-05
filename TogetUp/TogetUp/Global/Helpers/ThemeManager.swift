@@ -22,7 +22,7 @@ class ThemeManager {
         Theme(koreanName: "눈을 반짝이는 곰돌이", mainAvatarName: "main_bear", collectionViewAvatarName: "c_bear", colorName: "bear"),
         Theme(koreanName: "깜찍한 토끼", mainAvatarName: "main_rabbit", collectionViewAvatarName: "c_rabbit", colorName: "rabbit"),
         Theme(koreanName: "먹보 판다", mainAvatarName: "main_panda", collectionViewAvatarName: "c_panda", colorName: "panda"),
-        Theme(koreanName: "비 오는날 강아지", mainAvatarName: "main_puppy", collectionViewAvatarName: "c_puppy", colorName: "puppy"),
+        Theme(koreanName: "비오는 날 강아지", mainAvatarName: "main_puppy", collectionViewAvatarName: "c_puppy", colorName: "puppy"),
         Theme(koreanName: "철학자 너구리", mainAvatarName: "main_racoon", collectionViewAvatarName: "c_racoon", colorName: "racoon")
     ]
 }

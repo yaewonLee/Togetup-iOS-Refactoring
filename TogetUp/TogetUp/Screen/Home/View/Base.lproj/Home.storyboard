@@ -162,15 +162,24 @@
                                                                 <constraint firstAttribute="height" constant="178" id="ywe-sH-X9k"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NewAvatar" translatesAutoresizingMaskIntoConstraints="NO" id="c6O-zK-ezN">
+                                                            <rect key="frame" x="8" y="8" width="42" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="42" id="W7o-Px-EOM"/>
+                                                                <constraint firstAttribute="height" constant="20" id="h9d-6C-rVz"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="aay-fN-eLV" firstAttribute="top" secondItem="Whh-Tg-6UN" secondAttribute="bottom" constant="8" id="0jh-on-3Lr"/>
                                                         <constraint firstItem="aay-fN-eLV" firstAttribute="leading" secondItem="y1E-KX-dJO" secondAttribute="leading" id="3p7-3K-a5S"/>
+                                                        <constraint firstItem="c6O-zK-ezN" firstAttribute="leading" secondItem="y1E-KX-dJO" secondAttribute="leading" constant="8" id="6G7-Hq-Z3J"/>
                                                         <constraint firstAttribute="bottom" secondItem="hgC-uO-mOG" secondAttribute="bottom" id="9q3-Vv-xbc"/>
                                                         <constraint firstItem="Whh-Tg-6UN" firstAttribute="top" secondItem="y1E-KX-dJO" secondAttribute="top" id="Eb1-6K-Suy"/>
                                                         <constraint firstAttribute="bottom" secondItem="aay-fN-eLV" secondAttribute="bottom" id="HVz-Jt-ibR"/>
                                                         <constraint firstAttribute="trailing" secondItem="aay-fN-eLV" secondAttribute="trailing" id="L4g-WQ-gc9"/>
                                                         <constraint firstItem="kfJ-xz-yzY" firstAttribute="top" secondItem="y1E-KX-dJO" secondAttribute="top" id="McO-LK-gA6"/>
+                                                        <constraint firstItem="c6O-zK-ezN" firstAttribute="top" secondItem="y1E-KX-dJO" secondAttribute="top" constant="8" id="Nkb-i3-Fz3"/>
                                                         <constraint firstItem="kfJ-xz-yzY" firstAttribute="leading" secondItem="y1E-KX-dJO" secondAttribute="leading" id="Pbx-RQ-X6P"/>
                                                         <constraint firstAttribute="trailing" secondItem="kfJ-xz-yzY" secondAttribute="trailing" id="X6F-2j-Wdj"/>
                                                         <constraint firstItem="hgC-uO-mOG" firstAttribute="centerX" secondItem="y1E-KX-dJO" secondAttribute="centerX" id="iMb-0M-As8"/>
@@ -484,6 +493,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NewAvatar" width="44" height="22"/>
         <image name="avatarBackNolLine" width="120" height="178"/>
         <image name="avatarCustomButton" width="24" height="24"/>
         <image name="c_chick" width="120.33333587646484" height="178.33332824707031"/>

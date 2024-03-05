@@ -19,5 +19,4 @@ struct AvatarResult: Codable {
     let avatarId: Int
     let isUnlocked: Bool
     let unlockLevel: Int
-    let price: Int
 }
