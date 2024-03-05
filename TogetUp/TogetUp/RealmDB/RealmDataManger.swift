@@ -48,17 +48,17 @@ class AlarmDataManager {
         }
     }
     
-    func updateAlarm(with request: CreateOrEditAlarmRequest, for alarmId: Int, missionEndpoint: String) {
+    func updateAlarm(with request: CreateOrEditAlarmRequest, for alarmId: Int, missionEndpoint: String, missionKoreanName: String) {
         do {
             try realm.write {
                 let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId)
                 if alarm == nil {
                     let newAlarm = Alarm()
                     newAlarm.id = alarmId 
-                    mapRequestToAlarm(request, alarm: newAlarm, missionEndpoint: missionEndpoint)
+                    mapRequestToAlarm(request, alarm: newAlarm, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
                     realm.add(newAlarm)
                 } else {
-                    mapRequestToAlarm(request, alarm: alarm!, missionEndpoint: missionEndpoint)
+                    mapRequestToAlarm(request, alarm: alarm!, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
                 }
             }
         } catch {
@@ -111,7 +111,7 @@ class AlarmDataManager {
         )
     }
     
-    private func mapRequestToAlarm(_ request: CreateOrEditAlarmRequest, alarm: Alarm, missionEndpoint: String) {
+    private func mapRequestToAlarm(_ request: CreateOrEditAlarmRequest, alarm: Alarm, missionEndpoint: String, missionKoreanName: String) {
         alarm.missionId = request.missionId
         alarm.missionObjectId = request.missionObjectId ?? 1
         alarm.isSnoozeActivated = request.isSnoozeActivated
@@ -128,7 +128,7 @@ class AlarmDataManager {
         alarm.saturday = request.saturday
         alarm.sunday = request.sunday
         alarm.isActivated = request.isActivated
-        alarm.missionName = request.name
+        alarm.missionName = missionKoreanName
         alarm.missionEndpoint = missionEndpoint
     }
     

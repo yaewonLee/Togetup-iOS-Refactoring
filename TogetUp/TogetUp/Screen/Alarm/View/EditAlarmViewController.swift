@@ -196,6 +196,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
             self.missionId = result.getMissionRes?.id ?? 0
             self.missionObjectId = missionObjectRes.id
             self.missionEndpoint = missionObjectRes.name
+            self.missionTitle = missionObjectRes.kr
         }
     }
     
@@ -230,7 +231,8 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func createAlarm(with param: CreateOrEditAlarmRequest) {
-        viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint)
+        print(#function, self.missionTitle)
+        viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint, missionKoreanName: self.missionTitle)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
@@ -243,7 +245,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func editAlarm(with param: CreateOrEditAlarmRequest) {
-        viewModel.editAlarm(param: param, missionEndpoint: self.missionEndpoint, alarmId: self.alarmId ?? 0)
+        viewModel.editAlarm(param: param, missionEndpoint: self.missionEndpoint, missionKoreanName: missionTitle, alarmId: self.alarmId ?? 0)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
@@ -321,6 +323,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.missionObjectId = missionObjectId
         self.missionId = missionId
         self.missionEndpoint = missionName
+        self.missionTitle = kr
     }
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {

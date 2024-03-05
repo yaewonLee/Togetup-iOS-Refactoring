@@ -31,13 +31,13 @@ class EditAlarmViewModel {
             }
     }
     
-    func postAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String) -> Single<Result<Void, Error>> {
+    func postAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, missionKoreanName: String) -> Single<Result<Void, Error>> {
         return networkManager.handleAPIRequest(provider.rx.request(.createAlarm(param: param)), dataType: CreateEditDeleteAlarmResponse.self)
             .flatMap { [weak self] result -> Single<Result<Void, Error>> in
                 switch result {
                 case .success(let response):
                     let alarmId = response.result
-                    self?.realmManager.updateAlarm(with: param, for: alarmId ?? 0, missionEndpoint: missionEndpoint)
+                    self?.realmManager.updateAlarm(with: param, for: alarmId ?? 0, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))
@@ -45,12 +45,12 @@ class EditAlarmViewModel {
             }
     }
     
-    func editAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, alarmId: Int) -> Single<Result<Void, Error>> {
+    func editAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, missionKoreanName: String, alarmId: Int) -> Single<Result<Void, Error>> {
         return networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: param)), dataType: CreateEditDeleteAlarmResponse.self)
             .flatMap { [weak self] result -> Single<Result<Void, Error>> in
                 switch result {
                 case .success:
-                    self?.realmManager.updateAlarm(with: param, for: alarmId, missionEndpoint: missionEndpoint)
+                    self?.realmManager.updateAlarm(with: param, for: alarmId, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))
