@@ -27,13 +27,12 @@ class FloatingPannelViewController: UIViewController {
         super.viewDidLoad()
         customUI()
         setCollectionViewFlowLayout()
-        bindViewModel()
-        setCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        bindViewModel()
+        setCollectionView()
     }
     
     // MARK: - Custom Method
