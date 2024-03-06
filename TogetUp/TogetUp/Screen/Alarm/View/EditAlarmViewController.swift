@@ -28,7 +28,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     @IBOutlet weak var alarmNameTextField: UITextField!
     @IBOutlet weak var alarmIconLabel: UILabel!
     @IBOutlet weak var isVibrate: UISwitch!
-    @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var addEmojiButton: UIButton!
     @IBOutlet weak var deleteEmojiButton: UIButton!
@@ -113,7 +112,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         }
         
         isVibrate.isOn = result.isVibrate
-        isRepeat.isOn = result.isSnoozeActivated
         sunday.isSelected = result.sunday
         monday.isSelected = result.monday
         tuesday.isSelected = result.tuesday
@@ -211,7 +209,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         return CreateOrEditAlarmRequest(
             missionId: self.missionId,
             missionObjectId: paramMissionObjId,
-            isSnoozeActivated: isRepeat.isOn,
+            isSnoozeActivated: false,
             name: alarmName,
             icon: alarmIcon,
             isVibrate: isVibrate.isOn,

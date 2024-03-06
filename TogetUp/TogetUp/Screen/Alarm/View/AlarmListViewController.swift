@@ -34,10 +34,6 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        let alarms = realm.objects(Alarm.self)
-        for alarm in alarms {
-            print("Alarm ID: \(alarm.id), Name: \(alarm.name), Time: \(alarm.alarmHour):\(alarm.alarmMinute)")
-        }
         requestAuthorization()
         fetchAndSaveAlarmsIfFirstLaunch()
         setUpNavigationBar()
@@ -48,13 +44,6 @@ class AlarmListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        print(#function)
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//            for request in requests {
-//                print("----------request:---------------")
-//                print(request.identifier)
-//            }
-//        }
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
     }
