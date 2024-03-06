@@ -126,6 +126,7 @@ class AlarmListViewModel {
                 case .success:
                     self?.realmManager.deleteAlarm(alarmId: alarmId)
                     self?.fetchAlarmsFromRealm()
+                    AlarmScheduleManager.shared.removeNotification(for: alarmId)
                 case .failure(let error):
                     self?.handleNetworkError(error)
                 }

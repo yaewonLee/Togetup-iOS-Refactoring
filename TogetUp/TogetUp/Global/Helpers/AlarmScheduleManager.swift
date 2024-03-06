@@ -91,7 +91,6 @@ class AlarmScheduleManager {
             print("Alarm with ID \(alarmId) not found in Realm")
             return
         }
-        
         if alarm.isActivated {
             scheduleNotification(for: alarmId)
         } else {
