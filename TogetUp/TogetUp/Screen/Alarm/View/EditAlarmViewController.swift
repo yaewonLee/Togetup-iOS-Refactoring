@@ -179,7 +179,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.alarmMinute = components.minute ?? 0
         
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
-        print(alarmTimeString)
     }
     
     private func configureMission(with result: GetAlarmResult) {
@@ -229,7 +228,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func createAlarm(with param: CreateOrEditAlarmRequest) {
-        print(#function, self.missionTitle)
         viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint, missionKoreanName: self.missionTitle)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {

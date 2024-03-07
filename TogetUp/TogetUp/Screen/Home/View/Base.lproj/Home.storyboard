@@ -281,14 +281,14 @@
             <objects>
                 <viewController storyboardIdentifier="FloatingPannelViewController" title="FloatingPannelViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NPm-6r-ecT" customClass="FloatingPannelViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="x2C-Sg-4xy">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="1500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZuY-sC-Ejg">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="1500"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2d7-US-m6r" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1500"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LwA-2Y-9Vc">
                                                 <rect key="frame" x="20" y="52" width="353" height="92"/>
@@ -343,15 +343,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pnU-8J-tWZ">
-                                                <rect key="frame" x="36" y="228" width="16" height="1272"/>
-                                                <color key="backgroundColor" name="neutral050"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="16" id="zya-rv-beE"/>
-                                                </constraints>
-                                            </view>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0lF-or-RcW">
-                                                <rect key="frame" x="20" y="228" width="353" height="1164"/>
+                                                <rect key="frame" x="20" y="228" width="353" height="516"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JD1-Q1-nLo">
                                                     <size key="itemSize" width="353" height="70"/>
@@ -442,11 +435,8 @@
                                             <constraint firstItem="Jd0-Xx-Ue1" firstAttribute="top" secondItem="LwA-2Y-9Vc" secondAttribute="bottom" constant="36" id="31K-3e-Seg"/>
                                             <constraint firstItem="LwA-2Y-9Vc" firstAttribute="leading" secondItem="2d7-US-m6r" secondAttribute="leading" constant="20" id="Dg1-6C-XkA"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Jd0-Xx-Ue1" secondAttribute="trailing" constant="20" symbolic="YES" id="E9Y-WV-E4i"/>
-                                            <constraint firstAttribute="bottom" secondItem="pnU-8J-tWZ" secondAttribute="bottom" id="Ec7-ya-WJA"/>
                                             <constraint firstAttribute="bottom" secondItem="0lF-or-RcW" secondAttribute="bottom" constant="108" id="GcG-yk-yHZ"/>
-                                            <constraint firstItem="pnU-8J-tWZ" firstAttribute="top" secondItem="0lF-or-RcW" secondAttribute="top" id="TUl-Ay-vVq"/>
                                             <constraint firstItem="LwA-2Y-9Vc" firstAttribute="top" secondItem="2d7-US-m6r" secondAttribute="top" constant="52" id="jcZ-Ye-TnV"/>
-                                            <constraint firstItem="pnU-8J-tWZ" firstAttribute="leading" secondItem="0lF-or-RcW" secondAttribute="leading" constant="16" id="kDm-Gq-ecj"/>
                                             <constraint firstItem="0lF-or-RcW" firstAttribute="top" secondItem="Jd0-Xx-Ue1" secondAttribute="bottom" constant="24" id="ni2-f3-OaY"/>
                                             <constraint firstAttribute="trailing" secondItem="0lF-or-RcW" secondAttribute="trailing" constant="20" id="nm6-OA-aJu"/>
                                             <constraint firstItem="Jd0-Xx-Ue1" firstAttribute="leading" secondItem="2d7-US-m6r" secondAttribute="leading" constant="20" id="wTa-Th-lXG"/>
@@ -477,7 +467,6 @@
                             <constraint firstItem="ZuY-sC-Ejg" firstAttribute="top" secondItem="x2C-Sg-4xy" secondAttribute="top" id="gi2-Pe-1qC"/>
                         </constraints>
                     </view>
-                    <size key="freeformSize" width="393" height="1500"/>
                     <connections>
                         <outlet property="alarmInfoLabel" destination="G4I-mt-zKw" id="ffm-vB-Hpw"/>
                         <outlet property="currentAlarmView" destination="LwA-2Y-9Vc" id="o0T-R9-s39"/>
@@ -489,7 +478,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LiQ-6t-yFg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1808" y="14"/>
+            <point key="canvasLocation" x="1761" y="-213"/>
         </scene>
     </scenes>
     <resources>
@@ -506,9 +495,6 @@
         <image name="txt" width="248" height="114"/>
         <namedColor name="chick">
             <color red="0.6705882352941176" green="0.82745098039215681" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="neutral050">
-            <color red="0.9570000171661377" green="0.93699997663497925" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="neutral100">
             <color red="0.90196078431372551" green="0.88235294117647056" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
