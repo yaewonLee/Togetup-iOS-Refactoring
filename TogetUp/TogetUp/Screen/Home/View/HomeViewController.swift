@@ -30,6 +30,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private var currentAvatarId = 1
     private var progressPercent = 0.0
     
+    // MARK: - Life Cylcle
     override func viewDidLoad() {
         super.viewDidLoad()
         setFloatingpanel()
@@ -37,6 +38,15 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         bindAvatarCollectionView()
         customUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpUserData()
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == currentAvatarId }) {
+            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
+            self.view.backgroundColor = UIColor(named: theme.colorName)
+        }
+    }
+    
     
     // MARK: - Custom Methods
     private func customUI() {
@@ -89,13 +99,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     }
     
     private func selectInitialAvatar() {
-        let targetAvatarId = currentAvatarId
-        if let index = viewModel.avatars.firstIndex(where: { $0.avatarId == targetAvatarId }) {
+        if let index = viewModel.avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
             let indexPath = IndexPath(row: index, section: 0)
             avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
             
-            if let avatar = viewModel.avatars.first(where: { $0.avatarId == targetAvatarId }) {
+            if let avatar = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
                 updateAvatarImageAndBackgroundColor(with: avatar)
             }
         }
