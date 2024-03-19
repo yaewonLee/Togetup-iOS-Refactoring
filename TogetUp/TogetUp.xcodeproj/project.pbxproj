@@ -79,7 +79,7 @@
 		F9C8ADCA2A9CE56700F541FD /* MissionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C8ADC92A9CE56700F541FD /* MissionListViewController.swift */; };
 		F9D679D12AC1786F006B1643 /* UIImagePickerController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D679D02AC1786F006B1643 /* UIImagePickerController + Extension.swift */; };
 		F9D679D32AC19FB9006B1643 /* MissionProcessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D679D22AC19FB9006B1643 /* MissionProcessViewModel.swift */; };
-		F9D679D62AC1A177006B1643 /* MissionDetectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D679D52AC1A177006B1643 /* MissionDetectModel.swift */; };
+		F9D679D62AC1A177006B1643 /* MissionProcessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D679D52AC1A177006B1643 /* MissionProcessModel.swift */; };
 		F9D679D92AC1BD2E006B1643 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F9D679D82AC1BD2E006B1643 /* Lottie */; };
 		F9DA5D842AC146C1008E16A6 /* MissionPerformViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DA5D832AC146C1008E16A6 /* MissionPerformViewModel.swift */; };
 		F9DA5D862AC16526008E16A6 /* CapturedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DA5D852AC16526008E16A6 /* CapturedImageViewController.swift */; };
@@ -156,7 +156,7 @@
 		F9C8ADC92A9CE56700F541FD /* MissionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionListViewController.swift; sourceTree = "<group>"; };
 		F9D679D02AC1786F006B1643 /* UIImagePickerController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController + Extension.swift"; sourceTree = "<group>"; };
 		F9D679D22AC19FB9006B1643 /* MissionProcessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionProcessViewModel.swift; sourceTree = "<group>"; };
-		F9D679D52AC1A177006B1643 /* MissionDetectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionDetectModel.swift; sourceTree = "<group>"; };
+		F9D679D52AC1A177006B1643 /* MissionProcessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionProcessModel.swift; sourceTree = "<group>"; };
 		F9DA5D832AC146C1008E16A6 /* MissionPerformViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPerformViewModel.swift; sourceTree = "<group>"; };
 		F9DA5D852AC16526008E16A6 /* CapturedImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedImageViewController.swift; sourceTree = "<group>"; };
 		F9E50D172A95E6BE0076FEF1 /* EditAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlarmViewController.swift; sourceTree = "<group>"; };
@@ -561,7 +561,7 @@
 		F9E6D2D92ABFCDD7009004D9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F9D679D52AC1A177006B1643 /* MissionDetectModel.swift */,
+				F9D679D52AC1A177006B1643 /* MissionProcessModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -709,7 +709,7 @@
 				F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */,
 				F99BE8032AA1BBC80005E66F /* LoginService.swift in Sources */,
 				F91AA8882AB890BE00BDA437 /* AppStatusManager.swift in Sources */,
-				F9D679D62AC1A177006B1643 /* MissionDetectModel.swift in Sources */,
+				F9D679D62AC1A177006B1643 /* MissionProcessModel.swift in Sources */,
 				F9D679D12AC1786F006B1643 /* UIImagePickerController + Extension.swift in Sources */,
 				F98600F22AAEC1A400595646 /* MissionService.swift in Sources */,
 				F9D679D32AC19FB9006B1643 /* MissionProcessViewModel.swift in Sources */,
