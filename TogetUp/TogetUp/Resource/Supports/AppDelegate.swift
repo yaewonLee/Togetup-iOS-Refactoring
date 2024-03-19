@@ -16,7 +16,7 @@ import RxSwift
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     private let pushAlarmViewModel = PushAlarmViewModel()
     private let disposeBag = DisposeBag()
-
+    
     var isLoggedIn: Bool {
         return KeyChainManager.shared.getToken() != nil
     }
@@ -44,12 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        print("fcmToken: \(fcmToken)")
-//        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
-//            .subscribe(onNext: { response in
-//                print(response)
-//            })
-//            .disposed(by: disposeBag)
+        //        print("fcmToken: \(fcmToken)")
+        //        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
+        //            .subscribe(onNext: { response in
+        //                print(response)
+        //            })
+        //            .disposed(by: disposeBag)
     }
     
     // MARK: UISceneSession Lifecycle
@@ -78,18 +78,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.alarmId = alarmId
-            sceneDelegate.navigateToMissionPerformViewController()
+            sceneDelegate.navigateToMissionPerformViewController(with: alarmId)
         }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
+        guard let alarmId = userInfo["alarmId"] as? Int else { return }
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.alarmId = response.notification.request.content.userInfo["alarmId"] as? Int
-            sceneDelegate.navigateToMissionPerformViewController()
+            sceneDelegate.navigateToMissionPerformViewController(with: alarmId)
         }
         completionHandler()
     }

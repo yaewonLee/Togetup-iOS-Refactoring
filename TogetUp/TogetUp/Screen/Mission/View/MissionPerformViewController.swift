@@ -31,6 +31,7 @@ class MissionPerformViewController: UIViewController {
     var alarmName = ""
     var missionObject = ""
     var missionId = 0
+    var alarmId = 0
     var isSnoozeActivated = false
     var isVibrate: Bool = true
     var audioPlayer: AVAudioPlayer?
@@ -132,6 +133,7 @@ extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavig
                     nextVC.image = capturedImage
                     nextVC.missionEndpoint = self.objectEndpoint
                     nextVC.missionId = self.missionId
+                    nextVC.alarmId = self.alarmId
                     self.present(nextVC, animated: true, completion: nil)
                 }
             }
