@@ -1,5 +1,5 @@
 //
-//  MissionModel.swift
+//  MissionProcessModel.swift
 //  TogetUp
 //
 //  Created by 이예원 on 2023/09/25.
