@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fOT-YW-3c0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fOT-YW-3c0">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -112,7 +112,7 @@
         <!--Alarm-->
         <scene sceneID="31v-Kf-y51">
             <objects>
-                <viewControllerPlaceholder storyboardName="Alarm" id="gNp-mW-QMP" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="Alarm" storyboardName="Alarm" id="gNp-mW-QMP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="FSs-Tt-R8i"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xRg-7r-yLx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -461,25 +461,16 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="8fh-rP-J4f"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="미션 촬영하기">
-                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="미션 촬영하기"/>
+                                <state key="disabled">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="performButtonTapped:" destination="R2n-of-ACS" eventType="touchUpInside" id="8N7-Em-5Wb"/>
                                 </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ra0-fB-tie">
-                                <rect key="frame" x="153.66666666666666" y="411" width="122.99999999999997" height="37"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="hFj-9Q-Iqw"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="97" id="s06-Kp-FsU"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="alarmAgain"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drr-bJ-Tsh">
                                 <rect key="frame" x="386" y="91" width="24" height="24"/>
@@ -493,6 +484,24 @@
                                     <action selector="dismissMissionPage:" destination="R2n-of-ACS" eventType="touchUpInside" id="NeG-6f-xTg"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxc-ac-1gA">
+                                <rect key="frame" x="185" y="419" width="60" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Jjd-fS-a6B"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                <color key="textColor" name="neutral800"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQr-AU-9hv">
+                                <rect key="frame" x="193.66666666666666" y="447" width="42.666666666666657" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="2bP-hy-iTg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="22"/>
+                                <color key="textColor" name="primary500"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="W2W-YO-TEd"/>
                         <color key="backgroundColor" name="secondary100"/>
@@ -502,28 +511,29 @@
                             <constraint firstItem="drr-bJ-Tsh" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="32" id="8CY-Ii-aRG"/>
                             <constraint firstItem="zN8-I1-mMH" firstAttribute="top" secondItem="PGk-GF-Z8b" secondAttribute="top" constant="138" id="A9o-FZ-FDR"/>
                             <constraint firstItem="8cA-D4-Y6X" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="246" id="F4h-As-yi4"/>
+                            <constraint firstItem="JQr-AU-9hv" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="IjB-Jv-ISI"/>
                             <constraint firstItem="5xy-RX-doN" firstAttribute="top" secondItem="W2W-YO-TEd" secondAttribute="top" constant="52" id="JLb-OI-bZP"/>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="trailing" secondItem="Gb7-d1-IaI" secondAttribute="trailing" constant="20" id="KtX-aT-7Vl"/>
                             <constraint firstItem="cr7-PL-zNu" firstAttribute="top" secondItem="5xy-RX-doN" secondAttribute="bottom" constant="12" id="OiY-sZ-mje"/>
                             <constraint firstItem="8cA-D4-Y6X" firstAttribute="leading" secondItem="PGk-GF-Z8b" secondAttribute="leading" constant="-30" id="PUz-FW-olL"/>
-                            <constraint firstItem="Ra0-fB-tie" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="QkW-sZ-YBL"/>
                             <constraint firstItem="cr7-PL-zNu" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="Qnn-WX-h3g"/>
                             <constraint firstItem="5xy-RX-doN" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="RHQ-Co-pDs"/>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="bottom" secondItem="RiV-XE-ef5" secondAttribute="bottom" constant="24" id="RRH-Ab-NRh"/>
                             <constraint firstItem="mKd-bk-YwS" firstAttribute="top" secondItem="OwE-U5-6lr" secondAttribute="bottom" constant="16" id="RTo-2H-0CO"/>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="trailing" secondItem="drr-bJ-Tsh" secondAttribute="trailing" constant="20" id="ZM5-d2-g7R"/>
-                            <constraint firstItem="Ra0-fB-tie" firstAttribute="top" secondItem="mKd-bk-YwS" secondAttribute="bottom" constant="16" id="cZS-nB-nKo"/>
+                            <constraint firstItem="Oxc-ac-1gA" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="Zz9-BZ-L0M"/>
                             <constraint firstItem="Gb7-d1-IaI" firstAttribute="leading" secondItem="W2W-YO-TEd" secondAttribute="leading" constant="20" id="g28-iV-umw"/>
                             <constraint firstItem="RiV-XE-ef5" firstAttribute="top" secondItem="Gb7-d1-IaI" secondAttribute="bottom" constant="24" id="kuY-o7-6gi"/>
+                            <constraint firstItem="Oxc-ac-1gA" firstAttribute="top" secondItem="mKd-bk-YwS" secondAttribute="bottom" constant="24" id="nBq-6q-Cvb"/>
                             <constraint firstItem="RiV-XE-ef5" firstAttribute="leading" secondItem="W2W-YO-TEd" secondAttribute="leading" constant="20" id="q5U-v0-JNT"/>
                             <constraint firstItem="OwE-U5-6lr" firstAttribute="centerX" secondItem="PGk-GF-Z8b" secondAttribute="centerX" id="qUH-3p-Hg0"/>
+                            <constraint firstItem="JQr-AU-9hv" firstAttribute="top" secondItem="Oxc-ac-1gA" secondAttribute="bottom" constant="4" id="s0p-Ey-Bdc"/>
                             <constraint firstItem="OwE-U5-6lr" firstAttribute="top" secondItem="cr7-PL-zNu" secondAttribute="bottom" constant="59" id="tgq-9R-kmc"/>
                             <constraint firstItem="W2W-YO-TEd" firstAttribute="trailing" secondItem="zN8-I1-mMH" secondAttribute="trailing" constant="142" id="yp9-Yz-Nyi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3cy-HA-dbJ"/>
                     <connections>
-                        <outlet property="alarmAgainButton" destination="Ra0-fB-tie" id="jyB-Uc-zix"/>
                         <outlet property="alarmIconLabel" destination="nXE-GS-vdX" id="BhJ-IM-U9S"/>
                         <outlet property="alarmNameLabel" destination="mKd-bk-YwS" id="eVw-pJ-v7a"/>
                         <outlet property="currentDateLabel" destination="5xy-RX-doN" id="h4B-iG-cem"/>
@@ -532,6 +542,7 @@
                         <outlet property="missionBackgroundView" destination="Gb7-d1-IaI" id="bvZ-d2-GdH"/>
                         <outlet property="missionObjectLabel" destination="Peg-AA-8e4" id="7XY-9X-Tyi"/>
                         <outlet property="missionPerformButton" destination="RiV-XE-ef5" id="hBR-Gy-zgm"/>
+                        <outlet property="timerLabel" destination="JQr-AU-9hv" id="7zk-qn-19K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O1C-K4-0VX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -589,67 +600,59 @@
                                         <rect key="frame" x="40" y="62" width="200" height="88"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 ⭢ 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nox-4h-J1Q">
+                                        <rect key="frame" x="124.33333333333333" y="63" width="31.333333333333329" height="24"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="VS8-pr-6FY"/>
+                                            <constraint firstAttribute="height" constant="24" id="qvN-YO-5k7"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                                    </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+ 25 Exp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HLL-MA-e7G">
                                         <rect key="frame" x="105" y="106" width="70" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="LSx-AE-t5K"/>
-                                            <constraint firstAttribute="width" constant="70" id="RKh-zY-HgT"/>
+                                            <constraint firstAttribute="width" constant="70" id="RfV-7U-wXP"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fy3-cW-wrM">
-                                        <rect key="frame" x="20" y="95" width="240" height="31"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="vaQ-EF-U8g">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="31"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" name="primary050"/>
-                                                <color key="tintColor" name="primary400"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="홈으로 이동">
-                                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="14"/>
-                                                </buttonConfiguration>
-                                            </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-V8-Rdq">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="31"/>
-                                                <color key="backgroundColor" name="primary400"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="보러가기">
-                                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="14"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="moveToGroupBoard:" destination="8B9-mG-ox2" eventType="touchUpInside" id="usK-rX-W0E"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="축하합니다👏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKF-hP-I6d">
+                                        <rect key="frame" x="95" y="96" width="90.333333333333314" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="37" id="IZW-1p-bwR"/>
+                                            <constraint firstAttribute="height" constant="24" id="Wm9-cI-wg3"/>
                                         </constraints>
-                                    </stackView>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" name="primary050"/>
                                 <constraints>
                                     <constraint firstItem="HgF-cq-gzV" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="0uD-EU-Efe"/>
+                                    <constraint firstItem="Nox-4h-J1Q" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="23z-aH-2ZS"/>
                                     <constraint firstItem="2Nq-fn-74p" firstAttribute="top" secondItem="HgF-cq-gzV" secondAttribute="bottom" constant="12" id="30M-Fa-Cnv"/>
-                                    <constraint firstAttribute="trailing" secondItem="fy3-cW-wrM" secondAttribute="trailing" constant="20" id="3f3-2T-7rC"/>
                                     <constraint firstItem="HLL-MA-e7G" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="42C-8E-X6M"/>
                                     <constraint firstItem="HLL-MA-e7G" firstAttribute="top" secondItem="2Nq-fn-74p" secondAttribute="bottom" constant="8" id="5V0-rl-rvS"/>
+                                    <constraint firstAttribute="bottom" secondItem="RKF-hP-I6d" secondAttribute="bottom" constant="30" id="A0h-nw-O6m"/>
                                     <constraint firstItem="o3y-RH-1pI" firstAttribute="leading" secondItem="glP-x4-zaQ" secondAttribute="leading" constant="40" id="B7v-Lc-42u"/>
                                     <constraint firstAttribute="width" constant="280" id="Icl-Jd-Ka6"/>
+                                    <constraint firstItem="RKF-hP-I6d" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="MJg-He-Iq2"/>
                                     <constraint firstItem="2Nq-fn-74p" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="PDF-cK-Fk2"/>
                                     <constraint firstAttribute="height" constant="150" id="QAB-P0-e8B"/>
-                                    <constraint firstItem="fy3-cW-wrM" firstAttribute="leading" secondItem="glP-x4-zaQ" secondAttribute="leading" constant="20" id="SNL-Xz-vdz"/>
-                                    <constraint firstAttribute="bottom" secondItem="fy3-cW-wrM" secondAttribute="bottom" constant="24" id="WS8-CM-Xr4"/>
                                     <constraint firstAttribute="trailing" secondItem="o3y-RH-1pI" secondAttribute="trailing" constant="40" id="cjz-aT-RYD"/>
                                     <constraint firstItem="h24-fJ-g8u" firstAttribute="centerX" secondItem="glP-x4-zaQ" secondAttribute="centerX" id="fen-w7-GwR"/>
                                     <constraint firstAttribute="bottom" secondItem="o3y-RH-1pI" secondAttribute="bottom" id="oiY-20-7VY"/>
                                     <constraint firstAttribute="bottom" secondItem="h24-fJ-g8u" secondAttribute="bottom" constant="36" id="ols-Yn-Yjn"/>
                                     <constraint firstItem="o3y-RH-1pI" firstAttribute="top" secondItem="HgF-cq-gzV" secondAttribute="bottom" id="pLf-gd-Rvu"/>
                                     <constraint firstItem="HgF-cq-gzV" firstAttribute="top" secondItem="glP-x4-zaQ" secondAttribute="top" constant="36" id="sYu-mC-4vh"/>
+                                    <constraint firstItem="Nox-4h-J1Q" firstAttribute="centerY" secondItem="glP-x4-zaQ" secondAttribute="centerY" id="yja-UT-wF9"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -668,12 +671,10 @@
                     <connections>
                         <outlet property="capturedImageView" destination="sQ5-UM-mYz" id="wWG-Z7-eMT"/>
                         <outlet property="filmAgainButton" destination="h24-fJ-g8u" id="C6o-jZ-oqd"/>
-                        <outlet property="goGroupButton" destination="JyC-V8-Rdq" id="feN-pV-xec"/>
-                        <outlet property="goHomeButton" destination="vaQ-EF-U8g" id="Tio-nK-lAm"/>
+                        <outlet property="levelUpLabel" destination="Nox-4h-J1Q" id="4vG-Jl-Ns9"/>
                         <outlet property="pointLabel" destination="HLL-MA-e7G" id="SQd-c0-cGo"/>
                         <outlet property="progressBar" destination="o3y-RH-1pI" id="fax-rD-AW7"/>
                         <outlet property="progressView" destination="glP-x4-zaQ" id="8SM-l7-eXp"/>
-                        <outlet property="stackView" destination="fy3-cW-wrM" id="9Lx-yP-G2Q"/>
                         <outlet property="statusLabel" destination="HgF-cq-gzV" id="IyR-xe-wpV"/>
                         <outlet property="statusLabelTopMargin" destination="sYu-mC-4vh" id="a4e-wv-xr4"/>
                         <outlet property="successLabel" destination="2Nq-fn-74p" id="kS9-Sq-RH8"/>
@@ -690,7 +691,6 @@
         <image name="Kakao ID mini" width="20" height="20"/>
         <image name="KakaoLogin" width="335" height="48"/>
         <image name="Logo" width="136" height="28"/>
-        <image name="alarmAgain" width="99" height="39"/>
         <image name="filmAgainbButton" width="127" height="39"/>
         <image name="homeCircle" width="443" height="443"/>
         <image name="homeFIilledCircle" width="771" height="771"/>
@@ -714,6 +714,9 @@
         <namedColor name="neutral600">
             <color red="0.37254901960784315" green="0.36470588235294116" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="neutral800">
+            <color red="0.19215686274509805" green="0.18823529411764706" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="primary025">
             <color red="0.96470588235294119" green="0.97647058823529409" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -725,6 +728,9 @@
         </namedColor>
         <namedColor name="primary400">
             <color red="0.40000000000000002" green="0.55686274509803924" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primary500">
+            <color red="0.31764705882352939" green="0.47450980392156861" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondary050">
             <color red="0.99599999189376831" green="0.97299998998641968" blue="0.92500001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -13,8 +13,7 @@ import AVFoundation
 
 class MissionPerformViewController: UIViewController {
     // MARK: - UI Components
-    @IBOutlet weak var alarmAgainButton: UIButton!
-    @IBOutlet weak var missionPerformButton: UIButton!
+    @IBOutlet weak var missionPerformButton: ButtonWithStateColors!
     @IBOutlet weak var iconBackgroundView: UIView!
     @IBOutlet weak var missionBackgroundView: UIView!
     @IBOutlet weak var currentDateLabel: UILabel!
@@ -22,6 +21,7 @@ class MissionPerformViewController: UIViewController {
     @IBOutlet weak var alarmIconLabel: UILabel!
     @IBOutlet weak var alarmNameLabel: UILabel!
     @IBOutlet weak var missionObjectLabel: UILabel!
+    @IBOutlet weak var timerLabel: UILabel!
     
     // MARK: - Properties
     private let viewModel = MissionPerformViewModel()
@@ -34,8 +34,10 @@ class MissionPerformViewController: UIViewController {
     var alarmId = 0
     var isSnoozeActivated = false
     var isVibrate: Bool = true
-    var audioPlayer: AVAudioPlayer?
-    var vibrationTimer: Timer?
+    private var audioPlayer: AVAudioPlayer?
+    private var vibrationTimer: Timer?
+    private var countdownTimer: Timer?
+    private var remainingTimeInSeconds: Int = 60
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -43,14 +45,11 @@ class MissionPerformViewController: UIViewController {
         customUI()
         bindLabels()
         loadSound()
+        startCountdown()
     }
     
     // MARK: - Custom Method
-    private func customUI() {    
-        if isSnoozeActivated {
-            alarmAgainButton.isHidden = false
-        }
-        
+    private func customUI() {
         self.missionPerformButton.layer.cornerRadius = 12
         self.missionPerformButton.layer.borderWidth = 2
         
@@ -80,7 +79,7 @@ class MissionPerformViewController: UIViewController {
             print("File not found")
             return
         }
-
+        
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             audioPlayer?.play()
@@ -101,6 +100,29 @@ class MissionPerformViewController: UIViewController {
         
         vibrationTimer?.invalidate()
         vibrationTimer = nil
+    }
+    
+    private func startCountdown() {
+        countdownTimer?.invalidate()
+        
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            
+            self.remainingTimeInSeconds -= 1
+            
+            if self.remainingTimeInSeconds == 0 {
+                self.timerLabel.textColor = UIColor(named: "error500")
+                timer.invalidate()
+                missionPerformButton.isEnabled = false
+                missionPerformButton.backgroundColor = UIColor(named: "primary100")
+                stopSoundAndVibrate()
+            }
+            
+            let minutes = self.remainingTimeInSeconds / 60
+            let seconds = self.remainingTimeInSeconds % 60
+            let formattedTime = String(format: "%02d:%02d", minutes, seconds)
+            self.timerLabel.text = formattedTime
+        }
     }
     
     // MARK: - @
