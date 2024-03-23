@@ -28,8 +28,22 @@ class Alarm: Object {
     @objc dynamic var isActivated: Bool = false
     @objc dynamic var missionName: String = ""
     @objc dynamic var missionEndpoint: String = ""
-
+    
     override static func primaryKey() -> String? {
         return "id"
+    }
+    
+    func getAlarmTime() -> Date? {
+        var dateComponents = DateComponents()
+        dateComponents.hour = self.alarmHour
+        dateComponents.minute = self.alarmMinute
+        
+        let currentDate = Date()
+        
+        if let alarmDate = Calendar.current.date(bySettingHour: self.alarmHour, minute: self.alarmMinute, second: 0, of: currentDate) {
+            return alarmDate
+        } else {
+            return nil
+        }
     }
 }
