@@ -15,6 +15,7 @@ class AlarmListViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var personalCollectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
+    @IBOutlet weak var groupLockerView: UIView!
     
     // MARK: - Properties
     private let viewModel = AlarmListViewModel()
@@ -35,6 +36,7 @@ class AlarmListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         requestAuthorization()
+        customUI()
         fetchAndSaveAlarmsIfFirstLaunch()
         setUpNavigationBar()
         customSegmentedControl()
@@ -49,6 +51,10 @@ class AlarmListViewController: UIViewController {
     }
     
     // MARK: - Custom Method
+    private func customUI () {
+        groupLockerView.layer.cornerRadius = 12
+    }
+    
     private func requestAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization (
             options: [.alert, .sound],
@@ -99,11 +105,11 @@ class AlarmListViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func editIsActivatedToggle(for alarm: Alarm) {
+    private func editIsActivatedToggle(for alarm: Alarm) {
         viewModel.editAlarmToggle(alarmId: alarm.id)
     }
     
-    func showDeleteAlert(for alarm: Alarm) {
+    private func showDeleteAlert(for alarm: Alarm) {
         let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
@@ -176,9 +182,11 @@ class AlarmListViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             self.personalCollectionView.isHidden = false
             self.addAlarmButton.isHidden = false
+            self.groupLockerView.isHidden = true
         } else {
             self.personalCollectionView.isHidden = true
             self.addAlarmButton.isHidden = true
+            self.groupLockerView.isHidden = false
         }
     }
     
