@@ -10,10 +10,11 @@ import RxSwift
 import RxCocoa
 import AudioToolbox
 import AVFoundation
+import RealmSwift
 
 class MissionPerformViewController: UIViewController {
     // MARK: - UI Components
-    @IBOutlet weak var missionPerformButton: ButtonWithStateColors!
+    @IBOutlet weak var missionPerformButton: UIButton!
     @IBOutlet weak var iconBackgroundView: UIView!
     @IBOutlet weak var missionBackgroundView: UIView!
     @IBOutlet weak var currentDateLabel: UILabel!
@@ -44,9 +45,13 @@ class MissionPerformViewController: UIViewController {
         super.viewDidLoad()
         customUI()
         bindLabels()
-        loadSound()
-        startCountdown()
+        disableButtonIfNeeded()
     }
+//    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        startCountdown()
+//    }
     
     // MARK: - Custom Method
     private func customUI() {
@@ -103,6 +108,8 @@ class MissionPerformViewController: UIViewController {
     }
     
     private func startCountdown() {
+        timerLabel.text = "1:00"
+        timerLabel.textColor = UIColor(named: "primary500")
         countdownTimer?.invalidate()
         
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
@@ -113,8 +120,7 @@ class MissionPerformViewController: UIViewController {
             if self.remainingTimeInSeconds == 0 {
                 self.timerLabel.textColor = UIColor(named: "error500")
                 timer.invalidate()
-                missionPerformButton.isEnabled = false
-                missionPerformButton.backgroundColor = UIColor(named: "primary100")
+                disableMissionPerformButton()
                 stopSoundAndVibrate()
             }
             
@@ -124,6 +130,30 @@ class MissionPerformViewController: UIViewController {
             self.timerLabel.text = formattedTime
         }
     }
+    
+    private func disableButtonIfNeeded() {
+        let realm = try! Realm()
+        
+        guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else { return }
+        
+        if let alarmTime = alarm.getAlarmTime() {
+            let timeDifference = -alarmTime.timeIntervalSinceNow
+            print(timeDifference)
+            if timeDifference <= 60 {
+                missionPerformButton.isEnabled = true
+                loadSound()
+                startCountdown()
+            } else {
+                disableMissionPerformButton()
+            }
+        }
+    }
+    
+    private func disableMissionPerformButton() {
+        missionPerformButton.isEnabled = false
+        missionPerformButton.backgroundColor = UIColor(named: "primary100")
+    }
+
     
     // MARK: - @
     @IBAction func performButtonTapped(_ sender: UIButton) {
