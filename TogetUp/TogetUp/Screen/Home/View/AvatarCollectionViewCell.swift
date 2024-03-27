@@ -14,9 +14,9 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var avatarBackView: UIImageView!
     @IBOutlet weak var checkImageView: UIImageView!
     @IBOutlet weak var avatarImageView: UIImageView!
-    
     @IBOutlet weak var unlockLevelLabel: UILabel!
     @IBOutlet weak var unlockLabelStackView: UIStackView!
+    @IBOutlet weak var newLabel: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +33,8 @@ class AvatarCollectionViewCell: UICollectionViewCell {
         let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
         
         if let theme = ThemeManager.shared.themes.first(where: { $0.koreanName == model.theme }) {
+            newLabel.isHidden = !theme.isNew
+            
             let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
             let image = UIImage(named: isSelected ? theme.collectionViewAvatarName : theme.collectionViewAvatarName)
             
@@ -42,11 +44,12 @@ class AvatarCollectionViewCell: UICollectionViewCell {
                 avatarImageView.image = image
             }
             
-            
             if isSelected {
                 avatarBackView.layer.borderWidth = 2
                 checkImageView.tintColor = .black
                 avatarBackView.backgroundColor = UIColor(named: theme.colorName)
+                newLabel.isHidden = true
+                ThemeManager.shared.updateIsNewStatusForAvatar(withId: theme.avatarId, toNewStatus: false)
             } else {
                 avatarBackView.layer.borderWidth = 0
                 avatarBackView.backgroundColor = UIColor(named: "neutral100")

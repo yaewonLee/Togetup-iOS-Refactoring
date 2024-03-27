@@ -192,12 +192,13 @@
                                                     <outlet property="avatarBackView" destination="Whh-Tg-6UN" id="Hws-4b-Q1d"/>
                                                     <outlet property="avatarImageView" destination="kfJ-xz-yzY" id="T6D-Wk-Ck6"/>
                                                     <outlet property="checkImageView" destination="aay-fN-eLV" id="2WL-r1-90R"/>
+                                                    <outlet property="newLabel" destination="c6O-zK-ezN" id="tO2-ug-Cv4"/>
                                                     <outlet property="unlockLabelStackView" destination="hgC-uO-mOG" id="eNS-mz-wih"/>
                                                     <outlet property="unlockLevelLabel" destination="jYa-jS-ebg" id="2qE-0K-61P"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
-                                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="1MP-83-sII">
+                                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fnP-C2-LAs">
                                             <rect key="frame" x="0.0" y="0.0" width="20" height="237"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionReusableView>
@@ -320,12 +321,27 @@
                                                         <color key="textColor" name="neutral600"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Zn-ur-C4a">
+                                                        <rect key="frame" x="294" y="24" width="44" height="44"/>
+                                                        <color key="backgroundColor" name="primary100"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="3Zn-ur-C4a" secondAttribute="height" multiplier="1:1" id="1Tr-wj-pZM"/>
+                                                            <constraint firstAttribute="width" constant="44" id="nrf-Vu-ggW"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="arrow-right"/>
+                                                        <connections>
+                                                            <action selector="makeNewAlarmButtonTapped:" destination="NPm-6r-ecT" eventType="touchUpInside" id="DBv-S7-k04"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" name="secondary050"/>
                                                 <constraints>
                                                     <constraint firstItem="gPB-wj-oIS" firstAttribute="leading" secondItem="Nou-uM-pd7" secondAttribute="trailing" constant="12" id="2D3-N8-zGB"/>
+                                                    <constraint firstItem="3Zn-ur-C4a" firstAttribute="centerY" secondItem="LwA-2Y-9Vc" secondAttribute="centerY" id="4Bg-rJ-KEy"/>
                                                     <constraint firstItem="G4I-mt-zKw" firstAttribute="top" secondItem="gPB-wj-oIS" secondAttribute="bottom" constant="4" id="751-RR-Vjz"/>
                                                     <constraint firstAttribute="height" constant="92" id="GSJ-hl-3eY"/>
+                                                    <constraint firstAttribute="trailing" secondItem="3Zn-ur-C4a" secondAttribute="trailing" constant="15" id="IgN-7K-ND0"/>
                                                     <constraint firstItem="G4I-mt-zKw" firstAttribute="leading" secondItem="gPB-wj-oIS" secondAttribute="leading" id="NOT-73-9Cl"/>
                                                     <constraint firstItem="Nou-uM-pd7" firstAttribute="leading" secondItem="LwA-2Y-9Vc" secondAttribute="leading" constant="16" id="NTu-3p-5HQ"/>
                                                     <constraint firstItem="Nou-uM-pd7" firstAttribute="top" secondItem="LwA-2Y-9Vc" secondAttribute="top" constant="16" id="TIa-Jv-FyA"/>
@@ -343,18 +359,18 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0lF-or-RcW">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0lF-or-RcW">
                                                 <rect key="frame" x="20" y="228" width="353" height="516"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JD1-Q1-nLo">
                                                     <size key="itemSize" width="353" height="70"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                                    <size key="footerReferenceSize" width="50" height="50"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TimelineCollectionViewCell" id="Du2-2e-PqC" customClass="TimelineCollectionViewCell" customModule="TogetUp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="70"/>
+                                                        <rect key="frame" x="0.0" y="50" width="353" height="70"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CeJ-v7-RyP">
                                                             <rect key="frame" x="0.0" y="0.0" width="353" height="70"/>
@@ -428,6 +444,14 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
+                                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FTU-9A-Soq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </collectionReusableView>
+                                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="N45-mA-OwP">
+                                                    <rect key="frame" x="0.0" y="120" width="353" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </collectionReusableView>
                                             </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -472,6 +496,7 @@
                         <outlet property="currentAlarmView" destination="LwA-2Y-9Vc" id="o0T-R9-s39"/>
                         <outlet property="dateLabel" destination="Jd0-Xx-Ue1" id="MqZ-KG-sPY"/>
                         <outlet property="iconLabel" destination="Nou-uM-pd7" id="FPP-C8-Ant"/>
+                        <outlet property="makeNewAlarmButton" destination="3Zn-ur-C4a" id="1qy-Wa-vCA"/>
                         <outlet property="timeLabel" destination="gPB-wj-oIS" id="pSV-XR-SYf"/>
                         <outlet property="timeLineCollectionView" destination="0lF-or-RcW" id="wva-TY-Gxk"/>
                     </connections>
@@ -483,6 +508,7 @@
     </scenes>
     <resources>
         <image name="NewAvatar" width="44" height="22"/>
+        <image name="arrow-right" width="24" height="24"/>
         <image name="avatarBackNolLine" width="120" height="178"/>
         <image name="avatarCustomButton" width="24" height="24"/>
         <image name="c_chick" width="120.33333587646484" height="178.33332824707031"/>
@@ -507,6 +533,9 @@
         </namedColor>
         <namedColor name="neutral600">
             <color red="0.37254901960784315" green="0.36470588235294116" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primary100">
+            <color red="0.72549019607843135" green="0.792156862745098" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary200">
             <color red="0.62352941176470589" green="0.72156862745098038" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

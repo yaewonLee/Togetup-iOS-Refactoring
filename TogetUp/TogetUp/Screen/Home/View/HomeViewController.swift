@@ -34,17 +34,13 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setFloatingpanel()
-        setUpUserData()
+        setUpUserInitialData()
         bindAvatarCollectionView()
         customUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setUpUserData()
-        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == currentAvatarId }) {
-            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
-            self.view.backgroundColor = UIColor(named: theme.colorName)
-        }
+        setUpUserInitialData()
     }
     
     
@@ -62,7 +58,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         hangerButton.layer.borderWidth = 2
     }
     
-    private func setUpUserData() {
+    private func setUpUserInitialData() {
         if let currentUserData = UserDataManager.shared.currentUserData {
             levelLabel.text = "Lv. \(currentUserData.userStat.level)"
             nameLabel.text = currentUserData.name
@@ -70,6 +66,11 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             progressPercent = currentUserData.userStat.expPercentage
         } else {
             print("사용자 데이터 없음")
+        }
+        
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == currentAvatarId }) {
+            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
+            self.view.backgroundColor = UIColor(named: theme.colorName)
         }
     }
     
@@ -105,15 +106,16 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
             
             if let avatar = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
-                updateAvatarImageAndBackgroundColor(with: avatar)
+                configureAvatars(with: avatar)
             }
         }
     }
     
-    private func updateAvatarImageAndBackgroundColor(with model: AvatarResult) {
+    private func configureAvatars(with model: AvatarResult) {
         if let theme = ThemeManager.shared.themes.first(where: { $0.koreanName == model.theme }) {
             mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
             self.view.backgroundColor = UIColor(named: theme.colorName)
+            
         }
     }
     
@@ -162,7 +164,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         if let currentUserData = UserDataManager.shared.currentUserData {
             let currentAvatarId = currentUserData.avatarId
             if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
-                updateAvatarImageAndBackgroundColor(with: currentAvatarModel)
+                configureAvatars(with: currentAvatarModel)
             }
         }
     }
@@ -176,7 +178,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                         currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
                         UserDataManager.shared.updateHomeData(data: currentUserData)
                     }
-                    
                     self?.tabBarController?.tabBar.isHidden = false
                     self?.hangerButton.isHidden = false
                     self?.fpc.show()
@@ -204,7 +205,7 @@ extension HomeViewController: UICollectionViewDelegate {
             let model = viewModel.avatars[indexPath.row]
             selectedCell.setAttributes(with: model, isSelected: true)
             viewModel.updateSelectedAvatar(at: indexPath.row)
-            updateAvatarImageAndBackgroundColor(with: model)
+            configureAvatars(with: model)
         }
         selectedIndex = indexPath
     }
