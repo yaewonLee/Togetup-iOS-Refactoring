@@ -13,10 +13,6 @@ import RxMoya
 class FloatingPanelViewModel {
     private let provider = MoyaProvider<HomeService>()
     
-//    init() {
-//        self.provider = MoyaProvider<HomeService>(plugins: [NetworkLogger()])
-//    }
-    
     func getTimeLine() -> Observable<TimelineResponse> {
         return provider.rx.request(.getTimeLine)
             .filterSuccessfulStatusCodes()

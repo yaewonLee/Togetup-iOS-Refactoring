@@ -113,7 +113,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
-                    print("*************** 회원가입 성공 ***************")
                     self?.switchView()
                 case .failure(let error):
                     let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
