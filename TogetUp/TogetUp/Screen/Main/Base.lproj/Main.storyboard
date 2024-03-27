@@ -670,6 +670,7 @@
                     <navigationItem key="navigationItem" id="sUa-1a-BY7"/>
                     <connections>
                         <outlet property="capturedImageView" destination="sQ5-UM-mYz" id="wWG-Z7-eMT"/>
+                        <outlet property="congratLabel" destination="RKF-hP-I6d" id="0uA-CI-EIv"/>
                         <outlet property="filmAgainButton" destination="h24-fJ-g8u" id="C6o-jZ-oqd"/>
                         <outlet property="levelUpLabel" destination="Nox-4h-J1Q" id="4vG-Jl-Ns9"/>
                         <outlet property="pointLabel" destination="HLL-MA-e7G" id="SQd-c0-cGo"/>

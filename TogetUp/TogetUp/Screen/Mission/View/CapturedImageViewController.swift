@@ -57,7 +57,7 @@ class CapturedImageViewController: UIViewController {
         
         pointLabel.layer.cornerRadius = 12
         pointLabel.layer.masksToBounds = true
-        levelUpLabel.layer.cornerRadius = 14
+        levelUpLabel.layer.cornerRadius = 12
         levelUpLabel.layer.masksToBounds = true
     }
     
@@ -74,8 +74,7 @@ class CapturedImageViewController: UIViewController {
         let endPoint = missionId == 2 ? "object-detection/\(missionEndpoint)" : "face-recognition/\(missionEndpoint)"
         viewModel.sendMissionImage(objectName: endPoint, missionImage: image)
             .subscribe(onNext: { response in
-                self.handleResponse(response)
-                print(response)
+                self.handleMissionDetectResponse(response)
                 let param = MissionCompleteRequest(alarmId: self.alarmId, missionPicLink: response.result?.filePath ?? "")
                 self.completeMission(with: param)
             }, onError: { error in
@@ -84,7 +83,7 @@ class CapturedImageViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func handleResponse(_ response: MissionDetectResponse) {
+    private func handleMissionDetectResponse(_ response: MissionDetectResponse) {
         progressView.backgroundColor = UIColor(named: "secondary050")
         progressBar.isHidden = true
         if response.message == "미션을 성공하지 못했습니다." || response.message == "탐지된 객체가 없습니다." {
@@ -107,15 +106,8 @@ class CapturedImageViewController: UIViewController {
         viewModel.completeMission(param: param) { result in
             switch result {
             case .success(let response):
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    if response.result?.userLevelUp ?? false {
-                        self.statusLabel.text = "LEVEL UP"
-                        self.successLabel.isHidden = true
-                        self.pointLabel.isHidden = true
-                        self.levelUpLabel.isHidden = false
-                        self.congratLabel.isHidden = false
-                        self.configureLevelUpLabel(userLevel: response.result?.userStat.level ?? 0)
-                    }
+                if let userLevelUp = response.result?.userLevelUp, userLevelUp {
+                    self.handleCompleteResponseUI(response)
                 }
                 self.startCountdown()
             case .failure(let error):
@@ -124,8 +116,21 @@ class CapturedImageViewController: UIViewController {
         }
     }
     
+    private func handleCompleteResponseUI(_ response: MissionCompleteResponse) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if response.result?.userLevelUp ?? false {
+                self.statusLabel.text = "LEVEL UP"
+                self.successLabel.isHidden = true
+                self.pointLabel.isHidden = true
+                self.levelUpLabel.isHidden = false
+                self.congratLabel.isHidden = false
+                self.configureLevelUpLabel(userLevel: response.result?.userStat.level ?? 0)
+            }
+        }
+    }
+    
     private func configureLevelUpLabel(userLevel: Int) {
-        let text = " \(userLevel - 1) ⭢ \(userLevel) "
+        let text = "  \(userLevel - 1) ⭢ \(userLevel)   "
         let attributedString = NSMutableAttributedString(string: text)
         let textLength = text.count
         let startLocation = 5
