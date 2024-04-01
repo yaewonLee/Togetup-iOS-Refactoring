@@ -533,22 +533,12 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사람" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igz-4O-PIC">
-                                                                <rect key="frame" x="86" y="19" width="28" height="24"/>
+                                                                <rect key="frame" x="86" y="29" width="28" height="24"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="24" id="L1k-Q1-P6b"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
                                                                 <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="정면으로 촬영해주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5U2-of-jLp">
-                                                                <rect key="frame" x="86" y="47" width="107" height="16"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="16" id="0Xd-1E-akh"/>
-                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="107" id="GGk-7Z-tZw"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="12"/>
-                                                                <color key="textColor" name="neutral700"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_thin" translatesAutoresizingMaskIntoConstraints="NO" id="H2V-L6-SV9">
@@ -572,14 +562,11 @@
                                                         <constraints>
                                                             <constraint firstItem="H2V-L6-SV9" firstAttribute="centerY" secondItem="B7Q-B6-MHL" secondAttribute="centerY" id="3kQ-Kr-HEw"/>
                                                             <constraint firstItem="Igz-4O-PIC" firstAttribute="leading" secondItem="0s3-sJ-bxN" secondAttribute="trailing" constant="12" id="448-dZ-Mb7"/>
-                                                            <constraint firstItem="Igz-4O-PIC" firstAttribute="top" secondItem="B7Q-B6-MHL" secondAttribute="top" constant="19" id="8kS-XI-BhC"/>
                                                             <constraint firstAttribute="trailing" secondItem="H2V-L6-SV9" secondAttribute="trailing" constant="16" id="E2m-UR-5jB"/>
                                                             <constraint firstAttribute="height" constant="82" id="EY5-jp-oAK"/>
                                                             <constraint firstItem="D9C-KR-faE" firstAttribute="top" secondItem="B7Q-B6-MHL" secondAttribute="top" id="HOI-Ab-ES0"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5U2-of-jLp" secondAttribute="trailing" constant="20" symbolic="YES" id="Olc-Oc-caV"/>
-                                                            <constraint firstItem="5U2-of-jLp" firstAttribute="leading" secondItem="Igz-4O-PIC" secondAttribute="leading" id="Soo-i1-oMv"/>
+                                                            <constraint firstItem="Igz-4O-PIC" firstAttribute="centerY" secondItem="B7Q-B6-MHL" secondAttribute="centerY" id="QQj-Am-rYS"/>
                                                             <constraint firstItem="D9C-KR-faE" firstAttribute="leading" secondItem="B7Q-B6-MHL" secondAttribute="leading" id="Vqn-xS-6r1"/>
-                                                            <constraint firstItem="5U2-of-jLp" firstAttribute="top" secondItem="Igz-4O-PIC" secondAttribute="bottom" constant="4" id="XuX-OV-5u5"/>
                                                             <constraint firstItem="0s3-sJ-bxN" firstAttribute="centerY" secondItem="B7Q-B6-MHL" secondAttribute="centerY" id="dVW-gQ-8eH"/>
                                                             <constraint firstAttribute="trailing" secondItem="D9C-KR-faE" secondAttribute="trailing" id="sBu-Zf-du3"/>
                                                             <constraint firstItem="3xo-pT-KEj" firstAttribute="centerY" secondItem="0s3-sJ-bxN" secondAttribute="centerY" id="sep-xi-Kcm"/>
