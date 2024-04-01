@@ -40,6 +40,7 @@
 		F96B32962A8CBA5500BD3BF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96B32952A8CBA5500BD3BF9 /* LoginViewController.swift */; };
 		F96B32A12A8E8BD300BD3BF9 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = F96B32A02A8E8BD300BD3BF9 /* KeychainAccess */; };
 		F96B32A42A8E8D8200BD3BF9 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96B32A32A8E8D8200BD3BF9 /* KeyChainManager.swift */; };
+		F977EE292BB87BBF00EA9042 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F977EE282BB87BBF00EA9042 /* OnboardingViewController.swift */; };
 		F97A896B2AA9A61000EBFB36 /* EditAlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97A896A2AA9A61000EBFB36 /* EditAlarmViewModel.swift */; };
 		F97A896F2AADA34C00EBFB36 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97A896E2AADA34C00EBFB36 /* AlarmModel.swift */; };
 		F97CDC192B0B79370057AA82 /* PushAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC182B0B79370057AA82 /* PushAlarmModel.swift */; };
@@ -50,7 +51,7 @@
 		F97CDC242B144C530057AA82 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC232B144C530057AA82 /* HomeViewModel.swift */; };
 		F97CDC262B1458E10057AA82 /* AvatarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC252B1458E10057AA82 /* AvatarModel.swift */; };
 		F97CDC282B14CA220057AA82 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC272B14CA220057AA82 /* AvatarCollectionViewCell.swift */; };
-		F97CDC2A2B15DDA50057AA82 /* FloatingPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC292B15DDA50057AA82 /* FloatingPanelViewModel.swift */; };
+		F97CDC2A2B15DDA50057AA82 /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC292B15DDA50057AA82 /* TimelineViewModel.swift */; };
 		F98600EE2AAE289200595646 /* ObjectMissionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600ED2AAE289200595646 /* ObjectMissionCollectionViewCell.swift */; };
 		F98600F02AAEC04A00595646 /* MissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600EF2AAEC04A00595646 /* MissionViewModel.swift */; };
 		F98600F22AAEC1A400595646 /* MissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600F12AAEC1A400595646 /* MissionService.swift */; };
@@ -63,12 +64,16 @@
 		F98601032AB8084700595646 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = F98601022AB8084700595646 /* RxCocoa */; };
 		F98601052AB8084700595646 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F98601042AB8084700595646 /* RxSwift */; };
 		F986010B2AB868B900595646 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F986010A2AB868B900595646 /* RxGesture */; };
+		F9919BDD2BBAC3F00016A29E /* 3_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F9919BDC2BBAC3F00016A29E /* 3_onboarding.json */; };
 		F9944F242ACD8FD800B39476 /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9944F232ACD8FD800B39476 /* UIImageView + Extension.swift */; };
 		F99BE7FC2A9F8EAC0005E66F /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE7FB2A9F8EAC0005E66F /* LoginModel.swift */; };
 		F99BE7FE2AA0E2440005E66F /* URLConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE7FD2AA0E2440005E66F /* URLConstant.swift */; };
 		F99BE8012AA1BA4C0005E66F /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8002AA1BA4C0005E66F /* NetworkLogger.swift */; };
 		F99BE8032AA1BBC80005E66F /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8022AA1BBC80005E66F /* LoginService.swift */; };
 		F99BE8062AA1CC740005E66F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99BE8052AA1CC740005E66F /* LoginViewModel.swift */; };
+		F99D0E962BB8418600437025 /* 2_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D0E932BB8418500437025 /* 2_onboarding.json */; };
+		F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D0E942BB8418600437025 /* 1_onboarding.json */; };
+		F99D0E992BB84B8100437025 /* LottieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99D0E982BB84B8100437025 /* LottieViewController.swift */; };
 		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
 		F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9BF13822AE2D4CF006A262A /* Kingfisher */; };
 		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
@@ -124,6 +129,7 @@
 		F96B32952A8CBA5500BD3BF9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F96B329B2A8E07A900BD3BF9 /* TogetUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TogetUp.entitlements; sourceTree = "<group>"; };
 		F96B32A32A8E8D8200BD3BF9 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
+		F977EE282BB87BBF00EA9042 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F97A896A2AA9A61000EBFB36 /* EditAlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlarmViewModel.swift; sourceTree = "<group>"; };
 		F97A896E2AADA34C00EBFB36 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		F97CDC182B0B79370057AA82 /* PushAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmModel.swift; sourceTree = "<group>"; };
@@ -134,7 +140,7 @@
 		F97CDC232B144C530057AA82 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F97CDC252B1458E10057AA82 /* AvatarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarModel.swift; sourceTree = "<group>"; };
 		F97CDC272B14CA220057AA82 /* AvatarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewCell.swift; sourceTree = "<group>"; };
-		F97CDC292B15DDA50057AA82 /* FloatingPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelViewModel.swift; sourceTree = "<group>"; };
+		F97CDC292B15DDA50057AA82 /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		F98600ED2AAE289200595646 /* ObjectMissionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ObjectMissionCollectionViewCell.swift; path = "/Users/yaewon/Desktop/Togetup-iOS-Refatoring/TogetUp/TogetUp/Screen/Alarm/View/Cell/ObjectMissionCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		F98600EF2AAEC04A00595646 /* MissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionViewModel.swift; sourceTree = "<group>"; };
 		F98600F12AAEC1A400595646 /* MissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionService.swift; sourceTree = "<group>"; };
@@ -143,12 +149,16 @@
 		F98600F72AB038FF00595646 /* AlarmListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListViewModel.swift; sourceTree = "<group>"; };
 		F98600FD2AB0B07E00595646 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		F98600FF2AB2EDAD00595646 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		F9919BDC2BBAC3F00016A29E /* 3_onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 3_onboarding.json; sourceTree = "<group>"; };
 		F9944F232ACD8FD800B39476 /* UIImageView + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView + Extension.swift"; sourceTree = "<group>"; };
 		F99BE7FB2A9F8EAC0005E66F /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		F99BE7FD2AA0E2440005E66F /* URLConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstant.swift; sourceTree = "<group>"; };
 		F99BE8002AA1BA4C0005E66F /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		F99BE8022AA1BBC80005E66F /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F99BE8052AA1CC740005E66F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F99D0E932BB8418500437025 /* 2_onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 2_onboarding.json; sourceTree = "<group>"; };
+		F99D0E942BB8418600437025 /* 1_onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 1_onboarding.json; sourceTree = "<group>"; };
+		F99D0E982BB84B8100437025 /* LottieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieViewController.swift; sourceTree = "<group>"; };
 		F9A7CC322B8DA36600C73401 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupAlarmListCollectionViewCell.swift; path = "/Users/yaewon/Desktop/Togetup-iOS-Refatoring/TogetUp/TogetUp/Screen/Alarm/View/Cell/GroupAlarmListCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFloatingPanelLayout.swift; sourceTree = "<group>"; };
@@ -293,7 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				F97CDC232B144C530057AA82 /* HomeViewModel.swift */,
-				F97CDC292B15DDA50057AA82 /* FloatingPanelViewModel.swift */,
+				F97CDC292B15DDA50057AA82 /* TimelineViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,6 +376,7 @@
 		F96B32782A8A021900BD3BF9 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F99D0E912BB8416A00437025 /* JsonFiles */,
 				F96B327B2A8A023800BD3BF9 /* Supports */,
 				F96B326C2A8A002900BD3BF9 /* Assets.xcassets */,
 			);
@@ -395,7 +406,6 @@
 			isa = PBXGroup;
 			children = (
 				F9387BC52AD569D9000A5121 /* alarmSound.mp3 */,
-				F919A9112ACEA09600D02125 /* progress.json */,
 				F96B32632A8A002800BD3BF9 /* AppDelegate.swift */,
 				F96B32652A8A002800BD3BF9 /* SceneDelegate.swift */,
 				F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */,
@@ -508,6 +518,17 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		F99D0E912BB8416A00437025 /* JsonFiles */ = {
+			isa = PBXGroup;
+			children = (
+				F99D0E942BB8418600437025 /* 1_onboarding.json */,
+				F99D0E932BB8418500437025 /* 2_onboarding.json */,
+				F9919BDC2BBAC3F00016A29E /* 3_onboarding.json */,
+				F919A9112ACEA09600D02125 /* progress.json */,
+			);
+			path = JsonFiles;
+			sourceTree = "<group>";
+		};
 		F9BF13842AE2DA8F006A262A /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +547,8 @@
 				F96B326E2A8A002900BD3BF9 /* LaunchScreen.storyboard */,
 				F98600FF2AB2EDAD00595646 /* SplashViewController.swift */,
 				F93140652A8FBBFB000FB717 /* TabBarViewController.swift */,
+				F99D0E982BB84B8100437025 /* LottieViewController.swift */,
+				F977EE282BB87BBF00EA9042 /* OnboardingViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -664,6 +687,9 @@
 				F96B32702A8A002900BD3BF9 /* LaunchScreen.storyboard in Resources */,
 				F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */,
 				F96B326D2A8A002900BD3BF9 /* Assets.xcassets in Resources */,
+				F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */,
+				F99D0E962BB8418600437025 /* 2_onboarding.json in Resources */,
+				F9919BDD2BBAC3F00016A29E /* 3_onboarding.json in Resources */,
 				F93140672A8FBD30000FB717 /* Home.storyboard in Resources */,
 				F96B326B2A8A002800BD3BF9 /* Main.storyboard in Resources */,
 				F919A9122ACEA09600D02125 /* progress.json in Resources */,
@@ -683,12 +709,13 @@
 				F97CDC242B144C530057AA82 /* HomeViewModel.swift in Sources */,
 				F97CDC282B14CA220057AA82 /* AvatarCollectionViewCell.swift in Sources */,
 				F97CDC202B13359E0057AA82 /* TimelineModel.swift in Sources */,
+				F99D0E992BB84B8100437025 /* LottieViewController.swift in Sources */,
 				F96B32962A8CBA5500BD3BF9 /* LoginViewController.swift in Sources */,
 				F945D14D2AA4A8C60093F896 /* UserService.swift in Sources */,
 				F98600FE2AB0B07E00595646 /* Alarm.swift in Sources */,
 				F9944F242ACD8FD800B39476 /* UIImageView + Extension.swift in Sources */,
 				F945D1552AA4DE7C0093F896 /* AlarmService.swift in Sources */,
-				F97CDC2A2B15DDA50057AA82 /* FloatingPanelViewModel.swift in Sources */,
+				F97CDC2A2B15DDA50057AA82 /* TimelineViewModel.swift in Sources */,
 				F9DA5D842AC146C1008E16A6 /* MissionPerformViewModel.swift in Sources */,
 				F98600F42AAEF3E900595646 /* MissionModel.swift in Sources */,
 				F945D14F2AA4AA1E0093F896 /* WithdrawlModel.swift in Sources */,
@@ -726,6 +753,7 @@
 				F9523E4F2B5E7FC100B16CCB /* NetworkManager.swift in Sources */,
 				F98600F02AAEC04A00595646 /* MissionViewModel.swift in Sources */,
 				F945D1512AA4AAFE0093F896 /* SettingViewModel.swift in Sources */,
+				F977EE292BB87BBF00EA9042 /* OnboardingViewController.swift in Sources */,
 				F97CDC262B1458E10057AA82 /* AvatarModel.swift in Sources */,
 				F96B32642A8A002800BD3BF9 /* AppDelegate.swift in Sources */,
 				F96B32662A8A002800BD3BF9 /* SceneDelegate.swift in Sources */,
