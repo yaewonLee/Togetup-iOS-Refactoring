@@ -17,22 +17,26 @@ class FloatingPannelViewController: UIViewController {
     @IBOutlet weak var alarmInfoLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLineCollectionView: UICollectionView!
+    @IBOutlet weak var makeNewAlarmButton: UIButton!
+    @IBOutlet weak var alarmEmptyLabel: UILabel!
+    @IBOutlet weak var collectionViewContainerView: UIView!
     
     // MARK: - Properties
-    private let viewModel = FloatingPanelViewModel()
+    private let viewModel = TimelineViewModel()
     private let disposeBag = DisposeBag()
+    private var timeLineResult: TimeLineResult?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
         setCollectionViewFlowLayout()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        bindViewModel()
-        setCollectionView()
+        viewModel.fetchTimelineData()
     }
     
     // MARK: - Custom Method
@@ -40,24 +44,71 @@ class FloatingPannelViewController: UIViewController {
         self.view.layer.cornerRadius = 36
         self.view.layer.borderWidth = 2
         
-        //timeLineCollectionView.layer.cornerRadius = 12
-       // timeLineCollectionView.layer.borderWidth = 2
-      //  timeLineCollectionView.clipsToBounds = true
         currentAlarmView.layer.cornerRadius = 12
         currentAlarmView.layer.borderWidth = 2
+        makeNewAlarmButton.layer.cornerRadius = 22
+        makeNewAlarmButton.layer.borderWidth = 2
+        
+        collectionViewContainerView.layer.cornerRadius = 12
+        collectionViewContainerView.layer.borderWidth = 2
     }
     
-    private func setCollectionView() {
-        self.timeLineCollectionView.delegate = nil
-        self.timeLineCollectionView.dataSource = nil
-
-        viewModel.getTimeLine()
-            .map { $0.result?.todayAlarmList ?? [] }
+    private func bindViewModel() {
+        viewModel.timelineData
             .observe(on: MainScheduler.instance)
-            .bind(to: timeLineCollectionView.rx.items(cellIdentifier: TimelineCollectionViewCell.identifier, cellType: TimelineCollectionViewCell.self)) { index, model, cell in
-                cell.setAttributes(with: model)
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success(let timelineResult):
+                    print(timelineResult)
+                    if let timelineResult = timelineResult {
+                        self?.updateUI(with: timelineResult)
+                        self?.setNextAlarmUI(timelineResult: timelineResult)
+                        self?.bindCollectionView(with: timelineResult.todayAlarmList ?? [])
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindCollectionView(with alarms: [AlarmModel]) {
+        timeLineCollectionView.delegate = nil
+        timeLineCollectionView.dataSource = nil
+        Observable.just(alarms)
+            .bind(to: timeLineCollectionView.rx.items(cellIdentifier: TimelineCollectionViewCell.identifier, cellType: TimelineCollectionViewCell.self)) { [weak self] index, alarm, cell in
+                cell.setAttributes(with: alarm)
+                
+                if let nextAlarmId = self?.viewModel.nextAlarmId, alarm.id == nextAlarmId {
+                    cell.backgroundColor = UIColor(named: "primary050")
+                } else {
+                    cell.backgroundColor = .clear
+                }
             }
             .disposed(by: disposeBag)
+    }
+    
+    
+    private func updateUI(with timelineResult: TimeLineResult) {
+        updateDateLabel(timelineResponse: timelineResult)
+        setNextAlarmUI(timelineResult: timelineResult)
+        timeLineCollectionView.reloadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.focusOnNextAlarm()
+        }
+    }
+    
+    private func focusOnNextAlarm() {
+        guard let nextAlarmId = self.viewModel.nextAlarmId else { return }
+        
+        guard let todayAlarmList = try? viewModel.timelineData.value().get()?.todayAlarmList,
+                !todayAlarmList.isEmpty else { return }
+        
+        if let index = todayAlarmList.firstIndex(where: { $0.id == nextAlarmId }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            self.timeLineCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+        }
     }
     
     private func setCollectionViewFlowLayout() {
@@ -67,31 +118,30 @@ class FloatingPannelViewController: UIViewController {
         timeLineCollectionView.collectionViewLayout = layout
     }
     
-    private func bindViewModel() {
-        viewModel.getTimeLine()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] timelineResponse in
-                self?.updateDateLabel(timelineResponse: timelineResponse)
-                self?.setNextAlarmUI(timelineResponse: timelineResponse)
-            }, onError: { error in
-                print("Error: \(error)")
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    private func setNextAlarmUI(timelineResponse: TimelineResponse) {
-        iconLabel.text = timelineResponse.result?.nextAlarm?.icon
-        let timeText = convert24HourTo12HourFormat(timelineResponse.result?.nextAlarm?.alarmTime ?? "")
-        timeLabel.text = timeText
-        alarmInfoLabel.text = timelineResponse.result?.nextAlarm?.name
-    }
-    
-    private func updateDateLabel(timelineResponse: TimelineResponse) {
-        guard let dateString = timelineResponse.result?.today,
-              let dayOfWeek = timelineResponse.result?.dayOfWeek else {
-            dateLabel.text = ""
-            return
+    private func setNextAlarmUI(timelineResult: TimeLineResult?) {
+        if let todayAlarmList = timelineResult?.todayAlarmList, !todayAlarmList.isEmpty, let nextAlarm = timelineResult?.nextAlarm {
+            currentAlarmView.backgroundColor = UIColor(named: "secondary050")
+            iconLabel.text = nextAlarm.icon
+            let timeText = convert24HourTo12HourFormat(nextAlarm.alarmTime)
+            timeLabel.text = timeText
+            alarmInfoLabel.text = nextAlarm.name
+            makeNewAlarmButton.isHidden = true
+            alarmEmptyLabel.isHidden = true
+            timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 26)
+        } else {
+            makeNewAlarmButton.isHidden = false
+            alarmEmptyLabel.isHidden = false
+            currentAlarmView.backgroundColor = UIColor(named: "primary050")
+            iconLabel.text = "⏰"
+            timeLabel.text = "예정된 알람이 없어요!"
+            timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
+            alarmInfoLabel.text = "알람을 설정해주세요"
         }
+    }
+    
+    private func updateDateLabel(timelineResponse: TimeLineResult) {
+        let dateString = timelineResponse.today
+        let dayOfWeek = timelineResponse.dayOfWeek
         
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd"
@@ -136,5 +186,17 @@ class FloatingPannelViewController: UIViewController {
         } else {
             return time
         }
+    }
+    
+    @IBAction func makeNewAlarmButtonTapped(_ sender: Any) {
+        let alarmStoryBoard = UIStoryboard(name: "Alarm", bundle: nil)
+        guard let vc = alarmStoryBoard.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.isNavigationBarHidden = true
+        navigationController.navigationBar.backgroundColor = .clear
+        navigationController.interactivePopGestureRecognizer?.isEnabled = true
+        
+        present(navigationController, animated: true)
     }
 }

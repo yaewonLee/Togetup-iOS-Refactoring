@@ -18,6 +18,12 @@ class TimelineCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         colorView.layer.cornerRadius = 8
+        self.layer.cornerRadius = 8
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.backgroundColor = .clear
     }
     
     func setAttributes(with model: AlarmModel) {
