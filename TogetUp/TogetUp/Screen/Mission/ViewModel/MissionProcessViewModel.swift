@@ -20,10 +20,19 @@ class MissionProcessViewModel {
         self.provider = provider
     }
     
-    func sendMissionImage(objectName: String, missionImage: UIImage) -> Observable<MissionDetectResponse> {
-        return provider.rx.request(.missionDetection(objectName: objectName, missionImage: missionImage))
-            .filterSuccessfulStatusCodes()
-            .map(MissionDetectResponse.self)
+    func sendMissionImage(missionName: String, object: String?, missionImage: UIImage) -> Observable<MissionDetectResponse> {
+        let request = provider.rx.request(.missionDetectionResult(missionName: missionName, object: object, missionImage: missionImage))
+        return networkManager.handleAPIRequest(request, dataType: MissionDetectResponse.self)
+            .flatMap { result -> Single<MissionDetectResponse> in
+                switch result {
+                case .success(let response):
+                    print(response)
+                    return .just(response)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    return .error(error)
+                }
+            }
             .asObservable()
     }
     

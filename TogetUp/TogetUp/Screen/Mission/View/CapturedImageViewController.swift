@@ -22,11 +22,11 @@ class CapturedImageViewController: UIViewController {
     @IBOutlet weak var successLabelTopMargin: NSLayoutConstraint!
     @IBOutlet weak var levelUpLabel: UILabel!
     @IBOutlet weak var congratLabel: UILabel!
-
+    
     // MARK: - Properties
     var image = UIImage()
     var missionId = 0
-    var missionEndpoint = ""
+    var missionEndpoint: String?
     private let viewModel = MissionProcessViewModel()
     private let disposeBag = DisposeBag()
     private var countdownTimer: Timer?
@@ -39,17 +39,8 @@ class CapturedImageViewController: UIViewController {
         super.viewDidLoad()
         capturedImageView.image = image
         customUI()
-        
-        if missionId == 1 {
-            progressView.backgroundColor = UIColor(named: "secondary050")
-            successLabel.isHidden = true
-            statusLabel.text = "미션 성공🎉"
-            successLabel.isHidden = false
-            pointLabel.isHidden = false
-        } else {
-            postMissionImage()
-            setLottieAnimation()
-        }
+        postMissionImage()
+        setLottieAnimation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,8 +62,21 @@ class CapturedImageViewController: UIViewController {
     }
     
     private func postMissionImage() {
-        let endPoint = missionId == 2 ? "object-detection/\(missionEndpoint)" : "face-recognition/\(missionEndpoint)"
-        viewModel.sendMissionImage(objectName: endPoint, missionImage: image)
+        var missionName: String = ""
+        
+        switch missionId {
+        case 1:
+            missionName = "direct-registration"
+        case 2:
+            missionName = "object-detection"
+        case 3:
+            missionName = "expression-recognition"
+        default:
+            print("알 수 없는 미션 ID")
+            return
+        }
+        
+        viewModel.sendMissionImage(missionName: missionName, object: self.missionEndpoint, missionImage: image)
             .subscribe(onNext: { response in
                 self.handleMissionDetectResponse(response)
                 let param = MissionCompleteRequest(alarmId: self.alarmId, missionPicLink: response.result?.filePath ?? "")
