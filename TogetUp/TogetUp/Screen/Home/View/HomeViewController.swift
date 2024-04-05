@@ -33,6 +33,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     // MARK: - Life Cylcle
     override func viewDidLoad() {
         super.viewDidLoad()
+        requestAuthorization()
         setFloatingpanel()
         setUpUserInitialData()
         bindAvatarCollectionView()
@@ -43,8 +44,34 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         setUpUserInitialData()
     }
     
-    
     // MARK: - Custom Methods
+    private func requestAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization (
+            options: [.alert, .sound],
+            completionHandler: { (granted, error) in
+                if !granted {
+                    self.showNotificationAlert()
+                }
+            }
+        )
+    }
+    
+    private func showNotificationAlert() {
+        let alertController = UIAlertController(title: "알림을 허용해 주세요", message: "알림을 허용하지 않으면 알람이 울리지 않을 수 있어요!", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "나중에", style: .default)
+        let settingAction = UIAlertAction(title: "설정으로 이동", style: .default) {_ in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(settingAction)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true)
+        }
+    }
+    
     private func customUI() {
         progressBar.layer.cornerRadius = 5
         progressBar.clipsToBounds = true

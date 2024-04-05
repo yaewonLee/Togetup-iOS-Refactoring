@@ -35,7 +35,6 @@ class AlarmListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestAuthorization()
         customUI()
         fetchAndSaveAlarmsIfFirstLaunch()
         setUpNavigationBar()
@@ -50,18 +49,14 @@ class AlarmListViewController: UIViewController {
         setCollectionView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     // MARK: - Custom Method
     private func customUI () {
         groupLockerView.layer.cornerRadius = 12
-    }
-    
-    private func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization (
-            options: [.alert, .sound],
-            completionHandler: { (granted, error) in
-                print("granted notification, \(granted)")
-            }
-        )
     }
     
     private func setCollectionView() {
@@ -111,7 +106,7 @@ class AlarmListViewController: UIViewController {
     
     private func showDeleteAlert(for alarm: Alarm) {
         let alertController = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.viewModel.deleteAlarm(alarmId: alarm.id)
         }
@@ -156,7 +151,6 @@ class AlarmListViewController: UIViewController {
             NSAttributedString.Key.font: UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16)!
         ], for: .selected)
         
-        // 오토레이아웃
         self.view.addSubview(underLineView)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         underLineView.translatesAutoresizingMaskIntoConstraints = false
