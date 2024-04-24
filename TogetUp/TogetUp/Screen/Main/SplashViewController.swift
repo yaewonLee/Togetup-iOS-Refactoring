@@ -23,9 +23,12 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if AppStatusManager.shared.isFirstLaunch {
+            self.navigate(to: "OnboardingViewController")
+        }
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             if appDelegate.isLoggedIn {
-                    self.checkLoginMethodAndNavigate()
+                self.checkLoginMethodAndNavigate()
             } else {
                 self.navigate(to: "LoginViewController")
             }
