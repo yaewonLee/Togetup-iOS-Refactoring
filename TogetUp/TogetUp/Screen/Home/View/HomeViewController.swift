@@ -139,7 +139,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     }
     
     private func configureAvatars(with model: AvatarResult) {
-        if let theme = ThemeManager.shared.themes.first(where: { $0.koreanName == model.theme }) {
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
             mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
             self.view.backgroundColor = UIColor(named: theme.colorName)
             

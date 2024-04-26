@@ -9,7 +9,6 @@ import Foundation
 
 struct Avatar {
     let avatarId: Int
-    let koreanName: String
     let mainAvatarName: String
     let collectionViewAvatarName: String
     let colorName: String
@@ -34,12 +33,12 @@ class ThemeManager {
     
     func loadThemes() {
         themes = [
-            Avatar(avatarId: 1, koreanName: "신입 병아리", mainAvatarName: "main_chick", collectionViewAvatarName: "c_chick", colorName: "chick", unlockLevel: 1, isNew: false),
-            Avatar(avatarId: 2, koreanName: "눈을 반짝이는 곰돌이", mainAvatarName: "main_bear", collectionViewAvatarName: "c_bear", colorName: "bear", unlockLevel: 15, isNew: false),
-            Avatar(avatarId: 3, koreanName: "깜찍한 토끼", mainAvatarName: "main_rabbit", collectionViewAvatarName: "c_rabbit", colorName: "rabbit", unlockLevel: 30, isNew: false),
-            Avatar(avatarId: 4, koreanName: "먹보 판다", mainAvatarName: "main_panda", collectionViewAvatarName: "c_panda", colorName: "panda", unlockLevel: 45, isNew: false),
-            Avatar(avatarId: 5, koreanName: "비오는 날 강아지", mainAvatarName: "main_puppy", collectionViewAvatarName: "c_puppy", colorName: "puppy", unlockLevel: 60, isNew: false),
-            Avatar(avatarId: 6, koreanName: "철학자 너구리", mainAvatarName: "main_racoon", collectionViewAvatarName: "c_racoon", colorName: "racoon", unlockLevel: 75, isNew: false)
+            Avatar(avatarId: 1, mainAvatarName: "main_chick", collectionViewAvatarName: "home_chick", colorName: "chick", unlockLevel: 1, isNew: true),
+            Avatar(avatarId: 2, mainAvatarName: "main_bear", collectionViewAvatarName: "home_bear", colorName: "bear", unlockLevel: 15, isNew: false),
+            Avatar(avatarId: 3, mainAvatarName: "main_rabbit", collectionViewAvatarName: "home_rabbit", colorName: "rabbit", unlockLevel: 30, isNew: false),
+            Avatar(avatarId: 4, mainAvatarName: "main_panda", collectionViewAvatarName: "home_panda", colorName: "panda", unlockLevel: 45, isNew: false),
+            Avatar(avatarId: 5, mainAvatarName: "main_puppy", collectionViewAvatarName: "home_puppy", colorName: "puppy", unlockLevel: 60, isNew: false),
+            Avatar(avatarId: 6, mainAvatarName: "main_racoon", collectionViewAvatarName: "home_racoon", colorName: "racoon", unlockLevel: 75, isNew: false)
         ]
     }
     

@@ -17,6 +17,7 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var unlockLevelLabel: UILabel!
     @IBOutlet weak var unlockLabelStackView: UIStackView!
     @IBOutlet weak var newLabel: UIImageView!
+    @IBOutlet weak var avatarNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,7 +33,7 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     func setAttributes(with model: AvatarResult, isSelected: Bool) {
         let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
         
-        if let theme = ThemeManager.shared.themes.first(where: { $0.koreanName == model.theme }) {
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
             newLabel.isHidden = !theme.isNew
             
             let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
@@ -57,6 +58,7 @@ class AvatarCollectionViewCell: UICollectionViewCell {
             }
         }
         unlockLevelLabel.text = "Lv.\(model.unlockLevel)"
+        avatarNameLabel.text = model.themeKr
         
         self.isUserInteractionEnabled = currentUserLevel >= model.unlockLevel
         self.checkImageView.isHidden = currentUserLevel < model.unlockLevel

@@ -16,6 +16,7 @@ struct AvatarResponse: Codable {
 
 struct AvatarResult: Codable {
     let theme: String
+    let themeKr: String
     let avatarId: Int
     let isUnlocked: Bool
     let unlockLevel: Int
