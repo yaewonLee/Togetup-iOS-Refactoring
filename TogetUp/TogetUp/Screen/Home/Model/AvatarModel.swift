@@ -21,3 +21,14 @@ struct AvatarResult: Codable {
     let isUnlocked: Bool
     let unlockLevel: Int
 }
+
+struct AvatarSpeechesResponse: Codable {
+    let httpStatusCode: Int
+    let httpReasonPhrase: String
+    let message: String
+    let result: AvatarSpeechesResult?
+}
+
+struct AvatarSpeechesResult: Codable {
+    let speech: String
+}

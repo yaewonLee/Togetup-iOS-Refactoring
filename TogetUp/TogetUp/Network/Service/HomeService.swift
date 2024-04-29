@@ -10,6 +10,7 @@ import Moya
 
 enum HomeService {
     case getTimeLine
+    case getAvatarSpeech(avatarId: Int)
 }
 
 extension HomeService: TargetType {
@@ -21,12 +22,14 @@ extension HomeService: TargetType {
         switch self {
         case .getTimeLine:
             return URLConstant.getTimeline
+        case .getAvatarSpeech(let avatarId):
+            return URLConstant.getAvatarSpeech + "/\(avatarId)/speeches"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getTimeLine:
+        case .getTimeLine, .getAvatarSpeech:
             return .get
         }
     }
@@ -35,12 +38,14 @@ extension HomeService: TargetType {
         switch self {
         case .getTimeLine:
             return .requestPlain
+        case .getAvatarSpeech(let avatarId):
+            return .requestParameters(parameters: ["avatarId" : avatarId], encoding: URLEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getTimeLine:
+        case .getTimeLine, .getAvatarSpeech:
             let token = KeyChainManager.shared.getToken()
             return [
                 "Authorization": "Bearer \(token ?? "")",

@@ -19,6 +19,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     @IBOutlet weak var hangerButton: UIButton!
     @IBOutlet weak var avatarChooseCollectionView: UICollectionView!
     @IBOutlet weak var mainAvatarImageView: UIImageView!
+    @IBOutlet weak var avatarSpeechLabel: UILabel!
     
     // MARK: - Properties
     private var fpc: FloatingPanelController!
@@ -29,6 +30,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private var previousSelectedModel: AvatarResult?
     private var currentAvatarId = 1
     private var progressPercent = 0.0
+    private var lastSpokenAvatarId: Int?
     
     // MARK: - Life Cylcle
     override func viewDidLoad() {
@@ -42,6 +44,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         setUpUserInitialData()
+        getAvatarSpeeches(avatarId: self.currentAvatarId)
     }
     
     // MARK: - Custom Methods
@@ -95,10 +98,22 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             print("사용자 데이터 없음")
         }
         
+        lastSpokenAvatarId = currentAvatarId
+        
         if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == currentAvatarId }) {
             mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
             self.view.backgroundColor = UIColor(named: theme.colorName)
         }
+    }
+    
+    private func getAvatarSpeeches(avatarId: Int) {
+        viewModel.getAvatarSpeech(avatarId: avatarId)
+            .subscribe(onNext: { [weak self] speech in
+                self?.avatarSpeechLabel.text = speech
+            }, onError: { error in
+                print("Error: \(error.localizedDescription)")
+            })
+            .disposed(by: disposeBag)
     }
     
     private func bindAvatarCollectionView() {
@@ -223,6 +238,7 @@ extension HomeViewController: UICollectionViewDelegate {
             print("viewModel.avatars are empty")
             return
         }
+        
         if let previousIndex = selectedIndex,
            let previousSelectedCell = collectionView.cellForItem(at: previousIndex) as? AvatarCollectionViewCell {
             previousSelectedCell.setAttributes(with: viewModel.avatars[previousIndex.row], isSelected: false)
@@ -233,6 +249,10 @@ extension HomeViewController: UICollectionViewDelegate {
             selectedCell.setAttributes(with: model, isSelected: true)
             viewModel.updateSelectedAvatar(at: indexPath.row)
             configureAvatars(with: model)
+            if lastSpokenAvatarId != model.avatarId {
+                getAvatarSpeeches(avatarId: model.avatarId)
+                lastSpokenAvatarId = model.avatarId
+            }
         }
         selectedIndex = indexPath
     }
