@@ -56,6 +56,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         addKeyboardTapGesture()
         addMissionNotificationCenter()
         setUpScreenStatus()
+        configurePlaceTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,7 +208,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         return CreateOrEditAlarmRequest(
             missionId: self.missionId,
             missionObjectId: paramMissionObjId,
-            isSnoozeActivated: false,
             name: alarmName,
             icon: alarmIcon,
             isVibrate: isVibrate.isOn,
@@ -220,9 +220,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
             saturday: saturday.isSelected,
             sunday: sunday.isSelected,
             isActivated: true,
-            roomId: nil,
-            snoozeInterval: 0,
-            snoozeCnt: 0
+            roomId: nil
         )
     }
     
@@ -270,6 +268,22 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         present(alert, animated: true)
+    }
+    
+    private func configurePlaceTextField() {
+        alarmNameTextField.rx.text.orEmpty
+            .flatMap { [weak self] text -> Observable<String> in
+                guard let self = self else { return Observable.just("") }
+                if text.count > 10 {
+                    if self.alarmNameTextField.isFirstResponder {
+                        self.alarmNameTextField.text = String(text.prefix(10))
+                    }
+                    return Observable.just(String(text.prefix(10)))
+                }
+                return Observable.just(text)
+            }
+            .bind(to: alarmNameTextField.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - @

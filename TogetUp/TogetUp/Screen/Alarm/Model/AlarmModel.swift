@@ -31,7 +31,6 @@ struct CreateEditDeleteAlarmResponse: Codable {
 struct CreateOrEditAlarmRequest: Codable {
     let missionId: Int
     let missionObjectId: Int?
-    let isSnoozeActivated: Bool
     let name: String
     let icon: String
     let isVibrate: Bool
@@ -45,8 +44,6 @@ struct CreateOrEditAlarmRequest: Codable {
     let sunday: Bool
     let isActivated: Bool
     let roomId: Int?
-    let snoozeInterval: Int
-    let snoozeCnt: Int
 }
 
 struct GetAlarmResult: Codable {
@@ -54,11 +51,9 @@ struct GetAlarmResult: Codable {
     let userId: Int?
     let name: String
     let icon: String
-    let snoozeInterval: Int
-    let snoozeCnt: Int
     let alarmTime: String
     let monday, tuesday, wednesday, thursday, friday, saturday, sunday: Bool
-    let isSnoozeActivated, isVibrate, isActivated: Bool
+    let isVibrate, isActivated: Bool
     let getMissionRes: MissionRes?
     let getMissionObjectRes: MissionObjectRes?
     let roomRes: RoomRes?
