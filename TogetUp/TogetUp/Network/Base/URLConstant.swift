@@ -9,7 +9,12 @@ import Foundation
 
 struct URLConstant {
     // MARK: - Base URL
-    static let baseURL = "https://togetup.shop/app/"
+    static let baseURL: String = {
+        guard let url = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String else {
+            fatalError("BASE_URL not found in Info.plist")
+        }
+        return url
+    }()
     
     // MARK: - Auth 로그인
     static let login = "auth/login"
@@ -44,4 +49,5 @@ struct URLConstant {
     
     // MARK: - 홈
     static let getTimeline = "home/brief-board/alarm/timeline"
+    static let getAvatarSpeech = "home/avatars"
 }
