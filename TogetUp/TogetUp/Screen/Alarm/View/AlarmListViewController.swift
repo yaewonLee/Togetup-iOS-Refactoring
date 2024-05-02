@@ -151,7 +151,6 @@ class AlarmListViewController: UIViewController {
     private func fetchAndSaveAlarmsIfFirstLaunch() {
         if AppStatusManager.shared.isFirstLaunch {
             viewModel.getAndSaveAlarmList(type: "personal")
-            AppStatusManager.shared.markAsLaunched()
         }
     }
     

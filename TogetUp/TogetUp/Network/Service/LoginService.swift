@@ -10,7 +10,6 @@ import Moya
 
 enum LoginService {
     case login(param: LoginRequest)
-   // case apple(param: LoginRequest)
 }
 
 extension LoginService: TargetType {

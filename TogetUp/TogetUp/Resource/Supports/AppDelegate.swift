@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
-        if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
+        AppStatusManager.shared.markAsLaunched()
+        if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KakaoAppKey") as? String {
             RxKakaoSDK.initSDK(appKey: kakaoAppKey)
         }
         FirebaseApp.configure()

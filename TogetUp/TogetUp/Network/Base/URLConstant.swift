@@ -10,9 +10,10 @@ import Foundation
 struct URLConstant {
     // MARK: - Base URL
     static let baseURL: String = {
-        guard let url = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String else {
+        guard let url = Bundle.main.object(forInfoDictionaryKey: "BaseUrl") as? String else {
             fatalError("BASE_URL not found in Info.plist")
         }
+        print(url)
         return url
     }()
     
