@@ -16,26 +16,23 @@ import RxSwift
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     private let pushAlarmViewModel = PushAlarmViewModel()
     private let disposeBag = DisposeBag()
-
+    
     var isLoggedIn: Bool {
         return KeyChainManager.shared.getToken() != nil
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
-        print("=========isLoggedIn: \(isLoggedIn)=========")
-        
-        RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
+        if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
+            RxKakaoSDK.initSDK(appKey: kakaoAppKey)
+        }
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         Messaging.messaging().isAutoInitEnabled = true
         
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
-        
-        AlarmScheduleManager.shared.refreshAllScheduledNotifications()
-        
+                
         return true
     }
     
@@ -44,12 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        print("fcmToken: \(fcmToken)")
-//        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
-//            .subscribe(onNext: { response in
-//                print(response)
-//            })
-//            .disposed(by: disposeBag)
+        //        print("fcmToken: \(fcmToken)")
+        //        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
+        //            .subscribe(onNext: { response in
+        //                print(response)
+        //            })
+        //            .disposed(by: disposeBag)
     }
     
     // MARK: UISceneSession Lifecycle
@@ -78,18 +75,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.alarmId = alarmId
-            sceneDelegate.navigateToMissionPerformViewController()
+            sceneDelegate.navigateToMissionPerformViewController(with: alarmId)
         }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
+        guard let alarmId = userInfo["alarmId"] as? Int else { return }
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.alarmId = response.notification.request.content.userInfo["alarmId"] as? Int
-            sceneDelegate.navigateToMissionPerformViewController()
+            sceneDelegate.navigateToMissionPerformViewController(with: alarmId)
         }
         completionHandler()
     }

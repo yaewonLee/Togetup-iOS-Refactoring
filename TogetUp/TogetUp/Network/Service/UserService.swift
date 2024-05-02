@@ -13,6 +13,7 @@ enum UserService {
     case deleteAppleUser(code: String)
     case sendFcmToken(fcmToken: String)
     case getAvatarList
+    case changeAvatar(avatarId: Int)
 }
 
 extension UserService: TargetType {
@@ -30,6 +31,8 @@ extension UserService: TargetType {
             return URLConstant.sendFcmToken
         case .getAvatarList:
             return URLConstant.getAvatarList
+        case .changeAvatar(let avatarId):
+            return URLConstant.changeAvatar + "/\(avatarId)" + "/change"
         }
     }
     
@@ -41,12 +44,14 @@ extension UserService: TargetType {
             return .patch
         case .getAvatarList:
             return .get
+        case .changeAvatar:
+            return .patch
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .deleteUser, .getAvatarList:
+        case .deleteUser, .getAvatarList, .changeAvatar:
             return .requestPlain
         case .deleteAppleUser(let code):
             return .requestParameters(parameters: ["authorizationCode": code], encoding: JSONEncoding.default)

@@ -15,12 +15,11 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var coinView: UIView!
-    @IBOutlet weak var pointLabel: UILabel!
     @IBOutlet weak var avatarView: UIView!
     @IBOutlet weak var hangerButton: UIButton!
     @IBOutlet weak var avatarChooseCollectionView: UICollectionView!
     @IBOutlet weak var mainAvatarImageView: UIImageView!
+    @IBOutlet weak var avatarSpeechLabel: UILabel!
     
     // MARK: - Properties
     private var fpc: FloatingPanelController!
@@ -31,91 +30,134 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private var previousSelectedModel: AvatarResult?
     private var currentAvatarId = 1
     private var progressPercent = 0.0
+    private var lastSpokenAvatarId: Int?
     
+    // MARK: - Life Cylcle
     override func viewDidLoad() {
         super.viewDidLoad()
+        requestAuthorization()
         setFloatingpanel()
-        setUpUserData()
-     //   setCollectionView()
+        setUpUserInitialData()
+        bindAvatarCollectionView()
         customUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        setUpUserInitialData()
+        getAvatarSpeeches(avatarId: self.currentAvatarId)
     }
     
     // MARK: - Custom Methods
+    private func requestAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization (
+            options: [.alert, .sound],
+            completionHandler: { (granted, error) in
+                if !granted {
+                    self.showNotificationAlert()
+                }
+            }
+        )
+    }
+    
+    private func showNotificationAlert() {
+        let alertController = UIAlertController(title: "알림을 허용해 주세요", message: "알림을 허용하지 않으면 알람이 울리지 않을 수 있어요!", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "나중에", style: .default)
+        let settingAction = UIAlertAction(title: "설정으로 이동", style: .default) {_ in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(settingAction)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true)
+        }
+    }
+    
     private func customUI() {
         progressBar.layer.cornerRadius = 5
-        
         progressBar.clipsToBounds = true
         progressBar.layer.borderWidth = 2
         progressBar.progress = Float(self.progressPercent) * 0.01
-
         progressBar.layer.sublayers![1].cornerRadius = 5
         progressBar.layer.sublayers![1].borderWidth = 2
         progressBar.subviews[1].clipsToBounds = true
         
-        coinView.layer.cornerRadius = 14
         hangerButton.layer.cornerRadius = 22
         hangerButton.layer.borderWidth = 2
     }
     
-    private func setUpUserData() {
+    private func setUpUserInitialData() {
         if let currentUserData = UserDataManager.shared.currentUserData {
             levelLabel.text = "Lv. \(currentUserData.userStat.level)"
-            pointLabel.text = "\(currentUserData.userStat.coin)"
             nameLabel.text = currentUserData.name
             currentAvatarId = currentUserData.avatarId
             progressPercent = currentUserData.userStat.expPercentage
         } else {
             print("사용자 데이터 없음")
         }
+        
+        lastSpokenAvatarId = currentAvatarId
+        
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == currentAvatarId }) {
+            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
+            self.view.backgroundColor = UIColor(named: theme.colorName)
+        }
     }
     
-    private func setCollectionView() {
+    private func getAvatarSpeeches(avatarId: Int) {
+        viewModel.getAvatarSpeech(avatarId: avatarId)
+            .subscribe(onNext: { [weak self] speech in
+                self?.avatarSpeechLabel.text = speech
+            }, onError: { error in
+                print("Error: \(error.localizedDescription)")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindAvatarCollectionView() {
         avatarChooseCollectionView.delegate = self
         avatarChooseCollectionView.dataSource = nil
-        
-        viewModel.loadAvatars()
+        let sharedAvatarsObservable = viewModel.loadAvatars()
             .map { $0.result }
-            .observe(on: MainScheduler.instance)
+            .share(replay: 1, scope: .whileConnected)
+        
+        sharedAvatarsObservable
+            .map { $0 ?? [] }
             .bind(to: avatarChooseCollectionView.rx.items(cellIdentifier: AvatarCollectionViewCell.identifier, cellType: AvatarCollectionViewCell.self)) { index, model, cell in
-                cell.setAttributes(with: model, isSelected: false)
+                cell.setAttributes(with: model, isSelected: self.viewModel.selectedAvatar?.avatarId == model.avatarId)
             }
             .disposed(by: disposeBag)
         
-        viewModel.loadAvatars()
-            .map { $0.result }
+        sharedAvatarsObservable
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] result in
-                if !result.isEmpty {
-                    let initialIndex = IndexPath(row: (self?.currentAvatarId ?? 1) - 1, section: 0)
-                    self?.avatarChooseCollectionView.selectItem(at: initialIndex, animated: false, scrollPosition: [])
-                    self?.collectionView(self!.avatarChooseCollectionView, didSelectItemAt: initialIndex)
-                    self?.selectedIndex = initialIndex
+            .subscribe(onNext: { [weak self] avatars in
+                DispatchQueue.main.async { [weak self] in
+                    self?.avatarChooseCollectionView.layoutIfNeeded()
+                    self?.selectInitialAvatar()
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    private func updateAvatarImageAndBackgroundColor(with model: AvatarResult) {
-        let themeToImageName: [String: String] = [
-            "신입 병아리": "main_chick",
-            "눈을 반짝이는 곰돌이": "main_bear",
-            "깜찍한 토끼": "main_rabbit"
-        ]
-        
-        let themeToColorName: [String: String] = [
-            "신입 병아리": "chick",
-            "눈을 반짝이는 곰돌이": "bear",
-            "깜찍한 토끼": "rabbit"
-        ]
-        
-        if let imageName = themeToImageName[model.theme], let colorName = themeToColorName[model.theme] {
-            mainAvatarImageView.image = UIImage(named: imageName)
-            self.view.backgroundColor = UIColor(named: colorName)
+    private func selectInitialAvatar() {
+        if let index = viewModel.avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            avatarChooseCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            collectionView(avatarChooseCollectionView, didSelectItemAt: indexPath)
+            
+            if let avatar = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
+                configureAvatars(with: avatar)
+            }
+        }
+    }
+    
+    private func configureAvatars(with model: AvatarResult) {
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
+            mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
+            self.view.backgroundColor = UIColor(named: theme.colorName)
+            
         }
     }
     
@@ -130,44 +172,72 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         fpc.addPanel(toParent: self, animated: true)
     }
     
+    private func showErrorAlertAndDismiss(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.presentingViewController?.dismiss(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
     
+    private func updateUIComponentsVisibility(isAvatarViewVisible: Bool) {
+        self.tabBarController?.tabBar.isHidden = isAvatarViewVisible
+        hangerButton.isHidden = isAvatarViewVisible
+        if isAvatarViewVisible {
+            fpc.hide()
+        } else {
+            fpc.show()
+        }
+        avatarView.isHidden = !isAvatarViewVisible
+    }
+    
+    // MARK: - @
     @IBAction func showAvatarView(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = true
-        hangerButton.isHidden = true
-        fpc.hide(animated: false, completion: nil)
-        avatarView.isHidden = false
-        
+        updateUIComponentsVisibility(isAvatarViewVisible: true)
+        if let currentUserData = UserDataManager.shared.currentUserData {
+            currentAvatarId = currentUserData.avatarId
+        }
+        selectInitialAvatar()
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        self.tabBarController?.tabBar.isHidden = false
-        hangerButton.isHidden = false
-        fpc.show()
-        avatarView.isHidden = true
+        updateUIComponentsVisibility(isAvatarViewVisible: false)
+        if let currentUserData = UserDataManager.shared.currentUserData {
+            let currentAvatarId = currentUserData.avatarId
+            if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
+                configureAvatars(with: currentAvatarModel)
+            }
+        }
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        // TODO: - 서버에 selectedIndex patch
-        
-        if let selectedIndex = selectedIndex {
-            let selectedAvatarId = selectedIndex.row + 1
-            
-            if var currentUserData = UserDataManager.shared.currentUserData {
-                currentUserData.avatarId = selectedAvatarId
-                UserDataManager.shared.updateHomeData(data: currentUserData)
-            }
-        }
-        
-        self.tabBarController?.tabBar.isHidden = false
-        hangerButton.isHidden = false
-        fpc.show()
-        avatarView.isHidden = true
+        viewModel.changeAvatar(avatarId: (selectedIndex?.row ?? 0) + 1)
+            .subscribe(onSuccess: { [weak self] result in
+                switch result {
+                case .success:
+                    if var currentUserData = UserDataManager.shared.currentUserData {
+                        currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
+                        UserDataManager.shared.updateHomeData(data: currentUserData)
+                    }
+                    self?.tabBarController?.tabBar.isHidden = false
+                    self?.hangerButton.isHidden = false
+                    self?.fpc.show()
+                    self?.avatarView.isHidden = true
+                case .failure(_):
+                    self?.showErrorAlertAndDismiss(message: "잠시후 다시 시도해주세요")
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard !viewModel.avatars.isEmpty else { return }
+        guard !viewModel.avatars.isEmpty else {
+            print("viewModel.avatars are empty")
+            return
+        }
         
         if let previousIndex = selectedIndex,
            let previousSelectedCell = collectionView.cellForItem(at: previousIndex) as? AvatarCollectionViewCell {
@@ -178,7 +248,11 @@ extension HomeViewController: UICollectionViewDelegate {
             let model = viewModel.avatars[indexPath.row]
             selectedCell.setAttributes(with: model, isSelected: true)
             viewModel.updateSelectedAvatar(at: indexPath.row)
-            updateAvatarImageAndBackgroundColor(with: model)
+            configureAvatars(with: model)
+            if lastSpokenAvatarId != model.avatarId {
+                getAvatarSpeeches(avatarId: model.avatarId)
+                lastSpokenAvatarId = model.avatarId
+            }
         }
         selectedIndex = indexPath
     }

@@ -10,90 +10,92 @@ import UserNotifications
 import RealmSwift
 import AudioToolbox
 
-enum Weekday: Int, CaseIterable {
-    case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
-    
-    var alarmIdentifier: String {
-        return "\(self)"
-    }
-}
-
 class AlarmScheduleManager {
     static let shared = AlarmScheduleManager()
     
-    private init() {}
-    
-    func scheduleNotification(for alarmId: Int) {
+    func scheduleAlarmById(with alarmId: Int) {
         let realm = try! Realm()
-        guard let alarm = realm.objects(Alarm.self).filter("id == \(alarmId)").first else {
-            print("Alarm with ID \(alarmId) not found in Realm")
-            return
-        }
+        guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId), alarm.isActivated else { return }
         
-        let content = UNMutableNotificationContent()
-        content.title = "알람이 울리고 있어요!"
-        content.body = "미션을 수행해주세요"
-        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarmSound.mp3"))
-        content.userInfo = ["alarmId": alarmId]
-        
-        var dateComponents = DateComponents()
-        dateComponents.hour = alarm.alarmHour
-        dateComponents.minute = alarm.alarmMinute
-        dateComponents.second = 0
-        let weekdayMap: [Weekday: Bool] = [
-            .sunday: alarm.sunday,
-            .monday: alarm.monday,
-            .tuesday: alarm.tuesday,
-            .wednesday: alarm.wednesday,
-            .thursday: alarm.thursday,
-            .friday: alarm.friday,
-            .saturday: alarm.saturday
-        ]
-        
-        var isAnyDaySet = false
-        
-        for (weekday, isSet) in weekdayMap {
-            if isSet {
-                dateComponents.weekday = weekday.rawValue
-                isAnyDaySet = true
-                let identifier = "\(alarm.id)-\(weekday.alarmIdentifier)"
-                scheduleIndividualNotification(identifier: identifier, dateComponents: dateComponents, content: content)
-            }
-        }
-        
-        if !isAnyDaySet {
-            scheduleIndividualNotification(identifier: "\(alarm.id)-today", dateComponents: dateComponents, content: content)
+        if let nextAlarmTime = getNextAlarmDate(for: alarm, from: Date()) {
+            scheduleNotification(at: nextAlarmTime, with: alarm)
         }
     }
     
-    func scheduleIndividualNotification(identifier: String, dateComponents: DateComponents, content: UNMutableNotificationContent) {
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling notification: \(error)")
+    private func getNextAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
+        let calendar = Calendar.current
+        var components = DateComponents()
+        components.hour = alarm.alarmHour
+        components.minute = alarm.alarmMinute
+        components.second = 0
+
+        // 요일 반복 여부를 검사
+        if alarm.isRepeatAlarm() {
+            // 요일 반복이 있는 경우
+            var nextDate = referenceDate
+            repeat {
+                if let alarmDate = calendar.nextDate(after: nextDate, matching: components, matchingPolicy: .nextTime) {
+                    let weekday = calendar.component(.weekday, from: alarmDate)
+                    if alarm.isActive(on: weekday) {
+                        return alarmDate
+                    }
+                    nextDate = calendar.date(byAdding: .day, value: 1, to: alarmDate)!
+                } else {
+                    break
+                }
+            } while true
+        } else {
+            // 요일 반복이 없는 경우, 다음 가능한 시간 계산
+            if let nextDate = calendar.nextDate(after: referenceDate, matching: components, matchingPolicy: .nextTime) {
+                return nextDate > referenceDate ? nextDate : nil
             }
         }
+        return nil
+    }
+
+    
+    
+    private func scheduleNotification(at date: Date, with alarm: Alarm) {
+        let content = UNMutableNotificationContent()
+        content.title = "Alarm: \(alarm.name)"
+        content.body = "It's time for \(alarm.missionName)!"
+        content.sound = alarm.isVibrate ? UNNotificationSound.defaultCritical : UNNotificationSound.default
+        
+        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let repeats = alarm.isRepeatAlarm() // 반복 여부에 따라 다르게 설정
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: repeats)
+        
+        let request = UNNotificationRequest(identifier: "\(alarm.id)", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func fetchAlarmFromDatabase(alarmId: Int) -> Alarm? {
+        let realm = try? Realm()
+        return realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId)
     }
     
     func removeNotification(for alarmId: Int) {
-        var identifiers = ["\(alarmId)-today"]
-        for weekday in Weekday.allCases {
-            identifiers.append("\(alarmId)-\(weekday.alarmIdentifier)")
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let identifiersToRemove = requests.filter {
+                $0.content.userInfo["alarmId"] as? Int == alarmId
+            }.map { $0.identifier }
+            
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiersToRemove)
         }
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
     }
     
     func toggleAlarmActivation(for alarmId: Int) {
         let realm = try? Realm()
-        guard let alarm = realm?.objects(Alarm.self).filter("id == \(alarmId)").first else {
+        guard let alarm = realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
             print("Alarm with ID \(alarmId) not found in Realm")
             return
         }
-        
         if alarm.isActivated {
-            scheduleNotification(for: alarmId)
+            scheduleAlarmById(with: alarmId)
         } else {
             removeNotification(for: alarmId)
         }
@@ -102,7 +104,7 @@ class AlarmScheduleManager {
     func refreshAllScheduledNotifications() {
         guard let allAlarms = fetchAllAlarmsFromDatabase() else { return }
         for alarm in allAlarms where alarm.isActivated {
-            scheduleNotification(for: alarm.id)
+            scheduleAlarmById(with: alarm.id)
         }
     }
     
@@ -114,6 +116,21 @@ class AlarmScheduleManager {
         } catch let error {
             print("Error accessing Realm: \(error)")
             return nil
+        }
+    }
+}
+
+extension Alarm {
+    func isActive(on weekday: Int) -> Bool {
+        switch weekday {
+        case 1: return sunday
+        case 2: return monday
+        case 3: return tuesday
+        case 4: return wednesday
+        case 5: return thursday
+        case 6: return friday
+        case 7: return saturday
+        default: return false
         }
     }
 }

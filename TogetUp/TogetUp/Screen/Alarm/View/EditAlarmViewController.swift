@@ -28,7 +28,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     @IBOutlet weak var alarmNameTextField: UITextField!
     @IBOutlet weak var alarmIconLabel: UILabel!
     @IBOutlet weak var isVibrate: UISwitch!
-    @IBOutlet weak var isRepeat: UISwitch!
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var addEmojiButton: UIButton!
     @IBOutlet weak var deleteEmojiButton: UIButton!
@@ -37,7 +36,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     private let disposeBag = DisposeBag()
     private var alarmTimeString = ""
     private var viewModel = EditAlarmViewModel()
-    private var missionTitle = "사람"
+    private var missionKoreanName = "사람"
     private var missionIcon = "👤"
     private var missionId = 2
     private var missionObjectId: Int? = 1
@@ -57,6 +56,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         addKeyboardTapGesture()
         addMissionNotificationCenter()
         setUpScreenStatus()
+        configurePlaceTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,11 +109,9 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         if let alarmTimeString = response.result?.alarmTime,
            let alarmTimeDate = formatter.date(from: alarmTimeString) {
             timePicker.date = alarmTimeDate
-            print(timePicker.date)
         }
         
         isVibrate.isOn = result.isVibrate
-        isRepeat.isOn = result.isSnoozeActivated
         sunday.isSelected = result.sunday
         monday.isSelected = result.monday
         tuesday.isSelected = result.tuesday
@@ -181,7 +179,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.alarmMinute = components.minute ?? 0
         
         self.alarmTimeString = String(format: "%02d:%02d", self.alarmHour, self.alarmMinute)
-        print(alarmTimeString)
     }
     
     private func configureMission(with result: GetAlarmResult) {
@@ -196,6 +193,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
             self.missionId = result.getMissionRes?.id ?? 0
             self.missionObjectId = missionObjectRes.id
             self.missionEndpoint = missionObjectRes.name
+            self.missionKoreanName = missionObjectRes.kr
         }
     }
     
@@ -206,11 +204,10 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         }
         let alarmIcon = self.alarmIconLabel.text?.isEmpty ?? true ? "⏰" : self.alarmIconLabel.text!
         let alarmName = self.alarmNameTextField.text?.isEmpty ?? true ? "알람" : self.alarmNameTextField.text!
-
+        
         return CreateOrEditAlarmRequest(
             missionId: self.missionId,
             missionObjectId: paramMissionObjId,
-            isSnoozeActivated: isRepeat.isOn,
             name: alarmName,
             icon: alarmIcon,
             isVibrate: isVibrate.isOn,
@@ -223,14 +220,12 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
             saturday: saturday.isSelected,
             sunday: sunday.isSelected,
             isActivated: true,
-            roomId: nil,
-            snoozeInterval: 0,
-            snoozeCnt: 0
+            roomId: nil
         )
     }
     
     private func createAlarm(with param: CreateOrEditAlarmRequest) {
-        viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint)
+        viewModel.postAlarm(param: param, missionEndpoint: self.missionEndpoint, missionKoreanName: self.missionKoreanName)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
@@ -243,7 +238,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     }
     
     private func editAlarm(with param: CreateOrEditAlarmRequest) {
-        viewModel.editAlarm(param: param, missionEndpoint: self.missionEndpoint, alarmId: self.alarmId ?? 0)
+        viewModel.editAlarm(param: param, missionEndpoint: self.missionEndpoint, missionKoreanName: missionKoreanName, alarmId: self.alarmId ?? 0)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
@@ -273,6 +268,22 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         present(alert, animated: true)
+    }
+    
+    private func configurePlaceTextField() {
+        alarmNameTextField.rx.text.orEmpty
+            .flatMap { [weak self] text -> Observable<String> in
+                guard let self = self else { return Observable.just("") }
+                if text.count > 10 {
+                    if self.alarmNameTextField.isFirstResponder {
+                        self.alarmNameTextField.text = String(text.prefix(10))
+                    }
+                    return Observable.just(String(text.prefix(10)))
+                }
+                return Observable.just(text)
+            }
+            .bind(to: alarmNameTextField.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - @
@@ -321,6 +332,26 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         self.missionObjectId = missionObjectId
         self.missionId = missionId
         self.missionEndpoint = missionName
+        self.missionKoreanName = kr
+    }
+    
+    @IBAction func missionEditButton(_ sender: Any) {
+        guard let vc = storyboard?.instantiateViewController(identifier: "MissionListViewController") as? MissionListViewController else { return }
+        
+        vc.customMissionDataHandler = {[weak self] missionKoreanName, missionIcon, missionId, missionObjectId in
+            self?.missionTitleLabel.text = missionKoreanName
+            self?.missionKoreanName = missionKoreanName
+            self?.missionIconLabel.text = missionIcon
+            self?.missionId = missionId
+            self?.missionObjectId = missionObjectId
+            self?.missionEndpoint = ""
+        }
+        
+        vc.modalPresentationStyle = .fullScreen
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func dayOfWeekButtonTapped(_ sender: UIButton) {
@@ -337,23 +368,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         alertController.addAction(okAction)
         
         present(alertController, animated: true, completion: nil)
-    }
-    
-    @IBAction func missionEditButton(_ sender: Any) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "MissionListViewController") as? MissionListViewController else { return }
-        
-        vc.customMissionDataHandler = {[weak self] missionTitle, missionIcon, missionId, missionObjectId in
-            self?.missionTitleLabel.text = missionTitle
-            self?.missionIconLabel.text = missionIcon
-            self?.missionId = missionId
-            self?.missionObjectId = missionObjectId
-        }
-        
-        vc.modalPresentationStyle = .fullScreen
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {

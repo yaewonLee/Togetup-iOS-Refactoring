@@ -12,7 +12,6 @@ class Alarm: Object {
     @objc dynamic var id: Int = 0
     @objc dynamic var missionId: Int = 0
     @objc dynamic var missionObjectId: Int = 0
-    @objc dynamic var isSnoozeActivated: Bool = false
     @objc dynamic var name: String = ""
     @objc dynamic var icon: String = ""
     @objc dynamic var isVibrate: Bool = false
@@ -28,8 +27,28 @@ class Alarm: Object {
     @objc dynamic var isActivated: Bool = false
     @objc dynamic var missionName: String = ""
     @objc dynamic var missionEndpoint: String = ""
-
+    @objc dynamic var isAlarmed: Bool = false
+    @objc dynamic var completedTime: Date? = nil
+    
     override static func primaryKey() -> String? {
         return "id"
     }
+    
+    func getAlarmTime() -> Date? {
+        var dateComponents = DateComponents()
+        dateComponents.hour = self.alarmHour
+        dateComponents.minute = self.alarmMinute
+        
+        let currentDate = Date()
+        
+        if let alarmDate = Calendar.current.date(bySettingHour: self.alarmHour, minute: self.alarmMinute, second: 0, of: currentDate) {
+            return alarmDate
+        } else {
+            return nil
+        }
+    }
+    
+    func isRepeatAlarm() -> Bool {
+            return monday || tuesday || wednesday || thursday || friday || saturday || sunday
+        }
 }

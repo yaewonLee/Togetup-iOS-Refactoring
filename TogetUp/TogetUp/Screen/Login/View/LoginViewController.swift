@@ -99,6 +99,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             UserApi.shared.rx.loginWithKakaoAccount()
                 .subscribe(onNext:{ (oauthToken) in
                     print("===========loginWithKakaoAccount() success.===========")
+                    UserDefaults.standard.set("Kakao", forKey: "loginMethod")
                     let loginRequest = LoginRequest(oauthAccessToken: oauthToken.accessToken, loginType: "KAKAO")
                     self.sendLoginRequest(with: loginRequest)
                 }, onError: {error in
@@ -113,7 +114,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success:
-                    print("*************** 회원가입 성공 ***************")
                     self?.switchView()
                 case .failure(let error):
                     let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)

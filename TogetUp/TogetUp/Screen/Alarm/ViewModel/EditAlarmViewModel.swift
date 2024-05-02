@@ -14,7 +14,6 @@ class EditAlarmViewModel {
     private let provider = MoyaProvider<AlarmService>()
     private let realmManager = AlarmDataManager()
     private let networkManager = NetworkManager()
-    
     var errorMessage = PublishSubject<String>()
     
     func getSingleAlarm(alarmId: Int) -> Single<GetSingleAlarmResponse> {
@@ -31,13 +30,15 @@ class EditAlarmViewModel {
             }
     }
     
-    func postAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String) -> Single<Result<Void, Error>> {
+    func postAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, missionKoreanName: String) -> Single<Result<Void, Error>> {
         return networkManager.handleAPIRequest(provider.rx.request(.createAlarm(param: param)), dataType: CreateEditDeleteAlarmResponse.self)
             .flatMap { [weak self] result -> Single<Result<Void, Error>> in
                 switch result {
                 case .success(let response):
+                    print(response)
                     let alarmId = response.result
-                    self?.realmManager.updateAlarm(with: param, for: alarmId ?? 0, missionEndpoint: missionEndpoint)
+                    self?.realmManager.updateAlarm(with: param, for: alarmId ?? 0, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
+                    AlarmScheduleManager.shared.scheduleAlarmById(with: alarmId ?? 0)
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))
@@ -45,12 +46,14 @@ class EditAlarmViewModel {
             }
     }
     
-    func editAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, alarmId: Int) -> Single<Result<Void, Error>> {
+    func editAlarm(param: CreateOrEditAlarmRequest, missionEndpoint: String, missionKoreanName: String, alarmId: Int) -> Single<Result<Void, Error>> {
         return networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: param)), dataType: CreateEditDeleteAlarmResponse.self)
             .flatMap { [weak self] result -> Single<Result<Void, Error>> in
                 switch result {
                 case .success:
-                    self?.realmManager.updateAlarm(with: param, for: alarmId, missionEndpoint: missionEndpoint)
+                    self?.realmManager.updateAlarm(with: param, for: alarmId, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
+                    AlarmScheduleManager.shared.removeNotification(for: alarmId)
+                    AlarmScheduleManager.shared.scheduleAlarmById(with: alarmId)
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))
@@ -64,6 +67,7 @@ class EditAlarmViewModel {
                 switch result {
                 case .success:
                     self?.realmManager.deleteAlarm(alarmId: alarmId)
+                    AlarmScheduleManager.shared.removeNotification(for: alarmId)
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))

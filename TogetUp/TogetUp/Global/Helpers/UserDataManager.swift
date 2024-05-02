@@ -35,6 +35,16 @@ class UserDataManager {
             UserDefaults.standard.removeObject(forKey: "currentUserData")
         }
     }
+    
+    func updateUserStatus(level: Int, expPercentage: Double) {
+            guard var currentUserData = currentUserData else {
+                return
+            }
+            
+            currentUserData.userStat.level = level
+            currentUserData.userStat.expPercentage = expPercentage
+            self.currentUserData = currentUserData
+        }
 
     private func loadUserData() {
         if let userData = UserDefaults.standard.data(forKey: "currentUserData"),

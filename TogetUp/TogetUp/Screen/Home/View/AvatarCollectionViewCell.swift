@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreImage
 
 class AvatarCollectionViewCell: UICollectionViewCell {
     static let identifier = "AvatarCollectionViewCell"
@@ -13,37 +14,68 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var avatarBackView: UIImageView!
     @IBOutlet weak var checkImageView: UIImageView!
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var unlockLevelLabel: UILabel!
+    @IBOutlet weak var unlockLabelStackView: UIStackView!
+    @IBOutlet weak var newLabel: UIImageView!
+    @IBOutlet weak var avatarNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        customUI()
+    }
+    
+    private func customUI() {
         self.layer.cornerRadius = 12
-        avatarBackView.layer.cornerRadius = 12
         self.clipsToBounds = true
+        avatarBackView.layer.cornerRadius = 12
     }
     
     func setAttributes(with model: AvatarResult, isSelected: Bool) {
-        let themeToImageName: [String: String] = [
-            "신입 병아리": "c_chick",
-            "눈을 반짝이는 곰돌이": "c_bear",
-            "깜찍한 토끼": "c_rabbit"
-        ]
+        let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
         
-        let themeToColorName: [String: String] = [
-            "신입 병아리": "chick",
-            "눈을 반짝이는 곰돌이": "bear",
-            "깜찍한 토끼": "rabbit"
-        ]
-        
-        if let imageName = themeToImageName[model.theme] {
-            avatarImageView.image = UIImage(named: imageName)
-        }
-        
-        if isSelected {
-            if let colorName = themeToColorName[model.theme] {
-                avatarBackView.backgroundColor = UIColor(named: colorName)
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
+            newLabel.isHidden = !theme.isNew
+            
+            let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
+            let image = UIImage(named: isSelected ? theme.collectionViewAvatarName : theme.collectionViewAvatarName)
+            
+            if currentUserLevel < model.unlockLevel {
+                avatarImageView.image = image.map { convertToBlackAndWhite(image: $0) ?? UIImage() }
+            } else {
+                avatarImageView.image = image
             }
-        } else {
-            avatarBackView.backgroundColor = UIColor(named: "neutral100")
+            
+            if isSelected {
+                avatarBackView.layer.borderWidth = 2
+                checkImageView.tintColor = .black
+                avatarBackView.backgroundColor = UIColor(named: theme.colorName)
+                newLabel.isHidden = true
+                ThemeManager.shared.updateIsNewStatusForAvatar(withId: theme.avatarId, toNewStatus: false)
+            } else {
+                avatarBackView.layer.borderWidth = 0
+                avatarBackView.backgroundColor = UIColor(named: "neutral100")
+                checkImageView.tintColor = UIColor(named: "neutral200")
+            }
         }
+        unlockLevelLabel.text = "Lv.\(model.unlockLevel)"
+        avatarNameLabel.text = model.themeKr
+        
+        self.isUserInteractionEnabled = currentUserLevel >= model.unlockLevel
+        self.checkImageView.isHidden = currentUserLevel < model.unlockLevel
+        self.unlockLabelStackView.isHidden = currentUserLevel >= model.unlockLevel
+    }
+    
+    func convertToBlackAndWhite(image: UIImage) -> UIImage? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        
+        let filter = CIFilter(name: "CIColorControls")
+        filter?.setValue(ciImage, forKey: kCIInputImageKey)
+        filter?.setValue(0.0, forKey: kCIInputSaturationKey)
+        
+        if let outputCIImage = filter?.outputImage,
+           let outputCGImage = CIContext(options: nil).createCGImage(outputCIImage, from: outputCIImage.extent) {
+            return UIImage(cgImage: outputCGImage)
+        }
+        return nil
     }
 }

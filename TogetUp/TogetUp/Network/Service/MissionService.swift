@@ -11,7 +11,8 @@ import UIKit
 
 enum MissionService {
     case getMissionList(missionId: Int)
-    case missionDetection(objectName: String, missionImage: UIImage)
+    case missionDetectionResult(missionName: String, object: String?, missionImage: UIImage)
+    case missionComplete(param: MissionCompleteRequest)
 }
 
 extension MissionService: TargetType {
@@ -23,8 +24,10 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList(let missionId):
             return URLConstant.getMissionList + "\(missionId)"
-        case .missionDetection(let objectName, _):
-            return URLConstant.missionDetection + objectName
+        case .missionDetectionResult(let missionName, let object, _):
+            return URLConstant.missionDetection + "\(missionName)/result"
+        case .missionComplete:
+            return URLConstant.missionComplete
         }
     }
     
@@ -32,7 +35,7 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList:
             return .get
-        case .missionDetection:
+        case .missionDetectionResult, .missionComplete:
             return .post
         }
     }
@@ -41,30 +44,29 @@ extension MissionService: TargetType {
         switch self {
         case .getMissionList:
             return .requestPlain
-        case .missionDetection(_, let missionImage):
+        case .missionDetectionResult(_, let object, let missionImage):
             guard let imageData = missionImage.jpegData(compressionQuality: 1.0) else {
-                print("jpeg 변환 실패")
                 return .requestPlain
             }
             let imagePart = MultipartFormData(provider: .data(imageData), name: "missionImage", fileName: "missionImage.jpg", mimeType: "image/jpeg")
-            return .uploadMultipart([imagePart])
+            
+            var parameters: [String: Any] = [:]
+            if let objectValue = object {
+                parameters["object"] = objectValue
+            }
+            
+            return .uploadCompositeMultipart([imagePart], urlParameters: parameters)
+        case .missionComplete(let param):
+            return .requestJSONEncodable(param)
         }
     }
     
     var headers: [String : String]? {
         let token = KeyChainManager.shared.getToken()
-        switch self {
-        case .getMissionList:
-            return [
-                "Authorization": "Bearer \(token ?? "")",
-                "Content-Type": "application/json"
-            ]
-        case .missionDetection:
-            return [
-                "Authorization": "Bearer \(token ?? "")",
-                "Content-Type": "multipart/form-data"
-            ]
-        }
+        return [
+            "Authorization": "Bearer \(token ?? "")",
+            "Content-Type": "application/json"
+        ]
     }
 }
 

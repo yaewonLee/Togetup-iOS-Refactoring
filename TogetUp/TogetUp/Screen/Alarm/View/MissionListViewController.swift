@@ -12,8 +12,7 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var customMissionView: UIView!
     @IBOutlet weak var objectMissionView: UIView!
     @IBOutlet weak var faceMissionView: UIView!
-    
-    var customMissionDataHandler: ((String, String, Int, Int) -> ())?
+    var customMissionDataHandler: ((String, String, Int, Int?) -> ())?
     override func viewDidLoad() {
         super.viewDidLoad()
         let leftBarButton = UIBarButtonItem(image: UIImage(named: "chevron-left"), style: .plain, target: self, action: #selector(back(_ :)))
@@ -61,7 +60,7 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func customMissionSelected(_ sender: Any) {
-        customMissionDataHandler?("직접 등록 미션", "📷", 1, 1)
+        customMissionDataHandler?("직접 등록 미션", "📷", 1, nil)
         self.navigationController?.popViewController(animated: true)
     }
 }

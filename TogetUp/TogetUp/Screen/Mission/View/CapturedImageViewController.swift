@@ -18,41 +18,29 @@ class CapturedImageViewController: UIViewController {
     @IBOutlet weak var filmAgainButton: UIButton!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var pointLabel: UILabel!
-    
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var goHomeButton: UIButton!
-    @IBOutlet weak var goGroupButton: UIButton!
-    
-    
     @IBOutlet weak var statusLabelTopMargin: NSLayoutConstraint!
     @IBOutlet weak var successLabelTopMargin: NSLayoutConstraint!
+    @IBOutlet weak var levelUpLabel: UILabel!
+    @IBOutlet weak var congratLabel: UILabel!
     
     // MARK: - Properties
     var image = UIImage()
     var missionId = 0
-    var missionEndpoint = ""
+    var missionEndpoint: String?
     private let viewModel = MissionProcessViewModel()
     private let disposeBag = DisposeBag()
-    var countdownTimer: Timer?
-    var countdownValue = 5
+    private var countdownTimer: Timer?
+    private var countdownValue = 5
+    private var filePath = ""
+    var alarmId = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         capturedImageView.image = image
         customUI()
-        print("missionId: \(missionId), endPoint: \(missionEndpoint)")
-        
-        if missionId == 1 {
-            progressView.backgroundColor = UIColor(named: "secondary050")
-            successLabel.isHidden = true
-            statusLabel.text = "미션 성공🎉"
-            successLabel.isHidden = false
-            pointLabel.isHidden = false
-        } else {
-            postMissionImage()
-            setLottieAnimation()
-        }
+        postMissionImage()
+        setLottieAnimation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,6 +48,8 @@ class CapturedImageViewController: UIViewController {
         
         pointLabel.layer.cornerRadius = 12
         pointLabel.layer.masksToBounds = true
+        levelUpLabel.layer.cornerRadius = 12
+        levelUpLabel.layer.masksToBounds = true
     }
     
     // MARK: - Custom Method
@@ -69,28 +59,38 @@ class CapturedImageViewController: UIViewController {
         }
         progressView.layer.cornerRadius = 12
         progressView.layer.borderWidth = 2
-        goHomeButton.layer.cornerRadius = 12
-        goHomeButton.layer.borderWidth = 2
-        goGroupButton.layer.cornerRadius = 12
-        goGroupButton.layer.borderWidth = 2
     }
     
     private func postMissionImage() {
-        let endPoint = missionId == 2 ? "object-detection/\(missionEndpoint)" : "face-recognition/\(missionEndpoint)"
-        viewModel.sendMissionImage(objectName: endPoint, missionImage: image)
+        var missionName: String = ""
+        
+        switch missionId {
+        case 1:
+            missionName = "direct-registration"
+        case 2:
+            missionName = "object-detection"
+        case 3:
+            missionName = "expression-recognition"
+        default:
+            print("알 수 없는 미션 ID")
+            return
+        }
+        
+        viewModel.sendMissionImage(missionName: missionName, object: self.missionEndpoint, missionImage: image)
             .subscribe(onNext: { response in
-                print(response)
-                self.handleResponse(response)
+                self.handleMissionDetectResponse(response)
+                let param = MissionCompleteRequest(alarmId: self.alarmId, missionPicLink: response.result?.filePath ?? "")
+                self.completeMission(with: param)
             }, onError: { error in
                 print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
     }
     
-    private func handleResponse(_ response: MissionDetectResponse) {
+    private func handleMissionDetectResponse(_ response: MissionDetectResponse) {
         progressView.backgroundColor = UIColor(named: "secondary050")
         progressBar.isHidden = true
-        if response.message == "미션을 성공하지 못했습니다." {
+        if response.message == "미션을 성공하지 못했습니다." || response.message == "탐지된 객체가 없습니다." {
             statusLabel.text = "인식에 실패했어요😢"
             filmAgainButton.isHidden = false
         } else {
@@ -102,30 +102,53 @@ class CapturedImageViewController: UIViewController {
                 self.progressView.isHidden = true
                 let url = URL(string: response.result!.filePath)!
                 self.capturedImageView.load(url: url)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.successLabel.text = ""
-                    self.progressView.isHidden = false
-                    self.successLabel.isHidden = false
-                    self.successLabelTopMargin.constant = 5
-                    self.successLabel.font = UIFont(name: "AppleSDGothicNeo-SemiBold", size: 12)
-                    self.successLabel.textColor = UIColor(named: "neutral400")
-                    self.statusLabelTopMargin.constant = 24
-                    self.successLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 16)
-                    self.pointLabel.isHidden = true
-                    self.stackView.isHidden = false
-                    self.statusLabel.text = "그룹 게시판 업로드 완료"
-                    self.startCountdown()
-                }
             }
         }
     }
     
-    func startCountdown() {
-        countdownTimer?.invalidate()
+    private func completeMission(with param: MissionCompleteRequest) {
+        viewModel.completeMission(param: param) { result in
+            switch result {
+            case .success(let response):
+                if let userLevelUp = response.result?.userLevelUp, userLevelUp {
+                    self.handleCompleteResponseUI(response)
+                }
+                self.startCountdown()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func handleCompleteResponseUI(_ response: MissionCompleteResponse) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if response.result?.userLevelUp ?? false {
+                self.statusLabel.text = "LEVEL UP"
+                self.successLabel.isHidden = true
+                self.pointLabel.isHidden = true
+                self.levelUpLabel.isHidden = false
+                self.congratLabel.isHidden = false
+                self.configureLevelUpLabel(userLevel: response.result?.userStat.level ?? 0)
+            }
+        }
+    }
+    
+    private func configureLevelUpLabel(userLevel: Int) {
+        let text = "  \(userLevel - 1) ⭢ \(userLevel)   "
+        let attributedString = NSMutableAttributedString(string: text)
+        let textLength = text.count
+        let startLocation = 5
         
+        let range = NSRange(location: startLocation, length: textLength - startLocation)
+        attributedString.addAttribute(.foregroundColor, value: UIColor(named: "secondary500")!, range: range)
+        
+        levelUpLabel.attributedText = attributedString
+    }
+    
+    private func startCountdown() {
+        countdownTimer?.invalidate()
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if self.countdownValue > 0 {
-                self.successLabel.text = "\(self.countdownValue)초후 자동으로 홈 이동"
                 self.countdownValue -= 1
             } else {
                 timer.invalidate()
@@ -134,7 +157,7 @@ class CapturedImageViewController: UIViewController {
         }
     }
     
-    func navigateToHome() {
+    private func navigateToHome() {
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") else {
             return
         }
@@ -153,14 +176,5 @@ class CapturedImageViewController: UIViewController {
     // MARK: - @
     @IBAction func filmAgainButtonTapped(_ sender: UIButton) {
         self.dismiss(animated: true)
-    }
-    
-    @IBAction func moveToGroupBoard(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Group", bundle: nil)
-        if let vc = storyboard.instantiateViewController(withIdentifier: "GroupListViewController") as? GroupListViewController {
-            let navigationController = UINavigationController(rootViewController: vc)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true, completion: nil)
-        }
     }
 }
