@@ -1,1 +1,1 @@
-# Togetup-iOS-Refatoring
+# Togetup-iOS-Refactoring
