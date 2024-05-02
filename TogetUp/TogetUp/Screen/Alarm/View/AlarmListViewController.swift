@@ -47,6 +47,8 @@ class AlarmListViewController: UIViewController {
         super.viewWillAppear(animated)
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
+        printScheduledLocalNotifications()
+        printAllAlarms()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,6 +57,35 @@ class AlarmListViewController: UIViewController {
     }
     
     // MARK: - Custom Method
+    
+    func printScheduledLocalNotifications() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            for request in requests {
+                print("=================================")
+                print("Identifier: \(request.identifier)")
+
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger, let nextTriggerDate = trigger.nextTriggerDate() {
+                    print("Next trigger date: \(nextTriggerDate)")
+                } else if let trigger = request.trigger as? UNTimeIntervalNotificationTrigger {
+                    print("Time interval trigger: \(trigger.timeInterval)")
+                }
+
+                print("Content: \(request.content.body)")
+            }
+        }
+    }
+    
+    func printAllAlarms() {
+        let realm = try! Realm() // Realm 인스턴스 생성 시 발생할 수 있는 예외를 무시
+        let alarms = realm.objects(Alarm.self) // 모든 Alarm 객체를 조회
+
+        // 조회된 Alarm 객체들을 순회하며 출력
+        alarms.forEach { alarm in
+            print("Alarm ID: \(alarm.id), Name: \(alarm.name), Is Activated: \(alarm.isActivated), Is Alarmed: \(alarm.isAlarmed)")
+            // 필요에 따라 더 많은 필드를 출력할 수 있습니다.
+        }
+    }
+
     private func customUI () {
         groupLockerView.layer.cornerRadius = 12
     }

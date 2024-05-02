@@ -34,10 +34,19 @@ class AlarmListViewModel {
             .subscribe(onSuccess: { [weak self] response in
                 if let result = response.result {
                     self?.saveAlarmsToRealm(result)
+                    self?.scheduleActiveAlarms()
                     self?.fetchAlarmsFromRealm()
                 }
             }, onFailure: handleNetworkError)
             .disposed(by: disposeBag)
+    }
+    
+    private func scheduleActiveAlarms() {
+        let alarms = realmInstance.objects(Alarm.self).filter("isActivated == true")
+        for alarm in alarms {
+            print(alarm)
+            AlarmScheduleManager.shared.scheduleAlarmById(with: alarm.id)
+        }
     }
     
     func getGroupAlarmList() -> Observable<[GetAlarmResult]> {
@@ -67,7 +76,6 @@ class AlarmListViewModel {
                 alarm.missionEndpoint = missionEndpoint
             }
             
-            alarm.isSnoozeActivated = apiAlarm.isSnoozeActivated
             alarm.name = apiAlarm.name
             alarm.icon = apiAlarm.icon
             alarm.isVibrate = apiAlarm.isVibrate

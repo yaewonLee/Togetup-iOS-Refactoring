@@ -17,18 +17,21 @@ import RealmSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-
+    
     func navigateToMissionPerformViewController(with alarmId: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let missionPerformVC = storyboard.instantiateViewController(withIdentifier: "MissionPerformViewController") as? MissionPerformViewController {
             let realmInstance = try! Realm()
             if let alarm = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
+                try! realmInstance.write {
+                    alarm.isAlarmed = true
+                }
+                
                 missionPerformVC.alarmIcon = alarm.icon
                 missionPerformVC.alarmName = alarm.name
                 missionPerformVC.missionObject = alarm.missionName
                 missionPerformVC.objectEndpoint = alarm.missionEndpoint
                 missionPerformVC.missionId = alarm.missionId
-                missionPerformVC.isSnoozeActivated = alarm.isSnoozeActivated
                 missionPerformVC.alarmId = alarm.id
                 
                 let navigationController = UINavigationController(rootViewController: missionPerformVC)
@@ -58,17 +61,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        let realmInstance = try! Realm()
+        guard let realm = try? Realm() else { return }
         let currentTime = Date()
-        let oneMinuteAgo = Calendar.current.date(byAdding: .minute, value: -1, to: currentTime)!
+        let calendar = Calendar.current
+        let currentComponents = calendar.dateComponents([.hour, .minute], from: currentTime)
         
-        let activeAlarms = realmInstance.objects(Alarm.self)
-            .filter("isActivated == true")
-            .filter("alarmHour == \(Calendar.current.component(.hour, from: currentTime))")
-            .filter("alarmMinute == \(Calendar.current.component(.minute, from: currentTime))")
+        let activeAlarms = realm.objects(Alarm.self).filter("isActivated == true AND isAlarmed == false")
         
-        if let latestAlarm = activeAlarms.last {
-            navigateToMissionPerformViewController(with: latestAlarm.id)
+        for alarm in activeAlarms {
+            if let completedTime = alarm.completedTime,
+               currentTime.timeIntervalSince(completedTime) <= 60 {
+                continue
+            }
+            
+            if calendar.component(.hour, from: alarm.getAlarmTime() ?? Date()) == currentComponents.hour &&
+                calendar.component(.minute, from: alarm.getAlarmTime() ?? Date()) == currentComponents.minute {
+                navigateToMissionPerformViewController(with: alarm.id)
+                break
+            }
         }
     }
     
