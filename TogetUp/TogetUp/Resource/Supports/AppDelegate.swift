@@ -22,20 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("AppStatusManager.shared.isFirstLaunch: \(AppStatusManager.shared.isFirstLaunch)")
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
-        print("=========isLoggedIn: \(isLoggedIn)=========")
-        print(KeyChainManager.shared.getToken())
-        RxKakaoSDK.initSDK(appKey: "0d709db5024c92d5b7a944b206850db0")
+        if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
+            RxKakaoSDK.initSDK(appKey: kakaoAppKey)
+        }
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         Messaging.messaging().isAutoInitEnabled = true
         
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
-        
-        AlarmScheduleManager.shared.refreshAllScheduledNotifications()
-        
+                
         return true
     }
     
