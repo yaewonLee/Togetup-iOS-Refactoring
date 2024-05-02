@@ -26,7 +26,7 @@ class NetworkManager {
             }, onError: { error in
                 print("API Request Error: \(error.localizedDescription)")
             })
-            .filterSuccessfulStatusAndRedirectCodes()
+            .filterSuccessfulStatusCodes()
             .map(dataType)
             .map(Result.success)
             .catch { error -> Single<Result<T, NetWorkingError>> in
