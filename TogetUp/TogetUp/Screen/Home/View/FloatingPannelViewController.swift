@@ -51,6 +51,10 @@ class FloatingPannelViewController: UIViewController {
         
         collectionViewContainerView.layer.cornerRadius = 12
         collectionViewContainerView.layer.borderWidth = 2
+        
+        NSLayoutConstraint.activate([
+            collectionViewContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+            ])
     }
     
     private func bindViewModel() {
@@ -59,7 +63,6 @@ class FloatingPannelViewController: UIViewController {
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let timelineResult):
-                    print(timelineResult)
                     if let timelineResult = timelineResult {
                         self?.updateUI(with: timelineResult)
                         self?.setNextAlarmUI(timelineResult: timelineResult)

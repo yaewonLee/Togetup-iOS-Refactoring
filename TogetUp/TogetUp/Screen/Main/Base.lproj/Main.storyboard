@@ -18,10 +18,10 @@
             </objects>
             <point key="canvasLocation" x="179" y="-711"/>
         </scene>
-        <!--LottieViewController-->
+        <!--ContentViewController-->
         <scene sceneID="adn-nM-R5w">
             <objects>
-                <viewController storyboardIdentifier="LottieViewController" title="LottieViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oxk-f3-gwS" customClass="LottieViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContentViewController" title="ContentViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oxk-f3-gwS" customClass="ContentViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Ug-pr-5E6">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,6 +33,17 @@
                                     <constraint firstAttribute="width" secondItem="fhQ-sx-IoT" secondAttribute="height" multiplier="375:470" id="CJJ-NY-XWI"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 / 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbZ-kG-IsH">
+                                <rect key="frame" x="186.66666666666666" y="491" width="57" height="24"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="57" id="jrP-I5-KRO"/>
+                                    <constraint firstAttribute="height" constant="24" id="unC-ry-ZVg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="neutral400"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="찰칵 찍어서 알람 종료" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8Z-PW-eTG">
                                 <rect key="frame" x="86" y="579" width="258" height="44"/>
                                 <constraints>
@@ -64,16 +75,21 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 <buttonConfiguration key="configuration" style="plain" title="다음">
                                     <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="nextButtonTapped:" destination="Oxk-f3-gwS" eventType="touchUpInside" id="V1P-ha-fng"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FeY-SK-1NS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="J8Z-PW-eTG" firstAttribute="top" secondItem="fhQ-sx-IoT" secondAttribute="bottom" constant="40" id="6zf-Rl-w7N"/>
+                            <constraint firstItem="vbZ-kG-IsH" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="7q0-1d-NbP"/>
                             <constraint firstItem="fhQ-sx-IoT" firstAttribute="leading" secondItem="FeY-SK-1NS" secondAttribute="leading" id="8Mj-O3-0xB"/>
                             <constraint firstItem="fhQ-sx-IoT" firstAttribute="top" secondItem="7Ug-pr-5E6" secondAttribute="top" id="AzF-oc-TRX"/>
                             <constraint firstItem="FeY-SK-1NS" firstAttribute="trailing" secondItem="fhQ-sx-IoT" secondAttribute="trailing" id="a2E-0M-afA"/>
                             <constraint firstItem="WBL-Sl-Zxp" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="eUm-en-t04"/>
+                            <constraint firstItem="vbZ-kG-IsH" firstAttribute="bottom" secondItem="fhQ-sx-IoT" secondAttribute="bottom" constant="-24" id="guz-nf-g8J"/>
                             <constraint firstItem="FeY-SK-1NS" firstAttribute="bottom" secondItem="WBL-Sl-Zxp" secondAttribute="bottom" constant="24" id="hrp-Ck-vGV"/>
                             <constraint firstItem="mz6-oA-CxY" firstAttribute="top" secondItem="J8Z-PW-eTG" secondAttribute="bottom" constant="16" id="hwc-Oe-4pi"/>
                             <constraint firstItem="mz6-oA-CxY" firstAttribute="leading" secondItem="FeY-SK-1NS" secondAttribute="leading" constant="59" id="kQ5-Dg-czt"/>
@@ -85,6 +101,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="currentPageNumberLabel" destination="vbZ-kG-IsH" id="bs7-al-WtW"/>
                         <outlet property="label1" destination="J8Z-PW-eTG" id="eDb-w2-KYC"/>
                         <outlet property="label2" destination="mz6-oA-CxY" id="62n-zL-cxK"/>
                         <outlet property="lottieView" destination="fhQ-sx-IoT" id="PD2-Sq-KQ7"/>
@@ -121,6 +138,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 <rect key="frame" x="-92" y="344" width="771" height="771"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="771" id="3OX-5x-OIu"/>
+                                    <constraint firstAttribute="width" secondItem="lDd-0K-eXM" secondAttribute="height" multiplier="1:1" id="cof-zP-xdo"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="함께라면 할 수 있어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCn-F4-MU2">
@@ -170,7 +188,6 @@ AI가 인식해서 알람을 꺼줘요</string>
                             <constraint firstItem="lIR-YX-AeV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="188" id="Znk-ba-OH8"/>
                             <constraint firstItem="6AE-ii-6UQ" firstAttribute="top" secondItem="Fti-gd-VsN" secondAttribute="bottom" constant="12" id="aCm-94-Bif"/>
                             <constraint firstItem="Fti-gd-VsN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cCv-WX-AR6"/>
-                            <constraint firstItem="lDd-0K-eXM" firstAttribute="width" secondItem="lDd-0K-eXM" secondAttribute="height" multiplier="1:1" id="cof-zP-xdo"/>
                             <constraint firstItem="kCn-F4-MU2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gw3-cF-H5d"/>
                             <constraint firstItem="6AE-ii-6UQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jwA-fI-bKx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6AE-ii-6UQ" secondAttribute="trailing" constant="20" id="lli-tT-7gj"/>
@@ -574,9 +591,9 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drr-bJ-Tsh">
-                                <rect key="frame" x="386" y="91" width="24" height="24"/>
+                                <rect key="frame" x="370" y="91" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="CgF-Ti-R95"/>
+                                    <constraint firstAttribute="width" constant="40" id="CgF-Ti-R95"/>
                                     <constraint firstAttribute="width" secondItem="drr-bJ-Tsh" secondAttribute="height" multiplier="1:1" id="c9D-NC-Qta"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
