@@ -22,48 +22,62 @@ class AlarmScheduleManager {
         }
     }
     
-    private func getNextAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
-        let calendar = Calendar.current
-        var components = DateComponents()
-        components.hour = alarm.alarmHour
-        components.minute = alarm.alarmMinute
-        components.second = 0
-
-        // 요일 반복 여부를 검사
+    func getNextAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
         if alarm.isRepeatAlarm() {
-            // 요일 반복이 있는 경우
-            var nextDate = referenceDate
-            repeat {
-                if let alarmDate = calendar.nextDate(after: nextDate, matching: components, matchingPolicy: .nextTime) {
-                    let weekday = calendar.component(.weekday, from: alarmDate)
-                    if alarm.isActive(on: weekday) {
-                        return alarmDate
-                    }
-                    nextDate = calendar.date(byAdding: .day, value: 1, to: alarmDate)!
-                } else {
-                    break
-                }
-            } while true
+            return getNextRepeatAlarmDate(for: alarm, from: referenceDate)
         } else {
-            // 요일 반복이 없는 경우, 다음 가능한 시간 계산
-            if let nextDate = calendar.nextDate(after: referenceDate, matching: components, matchingPolicy: .nextTime) {
-                return nextDate > referenceDate ? nextDate : nil
+            return getNextSingleAlarmDate(for: alarm, from: referenceDate)
+        }
+    }
+    
+    private func getNextRepeatAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
+        let calendar = Calendar.current
+        var components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0)
+        var nextDate = referenceDate
+        
+        let currentDateComponents = calendar.dateComponents([.hour, .minute, .second], from: referenceDate)
+        let currentHour = currentDateComponents.hour!
+        let currentMinute = currentDateComponents.minute!
+        let currentSecond = currentDateComponents.second!
+        
+        if currentHour > alarm.alarmHour || (currentHour == alarm.alarmHour && currentMinute > alarm.alarmMinute) ||
+            (currentHour == alarm.alarmHour && currentMinute == alarm.alarmMinute && currentSecond > 0) {
+            nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
+        }
+        
+        while true {
+            if let alarmDate = calendar.nextDate(after: nextDate, matching: components, matchingPolicy: .strict) {
+                let weekday = calendar.component(.weekday, from: alarmDate)
+                if alarm.isActive(on: weekday) {
+                    return alarmDate
+                }
             }
+            nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
+        }
+    }
+    
+    
+    
+    private func getNextSingleAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
+        let calendar = Calendar.current
+        let components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute)
+        
+        if let nextDate = calendar.nextDate(after: referenceDate, matching: components, matchingPolicy: .nextTime) {
+            return nextDate > referenceDate ? nextDate : nil
         }
         return nil
     }
-
     
     
     private func scheduleNotification(at date: Date, with alarm: Alarm) {
         let content = UNMutableNotificationContent()
-        content.title = "Alarm: \(alarm.name)"
-        content.body = "It's time for \(alarm.missionName)!"
-        content.sound = alarm.isVibrate ? UNNotificationSound.defaultCritical : UNNotificationSound.default
+        content.title = "알람이 울리고 있어요!"
+        content.body = "\(alarm.missionName)찍기 미션을 수행해주세요!"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarmSound.mp3"))
+        content.userInfo = ["alarmId": alarm.id]
         
         let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let repeats = alarm.isRepeatAlarm() // 반복 여부에 따라 다르게 설정
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: repeats)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
         
         let request = UNNotificationRequest(identifier: "\(alarm.id)", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
@@ -79,12 +93,18 @@ class AlarmScheduleManager {
     }
     
     func removeNotification(for alarmId: Int) {
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            let identifiersToRemove = requests.filter {
-                $0.content.userInfo["alarmId"] as? Int == alarmId
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let identifiersToRemove = requests.filter { request in
+                request.identifier == "\(alarmId)"
             }.map { $0.identifier }
             
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiersToRemove)
+            if !identifiersToRemove.isEmpty {
+                center.removePendingNotificationRequests(withIdentifiers: identifiersToRemove)
+                print("Removed all notifications for alarm ID: \(alarmId)")
+            } else {
+                print("No notifications found for alarm ID: \(alarmId)")
+            }
         }
     }
     
