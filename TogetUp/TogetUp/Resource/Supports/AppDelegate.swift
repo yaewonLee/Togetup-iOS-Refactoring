@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppStatusManager.shared.clearSensitiveDataOnFirstLaunch()
-        AppStatusManager.shared.markAsLaunched()
         if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KakaoAppKey") as? String {
             RxKakaoSDK.initSDK(appKey: kakaoAppKey)
         }
@@ -33,10 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
-                
         return true
     }
-    
+
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }

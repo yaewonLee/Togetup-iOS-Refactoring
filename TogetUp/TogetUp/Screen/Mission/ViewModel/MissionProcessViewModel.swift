@@ -12,13 +12,9 @@ import RxMoya
 import UIKit
 
 class MissionProcessViewModel {
-    private let provider: MoyaProvider<MissionService>
+    private let provider = MoyaProvider<MissionService>()
     private let networkManager = NetworkManager()
     private let disposeBag = DisposeBag()
-    
-    init(provider: MoyaProvider<MissionService> = MoyaProvider<MissionService>(plugins: [NetworkLogger()])) {
-        self.provider = provider
-    }
     
     func sendMissionImage(missionName: String, object: String?, missionImage: UIImage) -> Observable<MissionDetectResponse> {
         let request = provider.rx.request(.missionDetectionResult(missionName: missionName, object: object, missionImage: missionImage))

@@ -27,7 +27,6 @@ class Alarm: Object {
     @objc dynamic var isActivated: Bool = false
     @objc dynamic var missionName: String = ""
     @objc dynamic var missionEndpoint: String = ""
-    @objc dynamic var isAlarmed: Bool = false
     @objc dynamic var completedTime: Date? = nil
     
     override static func primaryKey() -> String? {

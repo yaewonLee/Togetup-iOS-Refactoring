@@ -32,22 +32,8 @@ class AlarmDataManager {
             } catch {
                 print("Error saving alarms: \(error)")
             }
-        }
-    
-    func updateIsActivated(alarmId: Int, field: String, value: Any) -> Result<Void, Error> {
-        do {
-            try realm.write {
-                guard let alarmToUpdate = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
-                    throw RealmError.alarmNotFound
-                }
-                alarmToUpdate.setValue(value, forKey: field)
-            }
-            return .success(())
-        } catch {
-            return .failure(error)
-        }
     }
-    
+
     func updateAlarm(with request: CreateOrEditAlarmRequest, for alarmId: Int, missionEndpoint: String, missionKoreanName: String) {
         do {
             try realm.write {
@@ -78,7 +64,7 @@ class AlarmDataManager {
         }
     }
     
-    func createToggleAlarmRequest(alarmId: Int) -> CreateOrEditAlarmRequest {
+    func deactivateAlarmRequest(alarmId: Int) -> CreateOrEditAlarmRequest {
         guard let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
             fatalError("Alarm not found")
         }
