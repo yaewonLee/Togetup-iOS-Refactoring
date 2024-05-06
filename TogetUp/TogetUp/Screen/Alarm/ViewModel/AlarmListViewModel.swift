@@ -44,7 +44,6 @@ class AlarmListViewModel {
     private func scheduleActiveAlarms() {
         let alarms = realmInstance.objects(Alarm.self).filter("isActivated == true")
         for alarm in alarms {
-            print(alarm)
             AlarmScheduleManager.shared.scheduleAlarmById(with: alarm.id)
         }
     }
@@ -103,28 +102,21 @@ class AlarmListViewModel {
         AlarmScheduleManager.shared.refreshAllScheduledNotifications()
     }
     
-    func editAlarmToggle(alarmId: Int) {
-        let alarmRequest = realmManager.createToggleAlarmRequest(alarmId: alarmId)
+    func deactivateAlarm(alarmId: Int) {
+        let alarmRequest = realmManager.deactivateAlarmRequest(alarmId: alarmId)
         
         networkManager.handleAPIRequest(provider.rx.request(.editAlarm(alarmId: alarmId, param: alarmRequest)), dataType: CreateEditDeleteAlarmResponse.self)
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
-                case .success(let response):
-                    self?.updateRealmDatabaseWithResponse(response, for: alarmId)
+                case .success(_):
+                    self?.realmManager.toggleActivationStatus(for: alarmId)
+                    self?.fetchAlarmsFromRealm()
                     AlarmScheduleManager.shared.toggleAlarmActivation(for: alarmId)
                 case .failure(let error):
                     print("알람 수정 오류: \(error.localizedDescription)")
                 }
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func updateRealmDatabaseWithResponse(_ response: CreateEditDeleteAlarmResponse, for alarmId: Int) {
-        if let alarm = realmInstance.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
-            try! realmInstance.write {
-                alarm.isActivated.toggle()
-            }
-        }
     }
 
     func deleteAlarm(alarmId: Int) {

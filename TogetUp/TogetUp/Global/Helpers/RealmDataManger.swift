@@ -94,6 +94,14 @@ class AlarmDataManager {
         )
     }
     
+    func toggleActivationStatus(for alarmId: Int) {
+        if let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
+            try! realm.write {
+                alarm.isActivated.toggle()
+            }
+        }
+    }
+    
     private func mapRequestToAlarm(_ request: CreateOrEditAlarmRequest, alarm: Alarm, missionEndpoint: String, missionKoreanName: String) {
         alarm.missionId = request.missionId
         alarm.missionObjectId = request.missionObjectId ?? 1
