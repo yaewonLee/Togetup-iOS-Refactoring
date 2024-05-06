@@ -487,6 +487,7 @@
 		F96B32A22A8E8D6200BD3BF9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F9523E4C2B5C1F7B00B16CCB /* RealmDataManger.swift */,
 				F96B32A32A8E8D8200BD3BF9 /* KeyChainManager.swift */,
 				F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */,
 				F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */,
@@ -508,7 +509,6 @@
 		F98600FC2AB0B06100595646 /* RealmDB */ = {
 			isa = PBXGroup;
 			children = (
-				F9523E4C2B5C1F7B00B16CCB /* RealmDataManger.swift */,
 				F98600FD2AB0B07E00595646 /* Alarm.swift */,
 			);
 			path = RealmDB;
