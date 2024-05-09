@@ -180,6 +180,7 @@ class AlarmListViewController: UIViewController {
     }
     
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
+        
         guard let vc = storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.modalPresentationStyle = .fullScreen

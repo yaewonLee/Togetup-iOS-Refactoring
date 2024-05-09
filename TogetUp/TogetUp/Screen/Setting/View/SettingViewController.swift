@@ -60,8 +60,9 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     
     private func setUpUserDefaultsAndNavigate() {
         KeyChainManager.shared.removeToken()
-        self.realmManger.deleteAllDataFromRealm()
         AppStatusManager.shared.markAsLoginedToFalse()
+        self.realmManger.deleteAllDataFromRealm()
+        AlarmScheduleManager.shared.removeAllScheduledNotifications()
         self.switchView()
     }
     

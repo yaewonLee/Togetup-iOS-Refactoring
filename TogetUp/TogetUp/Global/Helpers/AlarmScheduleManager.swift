@@ -32,7 +32,7 @@ class AlarmScheduleManager {
     
     private func getNextRepeatAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
         let calendar = Calendar.current
-        var components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0)
+        let components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0)
         var nextDate = referenceDate
         
         let currentDateComponents = calendar.dateComponents([.hour, .minute, .second], from: referenceDate)
@@ -55,8 +55,6 @@ class AlarmScheduleManager {
             nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
         }
     }
-    
-    
     
     private func getNextSingleAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
         let calendar = Calendar.current
@@ -90,6 +88,13 @@ class AlarmScheduleManager {
     private func fetchAlarmFromDatabase(alarmId: Int) -> Alarm? {
         let realm = try? Realm()
         return realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId)
+    }
+    
+    func checkScheduledNotifications(completion: @escaping (Int) -> Void) {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let count = requests.count
+            completion(count)
+        }
     }
     
     func removeNotification(for alarmId: Int) {
@@ -126,6 +131,11 @@ class AlarmScheduleManager {
         for alarm in allAlarms where alarm.isActivated {
             scheduleAlarmById(with: alarm.id)
         }
+    }
+    
+    func removeAllScheduledNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
     }
     
     func fetchAllAlarmsFromDatabase() -> [Alarm]? {
