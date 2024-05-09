@@ -19,11 +19,17 @@ class AppStatusManager {
     func markAsLaunched() {
         UserDefaults.standard.set(true, forKey: "isFirstLaunch")
     }
-
-    func initializeUserDefaults() {
-        if UserDefaults.standard.object(forKey: "isFirstLaunch") == nil {
-            UserDefaults.standard.set(true, forKey: "isFirstLaunch")
-        }
+    
+    var isFirstLogin: Bool {
+        return !UserDefaults.standard.bool(forKey: "isFirstLogin")
+    }
+    
+    func markAsLogined() {
+        UserDefaults.standard.set(true, forKey: "isFirstLogin")
+    }
+    
+    func markAsLoginedToFalse() {
+        UserDefaults.standard.set(false, forKey: "isFirstLogin")
     }
 
     func clearSensitiveDataOnFirstLaunch() {
