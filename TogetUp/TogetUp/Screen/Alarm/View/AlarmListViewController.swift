@@ -36,7 +36,7 @@ class AlarmListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
-        fetchAndSaveAlarmsIfFirstLaunch()
+        fetchAndSaveAlarmsIfFirstLogin()
         setUpNavigationBar()
         customSegmentedControl()
         setCollectionViewFlowLayout()
@@ -112,11 +112,10 @@ class AlarmListViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    // TODO: 홈 화면으로 로직 옮기기
-    private func fetchAndSaveAlarmsIfFirstLaunch() {
-        if AppStatusManager.shared.isFirstLaunch {
+    private func fetchAndSaveAlarmsIfFirstLogin() {
+        if AppStatusManager.shared.isFirstLogin {
             viewModel.getAndSaveAlarmList(type: "personal")
-            AppStatusManager.shared.markAsLaunched()
+            AppStatusManager.shared.markAsLogined()
         }
     }
     

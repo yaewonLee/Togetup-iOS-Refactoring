@@ -11,11 +11,8 @@ import Moya
 import RxMoya
 
 class SettingViewModel {
-    let provider: MoyaProvider<UserService>
-    
-    init() {
-        self.provider = MoyaProvider<UserService>(plugins: [NetworkLogger()])
-    }
+    let provider = MoyaProvider<UserService>()
+    private let networkManager = NetworkManager()
     
     func deleteUser() -> Observable<WithdrawlResponse> {
         return provider.rx.request(.deleteUser)
