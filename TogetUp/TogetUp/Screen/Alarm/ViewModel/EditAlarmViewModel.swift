@@ -12,7 +12,7 @@ import RealmSwift
 
 class EditAlarmViewModel {
     private let provider = MoyaProvider<AlarmService>()
-    private let realmManager = AlarmDataManager()
+    private let realmManager = RealmAlarmDataManager()
     private let networkManager = NetworkManager()
     var errorMessage = PublishSubject<String>()
     

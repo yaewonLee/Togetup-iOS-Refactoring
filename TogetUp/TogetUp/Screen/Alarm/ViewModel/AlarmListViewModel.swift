@@ -15,7 +15,7 @@ class AlarmListViewModel {
     private let provider = MoyaProvider<AlarmService>()
     var alarms = BehaviorSubject<[Alarm]>(value: [])
     private let disposeBag = DisposeBag()
-    private let realmManager = AlarmDataManager()
+    private let realmManager = RealmAlarmDataManager()
     private let networkManager = NetworkManager()
     
     private lazy var realmInstance: Realm = {
