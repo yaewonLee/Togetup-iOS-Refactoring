@@ -12,35 +12,41 @@ enum RealmError: Error {
     case alarmNotFound
 }
 
-class AlarmDataManager {
+class RealmAlarmDataManager {
     private var realm: Realm {
         return try! Realm()
     }
     
     func fetchAlarms() -> [Alarm] {
-            let alarms = realm.objects(Alarm.self).sorted {
-                ($0.alarmHour * 60 + $0.alarmMinute) < ($1.alarmHour * 60 + $1.alarmMinute)
-            }
-            return Array(alarms)
+        let alarms = realm.objects(Alarm.self).sorted {
+            ($0.alarmHour * 60 + $0.alarmMinute) < ($1.alarmHour * 60 + $1.alarmMinute)
         }
+        return Array(alarms)
+    }
     
     func saveAlarms<T>(_ alarms: [T], transform: (T) -> Alarm) {
-            do {
-                try realm.write {
-                    alarms.map(transform).forEach { realm.add($0, update: .modified) }
-                }
-            } catch {
-                print("Error saving alarms: \(error)")
+        do {
+            try realm.write {
+                alarms.map(transform).forEach { realm.add($0, update: .modified) }
             }
+        } catch {
+            print("Error saving alarms: \(error)")
+        }
     }
-
+    
+    func deleteAllDataFromRealm() {
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+    
     func updateAlarm(with request: CreateOrEditAlarmRequest, for alarmId: Int, missionEndpoint: String, missionKoreanName: String) {
         do {
             try realm.write {
                 let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId)
                 if alarm == nil {
                     let newAlarm = Alarm()
-                    newAlarm.id = alarmId 
+                    newAlarm.id = alarmId
                     mapRequestToAlarm(request, alarm: newAlarm, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
                     realm.add(newAlarm)
                 } else {
@@ -51,7 +57,7 @@ class AlarmDataManager {
             print("Error updating or adding alarm: \(error)")
         }
     }
-
+    
     func deleteAlarm(alarmId: Int) {
         do {
             if let alarmToDelete = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
