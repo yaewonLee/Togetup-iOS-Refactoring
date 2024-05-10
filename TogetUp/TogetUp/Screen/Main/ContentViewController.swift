@@ -53,7 +53,7 @@ class ContentViewController: UIViewController {
     private func setLottieAnimation() {
         let animation = LottieAnimation.named(lottieFileName)
         lottieView.animation = animation
-        lottieView.loopMode = .loop
+        lottieView.loopMode = .playOnce
         lottieView.animationSpeed = 1
         lottieView.play()
     }
