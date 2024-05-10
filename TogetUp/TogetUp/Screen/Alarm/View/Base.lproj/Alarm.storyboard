@@ -347,7 +347,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="알람명" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fNc-g4-mhU">
-                                                <rect key="frame" x="100" y="185" width="193" height="24"/>
+                                                <rect key="frame" x="95" y="185" width="203" height="24"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="rsE-8l-pqi"/>
@@ -656,7 +656,7 @@
                                             <constraint firstItem="k3J-lA-913" firstAttribute="bottom" secondItem="jbQ-lh-B0Q" secondAttribute="bottom" constant="-64" id="PXF-s0-NDN"/>
                                             <constraint firstAttribute="bottom" secondItem="exW-68-5bm" secondAttribute="bottom" constant="-12" id="Q60-Qi-Wrs"/>
                                             <constraint firstItem="exW-68-5bm" firstAttribute="centerX" secondItem="UNi-Tl-nUz" secondAttribute="centerX" id="QXj-Xb-tMJ"/>
-                                            <constraint firstItem="fNc-g4-mhU" firstAttribute="leading" secondItem="UNi-Tl-nUz" secondAttribute="leading" constant="100" id="WCR-Wf-doP"/>
+                                            <constraint firstItem="fNc-g4-mhU" firstAttribute="leading" secondItem="UNi-Tl-nUz" secondAttribute="leading" constant="95" id="WCR-Wf-doP"/>
                                             <constraint firstAttribute="trailing" secondItem="gs7-pg-BWD" secondAttribute="trailing" constant="39.5" id="anu-X9-rCz"/>
                                             <constraint firstItem="exW-68-5bm" firstAttribute="top" secondItem="gs7-pg-BWD" secondAttribute="bottom" constant="16" id="bzt-Qb-gG4"/>
                                             <constraint firstItem="R6v-i6-9xj" firstAttribute="centerY" secondItem="jbQ-lh-B0Q" secondAttribute="centerY" id="c15-rw-B6s"/>
@@ -665,7 +665,7 @@
                                             <constraint firstItem="gs7-pg-BWD" firstAttribute="top" secondItem="fNc-g4-mhU" secondAttribute="bottom" constant="24" id="kct-5k-SQg"/>
                                             <constraint firstItem="gs7-pg-BWD" firstAttribute="leading" secondItem="UNi-Tl-nUz" secondAttribute="leading" constant="39.5" id="qhS-Sd-Vxx"/>
                                             <constraint firstItem="jbQ-lh-B0Q" firstAttribute="top" secondItem="UNi-Tl-nUz" secondAttribute="top" constant="88" id="rOw-GK-K6S"/>
-                                            <constraint firstAttribute="trailing" secondItem="fNc-g4-mhU" secondAttribute="trailing" constant="100" id="vWL-aW-s9S"/>
+                                            <constraint firstAttribute="trailing" secondItem="fNc-g4-mhU" secondAttribute="trailing" constant="95" id="vWL-aW-s9S"/>
                                             <constraint firstItem="k3J-lA-913" firstAttribute="leading" secondItem="jbQ-lh-B0Q" secondAttribute="leading" constant="64" id="vix-X8-aHS"/>
                                             <constraint firstItem="JoX-uU-eOm" firstAttribute="centerX" secondItem="UNi-Tl-nUz" secondAttribute="centerX" id="x7z-yQ-fj9"/>
                                         </constraints>
