@@ -24,6 +24,11 @@ class RealmAlarmDataManager {
         return Array(alarms)
     }
     
+    func countActivatedAlarms() -> Int {
+        let activatedAlarms = realm.objects(Alarm.self).filter("isActivated == true")
+        return activatedAlarms.count
+    }
+    
     func saveAlarms<T>(_ alarms: [T], transform: (T) -> Alarm) {
         do {
             try realm.write {

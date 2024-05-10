@@ -20,7 +20,7 @@ class AlarmListViewController: UIViewController {
     // MARK: - Properties
     private let viewModel = AlarmListViewModel()
     private let disposeBag = DisposeBag()
-    let realm = try! Realm()
+    private let realmManger = RealmAlarmDataManager()
     private lazy var leadingDistance: NSLayoutConstraint = {
         return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
     }()
@@ -109,7 +109,14 @@ class AlarmListViewController: UIViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
         
-        present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true)
+    }
+    
+    private func showAlertForExcessiveAlarms() {
+        let alertController = UIAlertController(title: "생성된 알람의 개수가 너무 많습니다!", message: "사용하지 않는 알람을 삭제해주세요", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     private func fetchAndSaveAlarmsIfFirstLogin() {
@@ -180,14 +187,17 @@ class AlarmListViewController: UIViewController {
     }
     
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
-        
-        guard let vc = storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
-        let navigationController = UINavigationController(rootViewController: vc)
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.isNavigationBarHidden = true
-        navigationController.navigationBar.backgroundColor = .clear
-        navigationController.interactivePopGestureRecognizer?.isEnabled = true
-        
-        present(navigationController, animated: true)
+        if realmManger.countActivatedAlarms() > 32 {
+            showAlertForExcessiveAlarms()
+        } else {
+            guard let vc = storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
+            let navigationController = UINavigationController(rootViewController: vc)
+            navigationController.modalPresentationStyle = .fullScreen
+            navigationController.isNavigationBarHidden = true
+            navigationController.navigationBar.backgroundColor = .clear
+            navigationController.interactivePopGestureRecognizer?.isEnabled = true
+            
+            present(navigationController, animated: true)
+        }
     }
 }
