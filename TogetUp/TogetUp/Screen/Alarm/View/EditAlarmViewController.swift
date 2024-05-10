@@ -10,7 +10,7 @@ import RxSwift
 import MCEmojiPicker
 import RealmSwift
 
-class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MCEmojiPickerDelegate, UITextFieldDelegate {
+class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, MCEmojiPickerDelegate {
     // MARK: - UI Components
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var missionView: UIView!
@@ -31,6 +31,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var addEmojiButton: UIButton!
     @IBOutlet weak var deleteEmojiButton: UIButton!
+    @IBOutlet weak var alarmNameCountLabel: UILabel!
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -40,7 +41,6 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
     private var missionIcon = "👤"
     private var missionId = 2
     private var missionObjectId: Int? = 1
-    
     private var alarmHour = 0
     private var alarmMinute = 0
     var alarmId: Int?
@@ -56,7 +56,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         addKeyboardTapGesture()
         addMissionNotificationCenter()
         setUpScreenStatus()
-        configurePlaceTextField()
+        configureAlarmNameTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -270,17 +270,24 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, MC
         present(alert, animated: true)
     }
     
-    private func configurePlaceTextField() {
+    private func truncateMaxLength(text: String) -> String {
+        return String(text.prefix(10))
+    }
+    
+    
+    private func updateLabelColorAndText(truncatedText: String, originalText: String) {
+        alarmNameCountLabel.text = "\(truncatedText.count)/10"
+        alarmNameCountLabel.textColor = originalText.count > 10 ? UIColor(named: "error500") : UIColor(named: "neutral500")
+    }
+    
+    private func configureAlarmNameTextField() {
         alarmNameTextField.rx.text.orEmpty
-            .flatMap { [weak self] text -> Observable<String> in
-                guard let self = self else { return Observable.just("") }
-                if text.count > 10 {
-                    if self.alarmNameTextField.isFirstResponder {
-                        self.alarmNameTextField.text = String(text.prefix(10))
-                    }
-                    return Observable.just(String(text.prefix(10)))
+            .map { [weak self] text -> String in
+                let truncatedText = self?.truncateMaxLength(text: text) ?? ""
+                DispatchQueue.main.async {
+                    self?.updateLabelColorAndText(truncatedText: truncatedText, originalText: text)
                 }
-                return Observable.just(text)
+                return truncatedText
             }
             .bind(to: alarmNameTextField.rx.text)
             .disposed(by: disposeBag)
