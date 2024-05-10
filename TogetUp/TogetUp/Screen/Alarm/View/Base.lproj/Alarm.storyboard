@@ -202,12 +202,32 @@
                                     <constraint firstItem="WKB-5L-jbo" firstAttribute="centerY" secondItem="EJ8-OX-n1A" secondAttribute="centerY" id="zUE-9r-xVM"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예정된 알람이 없어요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAe-d5-LuO">
+                                <rect key="frame" x="119.33333333333333" y="414" width="154.66666666666669" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Axq-DT-W3F"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="알람을 설정해주세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oe-4B-CTF">
+                                <rect key="frame" x="148.33333333333334" y="446" width="96.666666666666657" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="5Cm-kK-sly"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="12"/>
+                                <color key="textColor" name="neutral600"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="primary025"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="a2T-0K-ZQl" secondAttribute="bottom" id="13O-zB-Dj3"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="EJ8-OX-n1A" secondAttribute="trailing" constant="20" id="2iI-ZF-sct"/>
+                            <constraint firstItem="bAe-d5-LuO" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="4D3-xd-6ps"/>
+                            <constraint firstItem="7oe-4B-CTF" firstAttribute="top" secondItem="bAe-d5-LuO" secondAttribute="bottom" constant="8" id="BAb-ga-jU0"/>
                             <constraint firstItem="9c3-r1-n8m" firstAttribute="trailing" secondItem="Frb-eE-74O" secondAttribute="trailing" id="C3P-tf-PK3"/>
                             <constraint firstItem="Frb-eE-74O" firstAttribute="top" secondItem="2K7-A0-IUO" secondAttribute="bottom" constant="12" id="Ctx-ka-wmh"/>
                             <constraint firstItem="a2T-0K-ZQl" firstAttribute="top" secondItem="Frb-eE-74O" secondAttribute="bottom" constant="24" id="GWi-3b-X4S"/>
@@ -215,6 +235,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="EJ8-OX-n1A" secondAttribute="bottom" constant="20" id="KmN-ef-rOq"/>
                             <constraint firstItem="EJ8-OX-n1A" firstAttribute="top" secondItem="Frb-eE-74O" secondAttribute="bottom" constant="20" id="NhS-BW-eej"/>
                             <constraint firstItem="9c3-r1-n8m" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2K7-A0-IUO" secondAttribute="trailing" constant="8" symbolic="YES" id="Ovq-5m-gdY"/>
+                            <constraint firstItem="bAe-d5-LuO" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="Q3A-GG-eAZ"/>
                             <constraint firstItem="9c3-r1-n8m" firstAttribute="centerY" secondItem="2K7-A0-IUO" secondAttribute="centerY" id="VUK-yW-iGl"/>
                             <constraint firstItem="a2T-0K-ZQl" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="aE5-gb-xEV"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2K7-A0-IUO" secondAttribute="trailing" symbolic="YES" id="hNF-vV-z89"/>
@@ -223,6 +244,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="a2T-0K-ZQl" secondAttribute="trailing" constant="20" id="kWp-vA-rWg"/>
                             <constraint firstItem="2K7-A0-IUO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="pdW-fz-lLs"/>
                             <constraint firstItem="Frb-eE-74O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="rIf-OV-322"/>
+                            <constraint firstItem="7oe-4B-CTF" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="wcP-Li-71a"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="alarm-clock" selectedImage="alarm_selected" id="Lg4-ty-MWX"/>
@@ -231,8 +253,10 @@
                     <connections>
                         <outlet property="addAlarmButton" destination="9c3-r1-n8m" id="QWJ-sX-2pB"/>
                         <outlet property="groupLockerView" destination="EJ8-OX-n1A" id="hO7-oC-vKF"/>
+                        <outlet property="noExistingAlarmLabel" destination="bAe-d5-LuO" id="5tT-TM-wDx"/>
                         <outlet property="personalCollectionView" destination="a2T-0K-ZQl" id="mad-eh-qTc"/>
                         <outlet property="segmentedControl" destination="Frb-eE-74O" id="MUU-pv-k7b"/>
+                        <outlet property="setAlarmLabel" destination="7oe-4B-CTF" id="EKQ-oj-Mc1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

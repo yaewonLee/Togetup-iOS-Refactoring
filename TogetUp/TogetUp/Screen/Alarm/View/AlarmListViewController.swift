@@ -16,6 +16,8 @@ class AlarmListViewController: UIViewController {
     @IBOutlet weak var personalCollectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
     @IBOutlet weak var groupLockerView: UIView!
+    @IBOutlet weak var noExistingAlarmLabel: UILabel!
+    @IBOutlet weak var setAlarmLabel: UILabel!
     
     // MARK: - Properties
     private let viewModel = AlarmListViewModel()
@@ -36,6 +38,7 @@ class AlarmListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customUI()
+        bindLabels()
         fetchAndSaveAlarmsIfFirstLogin()
         setUpNavigationBar()
         customSegmentedControl()
@@ -50,8 +53,19 @@ class AlarmListViewController: UIViewController {
     }
     
     // MARK: - Custom Method
-        private func customUI () {
+    private func customUI () {
         groupLockerView.layer.cornerRadius = 12
+    }
+    private func bindLabels() {
+        viewModel.isAlarmEmpty
+            .map { !$0 }
+            .bind(to: noExistingAlarmLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.isAlarmEmpty
+            .map { !$0 }
+            .bind(to: setAlarmLabel.rx.isHidden)
+            .disposed(by: disposeBag)
     }
     
     private func setCollectionView() {

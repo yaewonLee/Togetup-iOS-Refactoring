@@ -22,6 +22,10 @@ class AlarmListViewModel {
         return try! Realm()
     }()
     
+    var isAlarmEmpty: Observable<Bool> {
+        return alarms.map { $0.isEmpty }
+    }
+    
     func fetchAlarmsFromRealm() {
         let alarmsFromRealm = realmManager.fetchAlarms()
         alarms.onNext(alarmsFromRealm)
@@ -118,7 +122,7 @@ class AlarmListViewModel {
             })
             .disposed(by: disposeBag)
     }
-
+    
     func deleteAlarm(alarmId: Int) {
         networkManager.handleAPIRequest(provider.rx.request(.deleteAlarm(alarmId: alarmId)), dataType: CreateEditDeleteAlarmResponse.self)
             .subscribe(onSuccess: { [weak self] result in
