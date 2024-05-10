@@ -11,7 +11,7 @@ import KakaoSDKUser
 import AuthenticationServices
 import RealmSwift
 
-class SettingViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+class SettingViewController: UIViewController {
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var loginMethodImageView: UIImageView!
@@ -29,9 +29,7 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
         customUI()
     }
     
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
+
     
     private func customUI() {
         let userInfo = KeyChainManager.shared.getUserInformation()
@@ -64,6 +62,14 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
         self.realmManger.deleteAllDataFromRealm()
         AlarmScheduleManager.shared.removeAllScheduledNotifications()
         self.switchView()
+    }
+    
+    private func navigate(to url: String) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "WebkitViewController") as? WebkitViewController {
+            vc.urlString = url
+            self.present(vc, animated: true)
+        }
     }
     
     @IBAction func logout(_ sender: Any) {
@@ -120,6 +126,25 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
         present(sheet, animated: true)
     }
     
+    @IBAction func personalnfoButton(_ sender: UIButton) {
+        navigate(to: "https://togetup.notion.site/TogetUp-47ab1dff223e403db68fbf90b8715b17")
+    }
+    
+    
+    @IBAction func termsAndConditionsButton(_ sender: UIButton) {
+        navigate(to: "https://togetup.notion.site/33a5e6556541426b998423370b63397b")
+    }
+}
+
+extension SettingViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    func authorizationController(controller :ASAuthorizationController ,didCompleteWithError error :Error){
+        print("Sign in with Apple errored:", error.localizedDescription )
+    }
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let authorizationCode = appleIDCredential.authorizationCode
@@ -135,9 +160,4 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
                 .disposed(by:disposeBag)
         }
     }
-    
-    func authorizationController(controller :ASAuthorizationController ,didCompleteWithError error :Error){
-        print("Sign in with Apple errored:", error.localizedDescription )
-    }
 }
-
