@@ -13,7 +13,6 @@ struct URLConstant {
         guard let url = Bundle.main.object(forInfoDictionaryKey: "BaseUrl") as? String else {
             fatalError("BASE_URL not found in Info.plist")
         }
-        print(url)
         return url
     }()
     

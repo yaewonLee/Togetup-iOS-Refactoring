@@ -26,6 +26,8 @@ class MissionPerformViewController: UIViewController {
     
     // MARK: - Properties
     private let viewModel = MissionPerformViewModel()
+    private let alarmListViewModel = AlarmListViewModel()
+
     private let disposeBag = DisposeBag()
     var objectEndpoint = ""
     var alarmIcon = ""
@@ -46,14 +48,54 @@ class MissionPerformViewController: UIViewController {
         customUI()
         bindLabels()
         disableButtonIfNeeded()
+        updateAlarmCompletedTime(alarmId: self.alarmId)
+        completeMission()
     }
-//    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        startCountdown()
-//    }
     
     // MARK: - Custom Method
+    private func updateAlarmCompletedTime(alarmId: Int) {
+        let realm = try! Realm()
+        
+        guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
+            print("Alarm not found")
+            return
+        }
+        
+        try! realm.write {
+            alarm.completedTime = Date()
+        }
+    }
+    
+    func completeMission() {
+        let realm = try! Realm()
+        guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else { return }
+        
+        if alarm.isRepeatAlarm() {
+            rescheduleAlarm(for: alarmId)
+        } else {
+            deactivateAlarm(alarm)
+        }
+    }
+    
+    private func rescheduleAlarm(for alarmId: Int) {
+        let realm = try? Realm()
+        guard let alarm = realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
+            print("Alarm with ID \(alarmId) not found in Realm")
+            return
+        }
+        
+        guard let nextAlarmDate = AlarmScheduleManager.shared.getNextAlarmDate(for: alarm, from: Date()) else {
+            print("No valid next alarm date found")
+            return
+        }
+        AlarmScheduleManager.shared.scheduleAlarmById(with: alarm.id)
+        print("Alarm rescheduled for: \(nextAlarmDate)")
+    }
+    
+    private func deactivateAlarm(_ alarm: Alarm) {
+        alarmListViewModel.deactivateAlarm(alarmId: alarm.id)
+    }
+    
     private func customUI() {
         self.missionPerformButton.layer.cornerRadius = 12
         self.missionPerformButton.layer.borderWidth = 2
@@ -138,7 +180,6 @@ class MissionPerformViewController: UIViewController {
         
         if let alarmTime = alarm.getAlarmTime() {
             let timeDifference = -alarmTime.timeIntervalSinceNow
-            print(timeDifference)
             if timeDifference <= 60 {
                 missionPerformButton.isEnabled = true
                 loadSound()
@@ -153,7 +194,6 @@ class MissionPerformViewController: UIViewController {
         missionPerformButton.isEnabled = false
         missionPerformButton.backgroundColor = UIColor(named: "primary100")
     }
-
     
     // MARK: - @
     @IBAction func performButtonTapped(_ sender: UIButton) {

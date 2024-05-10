@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import KakaoSDKUser
 import AuthenticationServices
+import RealmSwift
 
 class SettingViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
@@ -21,6 +22,7 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     
     private let viewModel = SettingViewModel()
     private let disposeBag = DisposeBag()
+    private let realmManger = RealmAlarmDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,6 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
     
     private func customUI() {
         let userInfo = KeyChainManager.shared.getUserInformation()
-        print(userInfo)
         userNameLabel.text = userInfo.name
         userEmailLabel.text = userInfo.email
         
@@ -57,6 +58,14 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
         self.present(vc, animated: true)
     }
     
+    private func setUpUserDefaultsAndNavigate() {
+        KeyChainManager.shared.removeToken()
+        AppStatusManager.shared.markAsLoginedToFalse()
+        self.realmManger.deleteAllDataFromRealm()
+        AlarmScheduleManager.shared.removeAllScheduledNotifications()
+        self.switchView()
+    }
+    
     @IBAction func logout(_ sender: Any) {
         let sheet = UIAlertController(title: "로그아웃", message: "로그아웃하시겠습니까?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
@@ -64,16 +73,13 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
             if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {
                 UserApi.shared.rx.logout()
                     .subscribe(onCompleted:{
-                        print("logout() success.")
-                        KeyChainManager.shared.removeToken()
-                        self.switchView()
+                        self.setUpUserDefaultsAndNavigate()
                     }, onError: { error in
                         print(error.localizedDescription)
                     })
                     .disposed(by: self.disposeBag)
             } else {
-                KeyChainManager.shared.removeToken()
-                self.switchView()
+                self.setUpUserDefaultsAndNavigate()
             }
         }
         sheet.addAction(okAction)
@@ -87,14 +93,10 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
             if UserDefaults.standard.string(forKey: "loginMethod") == "Kakao" {
                 UserApi.shared.rx.unlink()
                     .subscribe(onCompleted: { [weak self] in
-                        print("unlink() success.")
                         self?.viewModel.deleteUser()
                             .subscribe(onNext: { [weak self] response in
-                                print("User deleted successfully on our server.")
-                                print(response.message)
                                 if response.httpStatusCode == 200 {
-                                    KeyChainManager.shared.removeToken()
-                                    self?.switchView()
+                                    self?.setUpUserDefaultsAndNavigate()
                                 }
                             }, onError: { error in
                                 print("Failed to delete user on our server:", error)
@@ -122,14 +124,10 @@ class SettingViewController: UIViewController, ASAuthorizationControllerDelegate
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let authorizationCode = appleIDCredential.authorizationCode
             let authorizationCodeString = String(data: authorizationCode!, encoding:.utf8)
-            print(authorizationCodeString!)
             viewModel.deleteAppleUser(authorizationCode: authorizationCodeString!)
                 .subscribe(onNext:{ [weak self] response in
-                    print("User deleted successfully on our server.")
-                    print(response.message)
                     if response.httpStatusCode == 200 {
-                        KeyChainManager.shared.removeToken()
-                        self?.switchView()
+                        self?.setUpUserDefaultsAndNavigate()
                     }
                 }, onError:{ error in
                     print("Failed to delete user on our server:", error)

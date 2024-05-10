@@ -19,6 +19,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppStatusManager.shared.markAsLaunched()
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -115,7 +116,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 switch result {
                 case .success:
                     self?.switchView()
-                case .failure(let error):
+                case .failure(_):
                     let alertController = UIAlertController(title: nil, message: "잠시후 다시 시도해주세요", preferredStyle: .actionSheet)
                     let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
                     alertController.addAction(cancelAction)

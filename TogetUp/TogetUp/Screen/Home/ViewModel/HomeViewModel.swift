@@ -17,10 +17,6 @@ class HomeViewModel {
     var selectedAvatar: AvatarResult?
     private let networkManager = NetworkManager()
     
-    init(homeProvider: MoyaProvider<HomeService> = MoyaProvider<HomeService>(plugins: [NetworkLogger()])) {
-        self.homeProvider = homeProvider
-    }
-    
     func loadAvatars() -> Observable<AvatarResponse> {
         return userProvider.rx.request(.getAvatarList)
             .filterSuccessfulStatusCodes()

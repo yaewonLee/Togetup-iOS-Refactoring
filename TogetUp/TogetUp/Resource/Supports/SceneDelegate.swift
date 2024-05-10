@@ -21,12 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func navigateToMissionPerformViewController(with alarmId: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let missionPerformVC = storyboard.instantiateViewController(withIdentifier: "MissionPerformViewController") as? MissionPerformViewController {
-            let realmInstance = try! Realm()
-            if let alarm = realmInstance.objects(Alarm.self).filter("id == \(alarmId)").first {
-                try! realmInstance.write {
-                    alarm.isAlarmed = true
-                }
-                
+            let realm = try? Realm()
+            if let alarm = realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
                 missionPerformVC.alarmIcon = alarm.icon
                 missionPerformVC.alarmName = alarm.name
                 missionPerformVC.missionObject = alarm.missionName
@@ -64,23 +60,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let realm = try? Realm() else { return }
         let currentTime = Date()
         let calendar = Calendar.current
-        let currentComponents = calendar.dateComponents([.hour, .minute], from: currentTime)
+        let currentComponents = calendar.dateComponents([.hour, .minute, .weekday], from: currentTime)
         
-        let activeAlarms = realm.objects(Alarm.self).filter("isActivated == true AND isAlarmed == false")
+        let activeAlarms = realm.objects(Alarm.self).filter("isActivated == true").sorted(byKeyPath: "id", ascending: false)
+        
+        var latestAlarm: Alarm? = nil
         
         for alarm in activeAlarms {
-            if let completedTime = alarm.completedTime,
-               currentTime.timeIntervalSince(completedTime) <= 60 {
-                continue
-            }
-            
-            if calendar.component(.hour, from: alarm.getAlarmTime() ?? Date()) == currentComponents.hour &&
-                calendar.component(.minute, from: alarm.getAlarmTime() ?? Date()) == currentComponents.minute {
-                navigateToMissionPerformViewController(with: alarm.id)
-                break
+            if let alarmTime = alarm.getAlarmTime(),
+               calendar.component(.hour, from: alarmTime) == currentComponents.hour,
+               calendar.component(.minute, from: alarmTime) == currentComponents.minute {
+
+                let weekday = currentComponents.weekday!
+                if alarm.isRepeatAlarm() && !alarm.isActive(on: weekday) {
+                    continue
+                }
+                
+                if let completedTime = alarm.completedTime,
+                   calendar.isDate(completedTime, equalTo: currentTime, toGranularity: .minute) {
+                    continue
+                }
+                if latestAlarm == nil || alarm.id > latestAlarm?.id ?? -1 {
+                    latestAlarm = alarm
+                }
             }
         }
+        
+        if let alarmToNavigate = latestAlarm {
+            navigateToMissionPerformViewController(with: alarmToNavigate.id)
+        }
     }
+
+
     
     func sceneWillResignActive(_ scene: UIScene) {
         
