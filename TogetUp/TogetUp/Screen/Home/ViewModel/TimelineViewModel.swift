@@ -16,7 +16,7 @@ class TimelineViewModel {
     let disposeBag = DisposeBag()
     let networkManager = NetworkManager()
     let provider = MoyaProvider<HomeService>()
-
+    
     func fetchTimelineData() {
         let request = provider.rx.request(.getTimeLine)
         networkManager.handleAPIRequest(request, dataType: TimelineResponse.self)
@@ -35,5 +35,17 @@ class TimelineViewModel {
                     self?.timelineData.onNext(.failure(.network(MoyaError.underlying(error, nil))))
                 }
             }.disposed(by: disposeBag)
+    }
+    
+    func checkIfTodayAlarmListIsEmpty() -> Observable<Bool> {
+        return timelineData
+            .map { result -> Bool in
+                switch result {
+                case .success(let data):
+                    return data?.todayAlarmList?.isEmpty ?? true
+                case .failure:
+                    return true
+                }
+            }
     }
 }

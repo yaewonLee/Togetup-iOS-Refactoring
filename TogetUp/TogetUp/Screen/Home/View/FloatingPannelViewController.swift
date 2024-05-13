@@ -54,7 +54,7 @@ class FloatingPannelViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             collectionViewContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
-            ])
+        ])
     }
     
     private func bindViewModel() {
@@ -106,7 +106,7 @@ class FloatingPannelViewController: UIViewController {
         guard let nextAlarmId = self.viewModel.nextAlarmId else { return }
         
         guard let todayAlarmList = try? viewModel.timelineData.value().get()?.todayAlarmList,
-                !todayAlarmList.isEmpty else { return }
+              !todayAlarmList.isEmpty else { return }
         
         if let index = todayAlarmList.firstIndex(where: { $0.id == nextAlarmId }) {
             let indexPath = IndexPath(row: index, section: 0)
@@ -122,24 +122,40 @@ class FloatingPannelViewController: UIViewController {
     }
     
     private func setNextAlarmUI(timelineResult: TimeLineResult?) {
-        if let todayAlarmList = timelineResult?.todayAlarmList, !todayAlarmList.isEmpty, let nextAlarm = timelineResult?.nextAlarm {
-            currentAlarmView.backgroundColor = UIColor(named: "secondary050")
-            iconLabel.text = nextAlarm.icon
-            let timeText = convert24HourTo12HourFormat(nextAlarm.alarmTime)
-            timeLabel.text = timeText
-            alarmInfoLabel.text = nextAlarm.name
-            makeNewAlarmButton.isHidden = true
-            alarmEmptyLabel.isHidden = true
-            timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 26)
-        } else {
-            makeNewAlarmButton.isHidden = false
-            alarmEmptyLabel.isHidden = false
-            currentAlarmView.backgroundColor = UIColor(named: "primary050")
-            iconLabel.text = "⏰"
-            timeLabel.text = "예정된 알람이 없어요!"
-            timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
-            alarmInfoLabel.text = "알람을 설정해주세요"
-        }
+        viewModel.checkIfTodayAlarmListIsEmpty()
+            .subscribe(onNext: { isEmpty in
+                if isEmpty {
+                    self.configureNextAlarmViewUIWithNoData()
+                    self.alarmEmptyLabel.isHidden = false
+                } else if let nextAlarm = timelineResult?.nextAlarm {
+                    self.configureNextAlarmViewUIWithData(nextAlarm: nextAlarm)
+                    self.alarmEmptyLabel.isHidden = true
+                } else {
+                    self.configureNextAlarmViewUIWithNoData()
+                    self.alarmEmptyLabel.isHidden = true
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureNextAlarmViewUIWithNoData() {
+        self.makeNewAlarmButton.isHidden = false
+        self.alarmEmptyLabel.isHidden = false
+        self.currentAlarmView.backgroundColor = UIColor(named: "primary050")
+        self.iconLabel.text = "⏰"
+        self.timeLabel.text = "예정된 알람이 없어요!"
+        self.timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 18)
+        self.alarmInfoLabel.text = "알람을 설정해주세요"
+    }
+    
+    private func configureNextAlarmViewUIWithData(nextAlarm: AlarmModel) {
+        self.currentAlarmView.backgroundColor = UIColor(named: "secondary050")
+        self.iconLabel.text = nextAlarm.icon
+        let timeText = self.convert24HourTo12HourFormat(nextAlarm.alarmTime)
+        self.timeLabel.text = timeText
+        self.alarmInfoLabel.text = nextAlarm.name
+        self.makeNewAlarmButton.isHidden = true
+        self.timeLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 26)
     }
     
     private func updateDateLabel(timelineResponse: TimeLineResult) {
