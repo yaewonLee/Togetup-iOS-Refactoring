@@ -19,7 +19,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppStatusManager.shared.markAsLaunched()
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {

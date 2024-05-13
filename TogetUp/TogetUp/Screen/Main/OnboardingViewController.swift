@@ -59,6 +59,7 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
 
 extension OnboardingViewController: ContentViewControllerDelegate {
     func didFinishOnboarding() {
+        AppStatusManager.shared.markAsLaunched()
         if let loginViewController = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
             loginViewController.modalPresentationStyle = .fullScreen
             present(loginViewController, animated: true)
