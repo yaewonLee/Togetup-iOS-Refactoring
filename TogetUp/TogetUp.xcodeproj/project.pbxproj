@@ -12,6 +12,7 @@
 		F915EA132BF05A92002B84BC /* DevService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F915EA122BF05A92002B84BC /* DevService.swift */; };
 		F915EA162BF05E67002B84BC /* AppVersionCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F915EA152BF05E67002B84BC /* AppVersionCheckManager.swift */; };
 		F915EA182BF1D0A6002B84BC /* VersionCheckResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F915EA172BF1D0A6002B84BC /* VersionCheckResponseModel.swift */; };
+		F915EA1A2BF21EDD002B84BC /* IconAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F915EA192BF21EDD002B84BC /* IconAssets.xcassets */; };
 		F919A9122ACEA09600D02125 /* progress.json in Resources */ = {isa = PBXBuildFile; fileRef = F919A9112ACEA09600D02125 /* progress.json */; };
 		F91AA8882AB890BE00BDA437 /* AppStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */; };
 		F91B2C0F2BDEA40100A23A59 /* Jua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */; };
@@ -123,6 +124,7 @@
 		F915EA122BF05A92002B84BC /* DevService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevService.swift; sourceTree = "<group>"; };
 		F915EA152BF05E67002B84BC /* AppVersionCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionCheckManager.swift; sourceTree = "<group>"; };
 		F915EA172BF1D0A6002B84BC /* VersionCheckResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCheckResponseModel.swift; sourceTree = "<group>"; };
+		F915EA192BF21EDD002B84BC /* IconAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IconAssets.xcassets; sourceTree = "<group>"; };
 		F919A9112ACEA09600D02125 /* progress.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = progress.json; sourceTree = "<group>"; };
 		F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStatusManager.swift; sourceTree = "<group>"; };
 		F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jua-Regular.ttf"; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 		F96B327B2A8A023800BD3BF9 /* Supports */ = {
 			isa = PBXGroup;
 			children = (
+				F915EA192BF21EDD002B84BC /* IconAssets.xcassets */,
 				F982EB242BE34AC100392314 /* Config.xcconfig */,
 				F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */,
 				F9387BC52AD569D9000A5121 /* alarmSound.mp3 */,
@@ -714,6 +717,7 @@
 				F96B32702A8A002900BD3BF9 /* LaunchScreen.storyboard in Resources */,
 				F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */,
 				F96B326D2A8A002900BD3BF9 /* Assets.xcassets in Resources */,
+				F915EA1A2BF21EDD002B84BC /* IconAssets.xcassets in Resources */,
 				F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */,
 				F991D0D52BC55F9600893E67 /* 2_onboarding.json in Resources */,
 				F991D0D32BC5107B00893E67 /* 3_onboarding.json in Resources */,
