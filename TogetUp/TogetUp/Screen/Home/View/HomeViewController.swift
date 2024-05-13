@@ -187,7 +187,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
             mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
             self.view.backgroundColor = UIColor(named: theme.colorName)
-            
+        }
+    }
+    
+    private func configureAvatarSpeech(with model: AvatarResult) {
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
+            self.avatarSpeechLabel.text = theme.defaultSpeech
         }
     }
     
@@ -237,6 +242,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             let currentAvatarId = currentUserData.avatarId
             if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
                 configureAvatars(with: currentAvatarModel)
+                configureAvatarSpeech(with: currentAvatarModel)
+                if let newIndex = viewModel.avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+                    let newIndexPath = IndexPath(row: newIndex, section: 0)
+                    avatarChooseCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+                    selectedIndex = newIndexPath
+                }
             }
         }
     }
@@ -280,7 +291,7 @@ extension HomeViewController: UICollectionViewDelegate {
             viewModel.updateSelectedAvatar(at: indexPath.row)
             configureAvatars(with: model)
             if lastSpokenAvatarId != model.avatarId {
-                getAvatarSpeeches(avatarId: model.avatarId)
+                configureAvatarSpeech(with: model)
                 lastSpokenAvatarId = model.avatarId
             }
         }
