@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알람" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K7-A0-IUO">
-                                <rect key="frame" x="20" y="71" width="45" height="32"/>
+                                <rect key="frame" x="20" y="87" width="45" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="aLe-hU-9v7"/>
                                 </constraints>
@@ -29,7 +29,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="a2T-0K-ZQl">
-                                <rect key="frame" x="20" y="195" width="353" height="574"/>
+                                <rect key="frame" x="20" y="211" width="353" height="558"/>
                                 <color key="backgroundColor" name="primary025"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mPX-UH-WGr">
                                     <size key="itemSize" width="344" height="124"/>
@@ -137,7 +137,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9c3-r1-n8m">
-                                <rect key="frame" x="325" y="63" width="48" height="48"/>
+                                <rect key="frame" x="325" y="79" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="9c3-r1-n8m" secondAttribute="height" multiplier="1:1" id="1y3-xF-AF3"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="Xcg-Gu-Upd"/>
@@ -149,7 +149,7 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-eE-74O">
-                                <rect key="frame" x="20" y="115" width="353" height="57"/>
+                                <rect key="frame" x="20" y="131" width="353" height="57"/>
                                 <color key="backgroundColor" name="primary025"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="BJD-rO-kXg"/>
@@ -163,10 +163,10 @@
                                 </connections>
                             </segmentedControl>
                             <view hidden="YES" alpha="0.85000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJ8-OX-n1A">
-                                <rect key="frame" x="20" y="191" width="353" height="558"/>
+                                <rect key="frame" x="20" y="207" width="353" height="542"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WKB-5L-jbo">
-                                        <rect key="frame" x="132.66666666666666" y="229" width="88" height="100"/>
+                                        <rect key="frame" x="132.66666666666666" y="221" width="88" height="100"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="groupMainV1Image" translatesAutoresizingMaskIntoConstraints="NO" id="MX8-vA-dwM">
                                                 <rect key="frame" x="0.0" y="0.0" width="88" height="60"/>
@@ -240,7 +240,7 @@
                             <constraint firstItem="a2T-0K-ZQl" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="aE5-gb-xEV"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2K7-A0-IUO" secondAttribute="trailing" symbolic="YES" id="hNF-vV-z89"/>
                             <constraint firstItem="EJ8-OX-n1A" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="kS8-nk-uiV"/>
-                            <constraint firstItem="2K7-A0-IUO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="kWB-te-AdE"/>
+                            <constraint firstItem="2K7-A0-IUO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="28" id="kWB-te-AdE"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="a2T-0K-ZQl" secondAttribute="trailing" constant="20" id="kWp-vA-rWg"/>
                             <constraint firstItem="2K7-A0-IUO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="pdW-fz-lLs"/>
                             <constraint firstItem="Frb-eE-74O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="rIf-OV-322"/>

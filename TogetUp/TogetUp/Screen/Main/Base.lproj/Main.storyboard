@@ -258,7 +258,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="설정" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcr-zj-wol">
-                                <rect key="frame" x="20" y="75" width="45" height="32"/>
+                                <rect key="frame" x="20" y="87" width="45" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="nLk-yA-AeX"/>
                                 </constraints>
@@ -267,7 +267,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azb-Gv-a7Q">
-                                <rect key="frame" x="20" y="139" width="31.333333333333329" height="24"/>
+                                <rect key="frame" x="20" y="151" width="31.333333333333329" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Ybf-6w-ypR"/>
                                 </constraints>
@@ -313,7 +313,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cg5-tQ-JiM">
-                                <rect key="frame" x="20" y="187" width="390" height="160"/>
+                                <rect key="frame" x="20" y="199" width="390" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알림 수신 동의" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5y-a5-xQq">
                                         <rect key="frame" x="18" y="16" width="92" height="24"/>
@@ -403,14 +403,14 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kakao ID mini" translatesAutoresizingMaskIntoConstraints="NO" id="FBq-83-Q3r">
-                                <rect key="frame" x="59.333333333333343" y="141" width="20" height="20"/>
+                                <rect key="frame" x="59.333333333333343" y="153" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FBq-83-Q3r" secondAttribute="height" multiplier="1:1" id="D7d-y0-CaO"/>
                                     <constraint firstAttribute="width" constant="20" id="s8V-xS-XQ6"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="yw9903@naver.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sc-sq-oKE">
-                                <rect key="frame" x="83.333333333333343" y="141" width="124.33333333333334" height="20"/>
+                                <rect key="frame" x="83.333333333333343" y="153" width="124.33333333333334" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="9F7-zU-9Rs"/>
                                 </constraints>
@@ -428,9 +428,9 @@ AI가 인식해서 알람을 꺼줘요</string>
                             <constraint firstItem="azb-Gv-a7Q" firstAttribute="leading" secondItem="O9g-rm-SrA" secondAttribute="leading" constant="20" id="3F0-3L-CK7"/>
                             <constraint firstItem="7Sc-sq-oKE" firstAttribute="leading" secondItem="FBq-83-Q3r" secondAttribute="trailing" constant="4" id="B7M-Ld-4PV"/>
                             <constraint firstItem="O9g-rm-SrA" firstAttribute="bottom" secondItem="cSi-Da-lcz" secondAttribute="bottom" constant="23" id="Lah-26-Yqk"/>
-                            <constraint firstItem="gcr-zj-wol" firstAttribute="top" secondItem="FJP-ub-JYn" secondAttribute="topMargin" constant="75" id="OFA-6c-xUO"/>
                             <constraint firstItem="cg5-tQ-JiM" firstAttribute="leading" secondItem="O9g-rm-SrA" secondAttribute="leading" constant="20" id="OW6-gy-a64"/>
                             <constraint firstItem="7Sc-sq-oKE" firstAttribute="centerY" secondItem="FBq-83-Q3r" secondAttribute="centerY" id="SUK-Vr-znT"/>
+                            <constraint firstItem="gcr-zj-wol" firstAttribute="top" secondItem="O9g-rm-SrA" secondAttribute="top" constant="28" id="bbh-LG-3Sg"/>
                             <constraint firstItem="cg5-tQ-JiM" firstAttribute="centerX" secondItem="FJP-ub-JYn" secondAttribute="centerX" id="gHl-ge-gsU"/>
                             <constraint firstItem="O9g-rm-SrA" firstAttribute="trailing" secondItem="cg5-tQ-JiM" secondAttribute="trailing" constant="20" id="jMi-x3-Rj9"/>
                             <constraint firstItem="cg5-tQ-JiM" firstAttribute="top" secondItem="azb-Gv-a7Q" secondAttribute="bottom" constant="24" id="jch-EZ-EYy"/>

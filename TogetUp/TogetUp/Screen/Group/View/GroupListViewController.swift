@@ -13,5 +13,6 @@ class GroupListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIView.layer.cornerRadius = 12
+        self.navigationController?.navigationBar.isHidden = true
     }
 }
