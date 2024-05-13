@@ -50,4 +50,7 @@ struct URLConstant {
     // MARK: - 홈
     static let getTimeline = "home/brief-board/alarm/timeline"
     static let getAvatarSpeech = "home/avatars"
+    
+    // MARK: - 개발용
+    static let versionCheck = "a-dev/version/check"
 }
