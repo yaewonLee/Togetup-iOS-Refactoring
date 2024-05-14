@@ -31,10 +31,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     private var currentAvatarId = 1
     private var progressPercent = 0.0
     private var lastSpokenAvatarId: Int?
+    private var realmManager = RealmAlarmDataManager()
     
     // MARK: - Life Cylcle
     override func viewDidLoad() {
         super.viewDidLoad()
+        deactivateAlarms()
         requestAuthorization()
         setFloatingpanel()
         setUpUserInitialData()
@@ -73,6 +75,13 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                 print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func deactivateAlarms() {
+        let alarmIds = realmManager.fetchPastNonRepeatingActivatedAlarms()
+        if !alarmIds.isEmpty {
+            viewModel.deactivateAlarms()
+        }
     }
     
     func showAlert(url: String) {

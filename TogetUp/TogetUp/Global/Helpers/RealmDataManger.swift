@@ -83,7 +83,8 @@ class RealmAlarmDataManager {
         return Array(alarmIds)
     }
     
-    func deactivateAlarmsByIds(alarmIds: [Int]) {
+    func deactivateAlarms() {
+        let alarmIds = fetchPastNonRepeatingActivatedAlarms()
         let alarmsToDeactivate = realm.objects(Alarm.self).filter("id IN %@", alarmIds)
         
         do {
@@ -95,8 +96,6 @@ class RealmAlarmDataManager {
         }
     }
 
-
-    
     func deactivateAlarmRequest(alarmId: Int) -> CreateOrEditAlarmRequest {
         guard let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
             fatalError("Alarm not found")
@@ -153,6 +152,7 @@ class RealmAlarmDataManager {
         alarm.isActivated = request.isActivated
         alarm.missionName = missionKoreanName
         alarm.missionEndpoint = missionEndpoint
+        alarm.createdDate = Date()
     }
     
     private func getHour(from time: String) -> Int {
