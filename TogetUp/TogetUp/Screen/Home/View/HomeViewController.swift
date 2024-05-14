@@ -54,9 +54,39 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             completionHandler: { (granted, error) in
                 if !granted {
                     self.showNotificationAlert()
+                } else if granted {
+                    self.getVersionCheck()
                 }
             }
         )
+    }
+    
+    private func getVersionCheck() {
+        let currentVersion = AppVersionCheckManager.shared.getBuildVersion()
+        viewModel.getVersionCheck(currentVersion: currentVersion)
+            .subscribe(onSuccess: { response in
+                guard let result = response.result else { return }
+                if !result.isLatest {
+                    self.showAlert(url: result.url!)
+                }
+            }, onFailure: { error in
+                print(error.localizedDescription)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func showAlert(url: String) {
+        let sheet = UIAlertController(title: "최신 버전으로 업데이트가 가능합니다", message: "지금 업데이트 하시겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            AppVersionCheckManager.shared.openAppStore(url: url)
+            AppVersionCheckManager.shared.closeApp()
+        }
+        sheet.addAction(cancelAction)
+        sheet.addAction(okAction)
+        DispatchQueue.main.async {
+            self.present(sheet, animated: true)
+        }
     }
     
     private func showNotificationAlert() {
@@ -157,7 +187,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
             mainAvatarImageView.image = UIImage(named: theme.mainAvatarName)
             self.view.backgroundColor = UIColor(named: theme.colorName)
-            
+        }
+    }
+    
+    private func configureAvatarSpeech(with model: AvatarResult) {
+        if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
+            self.avatarSpeechLabel.text = theme.defaultSpeech
         }
     }
     
@@ -207,6 +242,12 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             let currentAvatarId = currentUserData.avatarId
             if let currentAvatarModel = viewModel.avatars.first(where: { $0.avatarId == currentAvatarId }) {
                 configureAvatars(with: currentAvatarModel)
+                configureAvatarSpeech(with: currentAvatarModel)
+                if let newIndex = viewModel.avatars.firstIndex(where: { $0.avatarId == currentAvatarId }) {
+                    let newIndexPath = IndexPath(row: newIndex, section: 0)
+                    avatarChooseCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+                    selectedIndex = newIndexPath
+                }
             }
         }
     }
@@ -250,7 +291,7 @@ extension HomeViewController: UICollectionViewDelegate {
             viewModel.updateSelectedAvatar(at: indexPath.row)
             configureAvatars(with: model)
             if lastSpokenAvatarId != model.avatarId {
-                getAvatarSpeeches(avatarId: model.avatarId)
+                configureAvatarSpeech(with: model)
                 lastSpokenAvatarId = model.avatarId
             }
         }

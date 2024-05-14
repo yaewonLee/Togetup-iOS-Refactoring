@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fOT-YW-3c0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fOT-YW-3c0">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -313,54 +313,93 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cg5-tQ-JiM">
-                                <rect key="frame" x="20" y="187" width="390" height="108"/>
+                                <rect key="frame" x="20" y="187" width="390" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알림 수신 동의" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5y-a5-xQq">
-                                        <rect key="frame" x="18" y="16" width="91.666666666666671" height="24"/>
+                                        <rect key="frame" x="18" y="16" width="92" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Nou-pE-4RF"/>
+                                            <constraint firstAttribute="width" constant="92" id="PQl-Br-ko5"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개인정보처리방침 / 이용약관" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q58-TI-1yA">
-                                        <rect key="frame" x="18" y="68" width="180.33333333333334" height="24"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="fAd-Xu-Ztv"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FU8-nf-Oew" userLabel="이용 약관">
-                                        <rect key="frame" x="0.0" y="54" width="390" height="54"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="54" id="rI5-fH-h16"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain"/>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기기 설정 &gt; 알림 &gt; TogetUp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tY-F7-qcC">
                                         <rect key="frame" x="215.33333333333337" y="19.666666666666657" width="156.66666666666663" height="17"/>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="14"/>
                                         <color key="textColor" name="neutral600"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개인정보처리방침" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3G5-h9-u63">
+                                        <rect key="frame" x="18" y="70.333333333333314" width="111" height="19.333333333333329"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이용약관" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydE-pb-7Jt">
+                                        <rect key="frame" x="17.999999999999996" y="124.66666666666667" width="55.666666666666657" height="19.333333333333329"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_thin" translatesAutoresizingMaskIntoConstraints="NO" id="pOB-KS-r0q">
+                                        <rect key="frame" x="348" y="68" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="pOB-KS-r0q" secondAttribute="height" multiplier="1:1" id="7O9-NN-WjE"/>
+                                            <constraint firstAttribute="width" constant="24" id="p03-HI-hdU"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_thin" translatesAutoresizingMaskIntoConstraints="NO" id="vvk-SP-fNv">
+                                        <rect key="frame" x="348" y="122.33333333333331" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="5wv-dG-7cF"/>
+                                            <constraint firstAttribute="width" secondItem="vvk-SP-fNv" secondAttribute="height" multiplier="1:1" id="Oxn-Wc-uEd"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6a0-g1-Hki">
+                                        <rect key="frame" x="0.0" y="56" width="390" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="bwg-pA-R1b"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
+                                        <connections>
+                                            <action selector="personalnfoButton:" destination="0Uh-Dr-UHK" eventType="touchUpInside" id="lNb-W6-Or5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9HM-mf-bNg">
+                                        <rect key="frame" x="0.0" y="104" width="390" height="56"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
+                                        <connections>
+                                            <action selector="termsAndConditionsButton:" destination="0Uh-Dr-UHK" eventType="touchUpInside" id="gOZ-Lw-wqd"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="9HM-mf-bNg" secondAttribute="trailing" id="0gP-0r-VOa"/>
                                     <constraint firstAttribute="trailing" secondItem="0tY-F7-qcC" secondAttribute="trailing" constant="18" id="5iz-Bh-ovO"/>
-                                    <constraint firstItem="q58-TI-1yA" firstAttribute="leading" secondItem="Z5y-a5-xQq" secondAttribute="leading" id="9PC-y5-aBR"/>
-                                    <constraint firstAttribute="bottom" secondItem="FU8-nf-Oew" secondAttribute="bottom" id="AKI-Fw-Jhe"/>
-                                    <constraint firstItem="FU8-nf-Oew" firstAttribute="leading" secondItem="cg5-tQ-JiM" secondAttribute="leading" id="D8A-vD-CSj"/>
-                                    <constraint firstAttribute="bottom" secondItem="q58-TI-1yA" secondAttribute="bottom" constant="16" id="DB9-wj-NaE"/>
-                                    <constraint firstAttribute="trailing" secondItem="FU8-nf-Oew" secondAttribute="trailing" id="Lj5-9x-gaG"/>
+                                    <constraint firstItem="3G5-h9-u63" firstAttribute="centerY" secondItem="cg5-tQ-JiM" secondAttribute="centerY" id="6SE-Cq-A6A"/>
+                                    <constraint firstItem="9HM-mf-bNg" firstAttribute="top" secondItem="6a0-g1-Hki" secondAttribute="bottom" id="HWj-lc-T6W"/>
+                                    <constraint firstItem="6a0-g1-Hki" firstAttribute="centerY" secondItem="cg5-tQ-JiM" secondAttribute="centerY" id="Iju-bw-gMa"/>
+                                    <constraint firstItem="0tY-F7-qcC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5y-a5-xQq" secondAttribute="trailing" constant="8" symbolic="YES" id="Ing-Z6-lew"/>
+                                    <constraint firstAttribute="bottom" secondItem="ydE-pb-7Jt" secondAttribute="bottom" constant="16" id="KBw-Lc-bcp"/>
+                                    <constraint firstItem="pOB-KS-r0q" firstAttribute="centerY" secondItem="cg5-tQ-JiM" secondAttribute="centerY" id="KEg-4Q-Unw"/>
+                                    <constraint firstItem="ydE-pb-7Jt" firstAttribute="leading" secondItem="3G5-h9-u63" secondAttribute="leading" id="QWq-OB-oEu"/>
+                                    <constraint firstItem="6a0-g1-Hki" firstAttribute="leading" secondItem="cg5-tQ-JiM" secondAttribute="leading" id="U84-Hp-giJ"/>
+                                    <constraint firstItem="vvk-SP-fNv" firstAttribute="trailing" secondItem="pOB-KS-r0q" secondAttribute="trailing" id="YSj-NI-WlE"/>
                                     <constraint firstItem="Z5y-a5-xQq" firstAttribute="top" secondItem="cg5-tQ-JiM" secondAttribute="top" constant="16" id="aXO-A7-ZTw"/>
+                                    <constraint firstItem="3G5-h9-u63" firstAttribute="leading" secondItem="Z5y-a5-xQq" secondAttribute="leading" id="bTA-cU-7U8"/>
                                     <constraint firstItem="Z5y-a5-xQq" firstAttribute="leading" secondItem="cg5-tQ-JiM" secondAttribute="leading" constant="18" id="dLH-xe-8kD"/>
                                     <constraint firstItem="0tY-F7-qcC" firstAttribute="centerY" secondItem="Z5y-a5-xQq" secondAttribute="centerY" id="eM4-yd-0Qz"/>
-                                    <constraint firstAttribute="height" constant="108" id="es3-Vp-g7o"/>
+                                    <constraint firstAttribute="height" constant="160" id="es3-Vp-g7o"/>
+                                    <constraint firstAttribute="trailing" secondItem="6a0-g1-Hki" secondAttribute="trailing" id="fnv-vV-ta9"/>
+                                    <constraint firstItem="9HM-mf-bNg" firstAttribute="leading" secondItem="cg5-tQ-JiM" secondAttribute="leading" id="iZ4-vO-QWs"/>
+                                    <constraint firstItem="pOB-KS-r0q" firstAttribute="trailing" secondItem="0tY-F7-qcC" secondAttribute="trailing" id="l69-gm-Soq"/>
+                                    <constraint firstItem="vvk-SP-fNv" firstAttribute="centerY" secondItem="ydE-pb-7Jt" secondAttribute="centerY" id="nVA-yb-364"/>
+                                    <constraint firstAttribute="bottom" secondItem="9HM-mf-bNg" secondAttribute="bottom" id="yMf-NG-jVP"/>
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kakao ID mini" translatesAutoresizingMaskIntoConstraints="NO" id="FBq-83-Q3r">
@@ -395,6 +434,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                             <constraint firstItem="cg5-tQ-JiM" firstAttribute="centerX" secondItem="FJP-ub-JYn" secondAttribute="centerX" id="gHl-ge-gsU"/>
                             <constraint firstItem="O9g-rm-SrA" firstAttribute="trailing" secondItem="cg5-tQ-JiM" secondAttribute="trailing" constant="20" id="jMi-x3-Rj9"/>
                             <constraint firstItem="cg5-tQ-JiM" firstAttribute="top" secondItem="azb-Gv-a7Q" secondAttribute="bottom" constant="24" id="jch-EZ-EYy"/>
+                            <constraint firstItem="O9g-rm-SrA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Sc-sq-oKE" secondAttribute="trailing" symbolic="YES" id="l8Q-IR-DnM"/>
                             <constraint firstItem="cSi-Da-lcz" firstAttribute="centerX" secondItem="FJP-ub-JYn" secondAttribute="centerX" id="mCV-mp-U3B"/>
                             <constraint firstItem="FBq-83-Q3r" firstAttribute="leading" secondItem="azb-Gv-a7Q" secondAttribute="trailing" constant="8" id="o13-Vb-FKv"/>
                             <constraint firstItem="O9g-rm-SrA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="azb-Gv-a7Q" secondAttribute="trailing" symbolic="YES" id="s4H-Uz-haz"/>
@@ -414,6 +454,40 @@ AI가 인식해서 알람을 꺼줘요</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iII-OE-g6h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1117.6744186046512" y="1330.0429184549357"/>
+        </scene>
+        <!--WebkitViewController-->
+        <scene sceneID="b5q-1t-mNz">
+            <objects>
+                <viewController storyboardIdentifier="WebkitViewController" title="WebkitViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nbV-Zh-O3S" customClass="WebkitViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cqd-3Y-OvQ">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9k7-mN-3tW">
+                                <rect key="frame" x="0.0" y="59" width="430" height="873"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sZf-2j-woO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="9k7-mN-3tW" secondAttribute="bottom" id="04l-tx-egc"/>
+                            <constraint firstItem="9k7-mN-3tW" firstAttribute="top" secondItem="sZf-2j-woO" secondAttribute="top" id="1os-Np-sfZ"/>
+                            <constraint firstItem="sZf-2j-woO" firstAttribute="trailing" secondItem="9k7-mN-3tW" secondAttribute="trailing" id="ZcN-7X-lrI"/>
+                            <constraint firstItem="9k7-mN-3tW" firstAttribute="leading" secondItem="sZf-2j-woO" secondAttribute="leading" id="knl-2B-MBw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="9k7-mN-3tW" id="a27-EY-cUz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SrI-YP-UdL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1880.9302325581396" y="1329.3991416309013"/>
         </scene>
         <!--SplashViewController-->
         <scene sceneID="xgu-3F-7kf">
@@ -814,6 +888,7 @@ AI가 인식해서 알람을 꺼줘요</string>
         <image name="homeCircle" width="443" height="443"/>
         <image name="homeFIilledCircle" width="771" height="771"/>
         <image name="icon_big" width="92" height="92"/>
+        <image name="right_thin" width="24" height="24"/>
         <image name="setting_selected" width="20" height="22"/>
         <image name="settings" width="24" height="24"/>
         <image name="tabbarSelection" width="63" height="40"/>

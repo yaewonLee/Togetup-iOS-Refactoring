@@ -13,10 +13,11 @@ import RxMoya
 class HomeViewModel {
     private let userProvider = MoyaProvider<UserService>()
     private var homeProvider = MoyaProvider<HomeService>()
+    private var devProvider = MoyaProvider<DevService>()
     var avatars: [AvatarResult] = []
     var selectedAvatar: AvatarResult?
     private let networkManager = NetworkManager()
-    
+
     func loadAvatars() -> Observable<AvatarResponse> {
         return userProvider.rx.request(.getAvatarList)
             .filterSuccessfulStatusCodes()
@@ -53,6 +54,18 @@ class HomeViewModel {
                     return Observable.just(speech)
                 case .failure(let error):
                     return Observable.error(error)
+                }
+            }
+    }
+    
+    func getVersionCheck(currentVersion: String) -> Single<VersionCheckResponse> {
+        return networkManager.handleAPIRequest(devProvider.rx.request(.versionCheck(currentAppVersion: currentVersion)), dataType: VersionCheckResponse.self)
+            .flatMap { result -> Single<VersionCheckResponse> in
+                switch result {
+                case .success(let response):
+                    return .just(response)
+                case .failure(let error):
+                    return .error(error)
                 }
             }
     }

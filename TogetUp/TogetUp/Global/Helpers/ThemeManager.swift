@@ -14,6 +14,7 @@ struct Avatar {
     let colorName: String
     let unlockLevel: Int
     var isNew: Bool
+    let defaultSpeech: String
 }
 
 class ThemeManager {
@@ -33,12 +34,12 @@ class ThemeManager {
     
     func loadThemes() {
         themes = [
-            Avatar(avatarId: 1, mainAvatarName: "main_chick", collectionViewAvatarName: "home_chick", colorName: "chick", unlockLevel: 1, isNew: true),
-            Avatar(avatarId: 2, mainAvatarName: "main_bear", collectionViewAvatarName: "home_bear", colorName: "bear", unlockLevel: 15, isNew: false),
-            Avatar(avatarId: 3, mainAvatarName: "main_rabbit", collectionViewAvatarName: "home_rabbit", colorName: "rabbit", unlockLevel: 30, isNew: false),
-            Avatar(avatarId: 4, mainAvatarName: "main_panda", collectionViewAvatarName: "home_panda", colorName: "panda", unlockLevel: 45, isNew: false),
-            Avatar(avatarId: 5, mainAvatarName: "main_puppy", collectionViewAvatarName: "home_puppy", colorName: "puppy", unlockLevel: 60, isNew: false),
-            Avatar(avatarId: 6, mainAvatarName: "main_racoon", collectionViewAvatarName: "home_racoon", colorName: "racoon", unlockLevel: 75, isNew: false)
+            Avatar(avatarId: 1, mainAvatarName: "main_chick", collectionViewAvatarName: "home_chick", colorName: "chick", unlockLevel: 1, isNew: true, defaultSpeech: "안녕, 내가 니 선임이야~"),
+            Avatar(avatarId: 2, mainAvatarName: "main_bear", collectionViewAvatarName: "home_bear", colorName: "bear", unlockLevel: 15, isNew: false, defaultSpeech: "나랑 같이 우주탐험 하지 않을래?"),
+            Avatar(avatarId: 3, mainAvatarName: "main_rabbit", collectionViewAvatarName: "home_rabbit", colorName: "rabbit", unlockLevel: 30, isNew: false, defaultSpeech: "사랑을 나누어 드릴게요..."),
+            Avatar(avatarId: 4, mainAvatarName: "main_panda", collectionViewAvatarName: "home_panda", colorName: "panda", unlockLevel: 45, isNew: false, defaultSpeech: "먹는게 세상에서 제일 좋아~"),
+            Avatar(avatarId: 5, mainAvatarName: "main_puppy", collectionViewAvatarName: "home_puppy", colorName: "puppy", unlockLevel: 60, isNew: false, defaultSpeech: "저와 비오는 날을 함께 해요!"),
+            Avatar(avatarId: 6, mainAvatarName: "main_racoon", collectionViewAvatarName: "home_racoon", colorName: "racoon", unlockLevel: 75, isNew: false, defaultSpeech: "널 철학의 세계로 인도하지...")
         ]
     }
     
