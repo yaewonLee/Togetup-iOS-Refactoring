@@ -116,7 +116,7 @@ class FloatingPannelViewController: UIViewController {
     
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: timeLineCollectionView.bounds.width, height: 70)
+        layout.itemSize = CGSize(width: self.view.frame.width - 72, height: 70)
         layout.minimumLineSpacing = 16
         timeLineCollectionView.collectionViewLayout = layout
     }

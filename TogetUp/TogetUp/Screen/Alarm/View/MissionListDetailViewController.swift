@@ -24,7 +24,7 @@ class MissionListDetailViewController: UIViewController, UIGestureRecognizerDele
     
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: collectionView.bounds.width, height: 82)
+        layout.itemSize = CGSize(width: self.view.frame.width - 40, height: 82)
         layout.minimumLineSpacing = 12
         collectionView.collectionViewLayout = layout
     }

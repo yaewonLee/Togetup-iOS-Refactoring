@@ -142,7 +142,7 @@ class AlarmListViewController: UIViewController {
     
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: personalCollectionView.bounds.width, height: 124)
+        layout.itemSize = CGSize(width: self.view.frame.width - 40, height: 124)
         layout.minimumLineSpacing = 16
         personalCollectionView.collectionViewLayout = layout
     }
