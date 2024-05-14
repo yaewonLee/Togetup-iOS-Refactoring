@@ -147,11 +147,7 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
     
     private func getAvatarSpeeches(avatarId: Int) {
         viewModel.getAvatarSpeech(avatarId: avatarId)
-            .subscribe(onNext: { [weak self] speech in
-                self?.avatarSpeechLabel.text = speech
-            }, onError: { error in
-                print("Error: \(error.localizedDescription)")
-            })
+            .bind(to: avatarSpeechLabel.rx.text)
             .disposed(by: disposeBag)
     }
     

@@ -796,7 +796,6 @@ AI가 인식해서 알람을 꺼줘요</string>
                                         <rect key="frame" x="121.33333333333336" y="63" width="37.666666666666671" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="VS8-pr-6FY"/>
                                             <constraint firstAttribute="height" constant="24" id="qvN-YO-5k7"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="12"/>

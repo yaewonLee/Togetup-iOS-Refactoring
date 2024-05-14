@@ -16,6 +16,7 @@ class TimelineViewModel {
     let disposeBag = DisposeBag()
     let networkManager = NetworkManager()
     let provider = MoyaProvider<HomeService>()
+    let dataLoaded = PublishSubject<Void>()
     
     func fetchTimelineData() {
         let request = provider.rx.request(.getTimeLine)
@@ -27,6 +28,7 @@ class TimelineViewModel {
                     case .success(let data):
                         self?.timelineData.onNext(.success(data.result))
                         self?.nextAlarmId = data.result?.nextAlarm?.id
+                        self?.dataLoaded.onNext(())
                     case .failure(let error):
                         self?.timelineData.onNext(.failure(error))
                     }
