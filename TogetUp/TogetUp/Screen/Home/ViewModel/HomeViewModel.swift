@@ -14,10 +14,13 @@ class HomeViewModel {
     private let userProvider = MoyaProvider<UserService>()
     private var homeProvider = MoyaProvider<HomeService>()
     private var devProvider = MoyaProvider<DevService>()
+    private let alarmProvider = MoyaProvider<AlarmService>()
     var avatars: [AvatarResult] = []
     var selectedAvatar: AvatarResult?
     private let networkManager = NetworkManager()
-
+    private let realmManager = RealmAlarmDataManager()
+    private let disposeBag = DisposeBag()
+    
     func loadAvatars() -> Observable<AvatarResponse> {
         return userProvider.rx.request(.getAvatarList)
             .filterSuccessfulStatusCodes()
@@ -68,5 +71,20 @@ class HomeViewModel {
                     return .error(error)
                 }
             }
+    }
+    
+    func deactivateAlarms() {
+        let activeAlarmIds = realmManager.fetchPastNonRepeatingActivatedAlarms()
+        alarmProvider.rx.request(.deactivateAlarms(alarmIds: activeAlarmIds))
+            .filterSuccessfulStatusCodes()
+            .subscribe { response in
+                switch response {
+                case .success(let result):
+                    self.realmManager.deactivateAlarms()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

@@ -28,6 +28,7 @@ class Alarm: Object {
     @objc dynamic var missionName: String = ""
     @objc dynamic var missionEndpoint: String = ""
     @objc dynamic var completedTime: Date? = nil
+    @objc dynamic var createdDate: Date =  Date()
     
     override static func primaryKey() -> String? {
         return "id"
