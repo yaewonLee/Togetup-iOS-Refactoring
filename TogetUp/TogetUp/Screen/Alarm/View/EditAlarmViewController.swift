@@ -102,6 +102,7 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, UI
         configureMission(with: result)
         
         alarmNameTextField.text = result.name
+        alarmNameCountLabel.text = "\(result.name.count)/10"
         alarmIconLabel.text = result.icon
         
         let formatter = DateFormatter()
