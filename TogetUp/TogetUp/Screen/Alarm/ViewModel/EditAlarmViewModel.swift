@@ -52,8 +52,9 @@ class EditAlarmViewModel {
                 switch result {
                 case .success:
                     self?.realmManager.updateAlarm(with: param, for: alarmId, missionEndpoint: missionEndpoint, missionKoreanName: missionKoreanName)
-                    AlarmScheduleManager.shared.removeNotification(for: alarmId)
-                    AlarmScheduleManager.shared.scheduleAlarmById(with: alarmId)
+                    AlarmScheduleManager.shared.removeNotification(for: alarmId) {
+                        AlarmScheduleManager.shared.scheduleAlarmById(with: alarmId)
+                    }
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))
@@ -67,7 +68,7 @@ class EditAlarmViewModel {
                 switch result {
                 case .success:
                     self?.realmManager.deleteAlarm(alarmId: alarmId)
-                    AlarmScheduleManager.shared.removeNotification(for: alarmId)
+                    AlarmScheduleManager.shared.removeNotification(for: alarmId) {}
                     return .just(.success(()))
                 case .failure(let error):
                     return .just(.failure(error))

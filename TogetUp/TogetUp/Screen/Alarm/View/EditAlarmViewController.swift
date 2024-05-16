@@ -107,11 +107,10 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        if let alarmTimeString = response.result?.alarmTime,
-           let alarmTimeDate = formatter.date(from: alarmTimeString) {
-            timePicker.date = alarmTimeDate
-        }
-        
+        let alarmTimeDate = formatter.date(from: result.alarmTime)
+        timePicker.date = alarmTimeDate!
+        self.alarmTimeString = String(result.alarmTime.prefix(5))
+
         isVibrate.isOn = result.isVibrate
         sunday.isSelected = result.sunday
         monday.isSelected = result.monday

@@ -110,7 +110,7 @@ class AlarmListViewController: UIViewController {
     }
     
     private func editIsActivatedToggle(for alarm: Alarm) {
-        viewModel.deactivateAlarm(alarmId: alarm.id)
+        viewModel.toggleAlarm(alarmId: alarm.id)
     }
     
     private func showDeleteAlert(for alarm: Alarm) {

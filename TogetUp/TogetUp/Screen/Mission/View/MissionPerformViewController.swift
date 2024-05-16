@@ -93,7 +93,7 @@ class MissionPerformViewController: UIViewController {
     }
     
     private func deactivateAlarm(_ alarm: Alarm) {
-        alarmListViewModel.deactivateAlarm(alarmId: alarm.id)
+        alarmListViewModel.toggleAlarm(alarmId: alarm.id)
     }
     
     private func customUI() {
