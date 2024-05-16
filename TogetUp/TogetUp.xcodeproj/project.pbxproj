@@ -17,9 +17,7 @@
 		F91AA8882AB890BE00BDA437 /* AppStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */; };
 		F91B2C0F2BDEA40100A23A59 /* Jua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */; };
 		F91BEF132AF503D3003395A0 /* FloatingPannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91BEF122AF503D3003395A0 /* FloatingPannelViewController.swift */; };
-		F91C791C2AF4F64400D4E34D /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F91C791B2AF4F64400D4E34D /* FloatingPanel */; };
 		F91D01962AC2C74F003841D8 /* AlarmScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */; };
-		F93012B02ADEBD180086C348 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = F93012AF2ADEBD180086C348 /* FSCalendar */; };
 		F931405A2A8FAFE2000FB717 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140592A8FAFE2000FB717 /* GroupListViewController.swift */; };
 		F931405B2A8FB014000FB717 /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F931405D2A8FB014000FB717 /* Group.storyboard */; };
 		F93140642A8FBB43000FB717 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140632A8FBB43000FB717 /* HomeViewController.swift */; };
@@ -81,9 +79,10 @@
 		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
 		F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9BF13822AE2D4CF006A262A /* Kingfisher */; };
 		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
+		F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226BF2BF652A700B14D11 /* FloatingPanel */; };
+		F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C22BF652D500B14D11 /* SnapKit */; };
+		F9C226C62BF65CAC00B14D11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C52BF65CAC00B14D11 /* Then */; };
 		F9C602302B72044D008A43A0 /* CustomFloatingPanelLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */; };
-		F9C8ADC42A98BDF000F541FD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */; };
-		F9C8ADC62A98BDF000F541FD /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */; };
 		F9C8ADC82A9CDF7500F541FD /* MissionListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C8ADC72A9CDF7500F541FD /* MissionListDetailViewController.swift */; };
 		F9C8ADCA2A9CE56700F541FD /* MissionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C8ADC92A9CE56700F541FD /* MissionListViewController.swift */; };
 		F9C9C1FF2BEE3C5400A6C66E /* WebkitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C9C1FE2BEE3C5400A6C66E /* WebkitViewController.swift */; };
@@ -98,11 +97,6 @@
 		F9E6D2DB2ABFCDEE009004D9 /* MissionPerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E6D2DA2ABFCDEE009004D9 /* MissionPerformViewController.swift */; };
 		F9EAA56E2B1B0CA80087734E /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */; };
 		F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */; };
-		F9F3859B2AD7B97B009D15EF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */; };
-		F9F3859D2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */; };
-		F9F3859F2AD7B97B009D15EF /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */; };
-		F9F385A12AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		F9F385A32AD7B97B009D15EF /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -208,23 +202,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9E46C472BE3881600BBC221 /* RealmSwift in Frameworks */,
-				F9F385A32AD7B97B009D15EF /* FirebaseAppCheck in Frameworks */,
-				F9F385A12AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				F9C8ADC62A98BDF000F541FD /* FirebaseMessaging in Frameworks */,
+				F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */,
 				F939222A2B73486300BAA171 /* KeychainAccess in Frameworks */,
-				F9F3859B2AD7B97B009D15EF /* FirebaseAnalytics in Frameworks */,
-				F9F3859D2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
-				F91C791C2AF4F64400D4E34D /* FloatingPanel in Frameworks */,
-				F9F3859F2AD7B97B009D15EF /* FirebaseAnalyticsSwift in Frameworks */,
 				F986010B2AB868B900595646 /* RxGesture in Frameworks */,
-				F9C8ADC42A98BDF000F541FD /* FirebaseAnalytics in Frameworks */,
 				F96B32A12A8E8BD300BD3BF9 /* KeychainAccess in Frameworks */,
 				F9D679D92AC1BD2E006B1643 /* Lottie in Frameworks */,
 				F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */,
-				F93012B02ADEBD180086C348 /* FSCalendar in Frameworks */,
+				F9C226C62BF65CAC00B14D11 /* Then in Frameworks */,
 				F96B327F2A8A358000BD3BF9 /* RxMoya in Frameworks */,
 				F96B32872A8A3BD200BD3BF9 /* MCEmojiPicker in Frameworks */,
 				F96B32942A8CB57C00BD3BF9 /* RxKakaoSDK in Frameworks */,
+				F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,20 +631,14 @@
 				F96B32862A8A3BD200BD3BF9 /* MCEmojiPicker */,
 				F96B32932A8CB57C00BD3BF9 /* RxKakaoSDK */,
 				F96B32A02A8E8BD300BD3BF9 /* KeychainAccess */,
-				F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */,
-				F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */,
 				F986010A2AB868B900595646 /* RxGesture */,
 				F9D679D82AC1BD2E006B1643 /* Lottie */,
-				F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */,
-				F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */,
-				F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */,
-				F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */,
-				F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */,
-				F93012AF2ADEBD180086C348 /* FSCalendar */,
 				F9BF13822AE2D4CF006A262A /* Kingfisher */,
-				F91C791B2AF4F64400D4E34D /* FloatingPanel */,
 				F93922292B73486300BAA171 /* KeychainAccess */,
 				F9E46C462BE3881600BBC221 /* RealmSwift */,
+				F9C226BF2BF652A700B14D11 /* FloatingPanel */,
+				F9C226C22BF652D500B14D11 /* SnapKit */,
+				F9C226C52BF65CAC00B14D11 /* Then */,
 			);
 			productName = TogetUp;
 			productReference = F96B32602A8A002800BD3BF9 /* TogetUp.app */;
@@ -691,13 +673,13 @@
 				F96B32852A8A3BD200BD3BF9 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				F96B32922A8CB57C00BD3BF9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */,
 				F9D679D72AC1BD2E006B1643 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				F9E46C432BE3881600BBC221 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = F96B32612A8A002800BD3BF9 /* Products */;
 			projectDirPath = "";
@@ -999,7 +981,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1046,7 +1028,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1090,22 +1072,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scenee/FloatingPanel#swift-package-manager";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.0;
-			};
-		};
-		F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.4;
-			};
-		};
 		F96B327D2A8A358000BD3BF9 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -1154,12 +1120,28 @@
 				minimumVersion = 7.9.1;
 			};
 		};
-		F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			repositoryURL = "https://github.com/scenee/FloatingPanel";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
+				minimumVersion = 2.8.2;
+			};
+		};
+		F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
 			};
 		};
 		F9D679D72AC1BD2E006B1643 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
@@ -1181,16 +1163,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F91C791B2AF4F64400D4E34D /* FloatingPanel */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */;
-			productName = FloatingPanel;
-		};
-		F93012AF2ADEBD180086C348 /* FSCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */;
-			productName = FSCalendar;
-		};
 		F93922292B73486300BAA171 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
@@ -1226,15 +1198,20 @@
 			package = F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */ = {
+		F9C226BF2BF652A700B14D11 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
+			package = F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
 		};
-		F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */ = {
+		F9C226C22BF652D500B14D11 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
+			package = F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		F9C226C52BF65CAC00B14D11 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 		F9D679D82AC1BD2E006B1643 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1245,31 +1222,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F9E46C432BE3881600BBC221 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
-		};
-		F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsOnDeviceConversion;
-		};
-		F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
-		F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
