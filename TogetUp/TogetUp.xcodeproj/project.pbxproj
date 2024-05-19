@@ -65,7 +65,6 @@
 		F98600F82AB038FF00595646 /* AlarmListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600F72AB038FF00595646 /* AlarmListViewModel.swift */; };
 		F98600FE2AB0B07E00595646 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600FD2AB0B07E00595646 /* Alarm.swift */; };
 		F98601002AB2EDAD00595646 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600FF2AB2EDAD00595646 /* SplashViewController.swift */; };
-		F986010B2AB868B900595646 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F986010A2AB868B900595646 /* RxGesture */; };
 		F991D0D32BC5107B00893E67 /* 3_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F991D0D22BC5107B00893E67 /* 3_onboarding.json */; };
 		F991D0D52BC55F9600893E67 /* 2_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F991D0D42BC55F9600893E67 /* 2_onboarding.json */; };
 		F9944F242ACD8FD800B39476 /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9944F232ACD8FD800B39476 /* UIImageView + Extension.swift */; };
@@ -77,7 +76,6 @@
 		F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D0E942BB8418600437025 /* 1_onboarding.json */; };
 		F99D0E992BB84B8100437025 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99D0E982BB84B8100437025 /* ContentViewController.swift */; };
 		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
-		F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9BF13822AE2D4CF006A262A /* Kingfisher */; };
 		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
 		F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226BF2BF652A700B14D11 /* FloatingPanel */; };
 		F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C22BF652D500B14D11 /* SnapKit */; };
@@ -204,10 +202,8 @@
 				F9E46C472BE3881600BBC221 /* RealmSwift in Frameworks */,
 				F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */,
 				F939222A2B73486300BAA171 /* KeychainAccess in Frameworks */,
-				F986010B2AB868B900595646 /* RxGesture in Frameworks */,
 				F96B32A12A8E8BD300BD3BF9 /* KeychainAccess in Frameworks */,
 				F9D679D92AC1BD2E006B1643 /* Lottie in Frameworks */,
-				F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */,
 				F9C226C62BF65CAC00B14D11 /* Then in Frameworks */,
 				F96B327F2A8A358000BD3BF9 /* RxMoya in Frameworks */,
 				F96B32872A8A3BD200BD3BF9 /* MCEmojiPicker in Frameworks */,
@@ -631,9 +627,7 @@
 				F96B32862A8A3BD200BD3BF9 /* MCEmojiPicker */,
 				F96B32932A8CB57C00BD3BF9 /* RxKakaoSDK */,
 				F96B32A02A8E8BD300BD3BF9 /* KeychainAccess */,
-				F986010A2AB868B900595646 /* RxGesture */,
 				F9D679D82AC1BD2E006B1643 /* Lottie */,
-				F9BF13822AE2D4CF006A262A /* Kingfisher */,
 				F93922292B73486300BAA171 /* KeychainAccess */,
 				F9E46C462BE3881600BBC221 /* RealmSwift */,
 				F9C226BF2BF652A700B14D11 /* FloatingPanel */,
@@ -673,9 +667,7 @@
 				F96B32852A8A3BD200BD3BF9 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				F96B32922A8CB57C00BD3BF9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */,
 				F9D679D72AC1BD2E006B1643 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				F9E46C432BE3881600BBC221 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */,
@@ -1104,22 +1096,6 @@
 				kind = branch;
 			};
 		};
-		F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-		F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.9.1;
-			};
-		};
 		F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel";
@@ -1187,16 +1163,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		F986010A2AB868B900595646 /* RxGesture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */;
-			productName = RxGesture;
-		};
-		F9BF13822AE2D4CF006A262A /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		F9C226BF2BF652A700B14D11 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;
