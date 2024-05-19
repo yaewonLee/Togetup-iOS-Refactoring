@@ -18,100 +18,6 @@
             </objects>
             <point key="canvasLocation" x="179" y="-711"/>
         </scene>
-        <!--ContentViewController-->
-        <scene sceneID="adn-nM-R5w">
-            <objects>
-                <viewController storyboardIdentifier="ContentViewController" title="ContentViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oxk-f3-gwS" customClass="ContentViewController" customModule="TogetUp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="7Ug-pr-5E6">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fhQ-sx-IoT" customClass="LottieAnimationView" customModule="Lottie">
-                                <rect key="frame" x="0.0" y="0.0" width="430" height="538.33333333333337"/>
-                                <color key="backgroundColor" name="primary050"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="fhQ-sx-IoT" secondAttribute="height" multiplier="329:412" id="CJJ-NY-XWI"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 / 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbZ-kG-IsH">
-                                <rect key="frame" x="186.66666666666666" y="490.33333333333331" width="57" height="23.999999999999943"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="57" id="jrP-I5-KRO"/>
-                                    <constraint firstAttribute="height" constant="24" id="unC-ry-ZVg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" name="neutral400"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="찰칵 찍어서 알람 종료" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8Z-PW-eTG">
-                                <rect key="frame" x="86" y="578.33333333333337" width="258" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="iMZ-wU-dyR"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mz6-oA-CxY">
-                                <rect key="frame" x="59" y="638.33333333333337" width="312" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="rIh-0a-KHO"/>
-                                </constraints>
-                                <string key="text">지정한 물체를 촬영하면
-AI가 인식해서 알람을 꺼줘요</string>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WBL-Sl-Zxp">
-                                <rect key="frame" x="20" y="818" width="390" height="56"/>
-                                <color key="backgroundColor" name="primary400"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="YJI-pN-T9g"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="다음">
-                                    <fontDescription key="titleFontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="nextButtonTapped:" destination="Oxk-f3-gwS" eventType="touchUpInside" id="V1P-ha-fng"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="FeY-SK-1NS"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="fhQ-sx-IoT" firstAttribute="leading" secondItem="FeY-SK-1NS" secondAttribute="leading" id="0f4-Uu-bxG"/>
-                            <constraint firstItem="J8Z-PW-eTG" firstAttribute="top" secondItem="fhQ-sx-IoT" secondAttribute="bottom" constant="40" id="6zf-Rl-w7N"/>
-                            <constraint firstItem="vbZ-kG-IsH" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="7q0-1d-NbP"/>
-                            <constraint firstItem="fhQ-sx-IoT" firstAttribute="top" secondItem="7Ug-pr-5E6" secondAttribute="top" id="AzF-oc-TRX"/>
-                            <constraint firstItem="fhQ-sx-IoT" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="HgZ-Cs-8uo"/>
-                            <constraint firstItem="WBL-Sl-Zxp" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="eUm-en-t04"/>
-                            <constraint firstItem="vbZ-kG-IsH" firstAttribute="bottom" secondItem="fhQ-sx-IoT" secondAttribute="bottom" constant="-24" id="guz-nf-g8J"/>
-                            <constraint firstItem="FeY-SK-1NS" firstAttribute="bottom" secondItem="WBL-Sl-Zxp" secondAttribute="bottom" constant="24" id="hrp-Ck-vGV"/>
-                            <constraint firstItem="mz6-oA-CxY" firstAttribute="top" secondItem="J8Z-PW-eTG" secondAttribute="bottom" constant="16" id="hwc-Oe-4pi"/>
-                            <constraint firstItem="mz6-oA-CxY" firstAttribute="leading" secondItem="FeY-SK-1NS" secondAttribute="leading" constant="59" id="kQ5-Dg-czt"/>
-                            <constraint firstItem="FeY-SK-1NS" firstAttribute="trailing" secondItem="mz6-oA-CxY" secondAttribute="trailing" constant="59" id="otG-do-QOu"/>
-                            <constraint firstItem="FeY-SK-1NS" firstAttribute="trailing" secondItem="WBL-Sl-Zxp" secondAttribute="trailing" constant="20" id="qRE-nr-oKq"/>
-                            <constraint firstItem="mz6-oA-CxY" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="v3J-cl-D6x"/>
-                            <constraint firstItem="J8Z-PW-eTG" firstAttribute="centerX" secondItem="7Ug-pr-5E6" secondAttribute="centerX" id="vtP-jV-sDJ"/>
-                            <constraint firstItem="WBL-Sl-Zxp" firstAttribute="leading" secondItem="FeY-SK-1NS" secondAttribute="leading" constant="20" id="wv8-BG-A5Y"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="currentPageNumberLabel" destination="vbZ-kG-IsH" id="bs7-al-WtW"/>
-                        <outlet property="label1" destination="J8Z-PW-eTG" id="eDb-w2-KYC"/>
-                        <outlet property="label2" destination="mz6-oA-CxY" id="62n-zL-cxK"/>
-                        <outlet property="lottieView" destination="fhQ-sx-IoT" id="PD2-Sq-KQ7"/>
-                        <outlet property="nextButton" destination="WBL-Sl-Zxp" id="fGs-sH-sc0"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cbc-Dl-5h9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1006" y="-711"/>
-        </scene>
         <!--LoginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -558,7 +464,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cr7-PL-zNu">
-                                <rect key="frame" x="146" y="147" width="138.33333333333337" height="55"/>
+                                <rect key="frame" x="146" y="147" width="138" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="qNh-ca-s6v"/>
                                 </constraints>
@@ -686,7 +592,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQr-AU-9hv">
-                                <rect key="frame" x="191" y="447" width="48.333333333333343" height="24"/>
+                                <rect key="frame" x="191" y="447" width="48" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="2bP-hy-iTg"/>
                                 </constraints>
@@ -813,7 +719,7 @@ AI가 인식해서 알람을 꺼줘요</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="축하합니다👏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKF-hP-I6d">
-                                        <rect key="frame" x="95" y="96" width="90.333333333333314" height="24"/>
+                                        <rect key="frame" x="95" y="96" width="90" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Wm9-cI-wg3"/>
                                         </constraints>
@@ -822,10 +728,10 @@ AI가 인식해서 알람을 꺼줘요</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-gh-QPs">
-                                        <rect key="frame" x="113.33333333333336" y="63" width="53.666666666666671" height="24"/>
+                                        <rect key="frame" x="113" y="63" width="54" height="24"/>
                                         <subviews>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 2 ⭢ 3 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nox-4h-J1Q">
-                                                <rect key="frame" x="8" y="0.0" width="37.666666666666664" height="24"/>
+                                                <rect key="frame" x="8" y="0.0" width="38" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="qvN-YO-5k7"/>
