@@ -42,11 +42,15 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         setUpUserInitialData()
         bindAvatarCollectionView()
         customUI()
+        avatarChooseCollectionView.allowsMultipleSelection = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setUpUserInitialData()
         getAvatarSpeeches(avatarId: self.currentAvatarId)
+        deselectAllItems()
+        selectInitialAvatar()
     }
     
     // MARK: - Custom Methods
@@ -230,6 +234,19 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             fpc.show()
         }
         avatarView.isHidden = !isAvatarViewVisible
+
+        deselectAllItems()
+    }
+    
+    private func deselectAllItems() {
+        if let selectedIndexPaths = avatarChooseCollectionView.indexPathsForSelectedItems {
+            for indexPath in selectedIndexPaths {
+                avatarChooseCollectionView.deselectItem(at: indexPath, animated: false)
+                if let cell = avatarChooseCollectionView.cellForItem(at: indexPath) as? AvatarCollectionViewCell {
+                    cell.setAttributes(with: viewModel.avatars[indexPath.row], isSelected: false)
+                }
+            }
+        }
     }
     
     // MARK: - @
@@ -280,6 +297,8 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+        print(indexPath)
         guard !viewModel.avatars.isEmpty else {
             print("viewModel.avatars are empty")
             return
