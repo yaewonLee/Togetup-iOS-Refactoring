@@ -935,7 +935,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7gy-JL-BYl">
-                                <rect key="frame" x="20" y="59" width="353" height="793"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="B7n-RE-HUy">
                                     <size key="itemSize" width="353" height="128"/>
@@ -945,7 +945,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="ObjectMissionCollectionViewCell" reuseIdentifier="ObjectMissionCollectionViewCell" id="aXk-iD-Vbl" customClass="ObjectMissionCollectionViewCell" customModule="TogetUp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="353" height="82"/>
+                                        <rect key="frame" x="20" y="0.0" width="353" height="82"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hDj-u9-8lB">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="82"/>
@@ -1013,9 +1013,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="7gy-JL-BYl" secondAttribute="bottom" id="Mf1-ut-qnu"/>
-                            <constraint firstItem="Xur-81-GHz" firstAttribute="trailing" secondItem="7gy-JL-BYl" secondAttribute="trailing" constant="20" id="WUu-Tp-TZJ"/>
+                            <constraint firstItem="Xur-81-GHz" firstAttribute="trailing" secondItem="7gy-JL-BYl" secondAttribute="trailing" id="WUu-Tp-TZJ"/>
                             <constraint firstItem="7gy-JL-BYl" firstAttribute="top" secondItem="Xur-81-GHz" secondAttribute="top" id="ajI-EA-M5E"/>
-                            <constraint firstItem="7gy-JL-BYl" firstAttribute="leading" secondItem="Xur-81-GHz" secondAttribute="leading" constant="20" id="ecv-89-Gkj"/>
+                            <constraint firstItem="7gy-JL-BYl" firstAttribute="leading" secondItem="Xur-81-GHz" secondAttribute="leading" id="ecv-89-Gkj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="사물 인식 미션" style="editor" id="eZn-Az-kob"/>
