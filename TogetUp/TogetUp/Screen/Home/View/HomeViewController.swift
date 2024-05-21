@@ -42,15 +42,19 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         setUpUserInitialData()
         bindAvatarCollectionView()
         customUI()
-        avatarChooseCollectionView.allowsMultipleSelection = false
+        fetchAvatarSpeeches(avatarId: self.currentAvatarId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpUserInitialData()
-        getAvatarSpeeches(avatarId: self.currentAvatarId)
         deselectAllItems()
         selectInitialAvatar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        fetchAvatarSpeeches(avatarId: self.currentAvatarId)
     }
     
     // MARK: - Custom Methods
@@ -149,9 +153,21 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
         }
     }
     
-    private func getAvatarSpeeches(avatarId: Int) {
+    private func fetchAvatarSpeeches(avatarId: Int) {
         viewModel.getAvatarSpeech(avatarId: avatarId)
-            .bind(to: avatarSpeechLabel.rx.text)
+            .subscribe(onNext: { [weak self] speech in
+                if speech.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == avatarId }) {
+                        self?.avatarSpeechLabel.text = theme.defaultSpeech
+                    }
+                } else {
+                    self?.avatarSpeechLabel.text = speech
+                }
+            }, onError: { [weak self] error in
+                if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == avatarId }) {
+                    self?.avatarSpeechLabel.text = theme.defaultSpeech
+                }
+            })
             .disposed(by: disposeBag)
     }
     
@@ -234,7 +250,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
             fpc.show()
         }
         avatarView.isHidden = !isAvatarViewVisible
-
         deselectAllItems()
     }
     
@@ -282,7 +297,9 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
                     if var currentUserData = UserDataManager.shared.currentUserData {
                         currentUserData.avatarId = (self?.selectedIndex?.row ?? 0) + 1
                         UserDataManager.shared.updateHomeData(data: currentUserData)
+                        self?.currentAvatarId = currentUserData.avatarId
                     }
+                    
                     self?.tabBarController?.tabBar.isHidden = false
                     self?.hangerButton.isHidden = false
                     self?.fpc.show()
@@ -297,8 +314,6 @@ class HomeViewController: UIViewController, FloatingPanelControllerDelegate {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function)
-        print(indexPath)
         guard !viewModel.avatars.isEmpty else {
             print("viewModel.avatars are empty")
             return

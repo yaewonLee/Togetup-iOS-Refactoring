@@ -81,7 +81,7 @@ class HomeViewModel {
             .filterSuccessfulStatusCodes()
             .subscribe { response in
                 switch response {
-                case .success(let result):
+                case .success(_):
                     self.realmManager.deactivateAlarms()
                 case .failure(let error):
                     print(error.localizedDescription)
