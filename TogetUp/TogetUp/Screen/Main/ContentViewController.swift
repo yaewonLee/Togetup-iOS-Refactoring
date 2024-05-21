@@ -80,7 +80,16 @@ class ContentViewController: UIViewController {
         lottieView.animation = animation
         lottieView.loopMode = .playOnce
         lottieView.animationSpeed = 1
-        lottieView.play()
+        playAnimationWithDelay()
+    }
+    
+    private func playAnimationWithDelay() {
+        lottieView.play { [weak self] finished in
+            guard finished else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self?.playAnimationWithDelay()
+            }
+        }
     }
     
     private func applyColorToText(label: UILabel, fullText: String, highlightedText: String) {
@@ -119,11 +128,9 @@ extension ContentViewController {
                 make.height.equalTo(412)
             } else {
                 make.left.right.equalToSuperview()
-             //   make.height.equalTo(470)
             }
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().priority(.high)
-            //make.width.equalTo(lottieView.snp.height).multipliedBy(375 / 470).priority(.medium)
         }
         
         bottomView.snp.makeConstraints { make in
