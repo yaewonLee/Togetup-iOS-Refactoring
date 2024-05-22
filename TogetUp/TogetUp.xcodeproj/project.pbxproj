@@ -18,8 +18,6 @@
 		F91B2C0F2BDEA40100A23A59 /* Jua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */; };
 		F91BEF132AF503D3003395A0 /* FloatingPannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91BEF122AF503D3003395A0 /* FloatingPannelViewController.swift */; };
 		F91D01962AC2C74F003841D8 /* AlarmScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */; };
-		F931405A2A8FAFE2000FB717 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140592A8FAFE2000FB717 /* GroupListViewController.swift */; };
-		F931405B2A8FB014000FB717 /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F931405D2A8FB014000FB717 /* Group.storyboard */; };
 		F93140642A8FBB43000FB717 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140632A8FBB43000FB717 /* HomeViewController.swift */; };
 		F93140662A8FBBFB000FB717 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140652A8FBBFB000FB717 /* TabBarViewController.swift */; };
 		F93140672A8FBD30000FB717 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93140692A8FBD30000FB717 /* Home.storyboard */; };
@@ -122,8 +120,6 @@
 		F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jua-Regular.ttf"; sourceTree = "<group>"; };
 		F91BEF122AF503D3003395A0 /* FloatingPannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPannelViewController.swift; sourceTree = "<group>"; };
 		F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduleManager.swift; sourceTree = "<group>"; };
-		F93140592A8FAFE2000FB717 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
-		F931405C2A8FB014000FB717 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Group.storyboard; sourceTree = "<group>"; };
 		F93140632A8FBB43000FB717 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F93140652A8FBBFB000FB717 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F93140682A8FBD30000FB717 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Home.storyboard; sourceTree = "<group>"; };
@@ -225,14 +221,6 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		F915B3882A8F8D8D00E4696C /* Group */ = {
-			isa = PBXGroup;
-			children = (
-				F93140552A8FAFAF000FB717 /* View */,
-			);
-			path = Group;
-			sourceTree = "<group>";
-		};
 		F915B3892A8F8D9400E4696C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,15 +286,6 @@
 				F98600F32AAEF3E900595646 /* MissionModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		F93140552A8FAFAF000FB717 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				F931405D2A8FB014000FB717 /* Group.storyboard */,
-				F93140592A8FAFE2000FB717 /* GroupListViewController.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		F931405E2A8FBAD7000FB717 /* ViewModel */ = {
@@ -378,7 +357,6 @@
 				F96B32972A8CBA6200BD3BF9 /* Login */,
 				F915B3872A8F8D6900E4696C /* Home */,
 				F96B327C2A8A025800BD3BF9 /* Alarm */,
-				F915B3882A8F8D8D00E4696C /* Group */,
 				F915B3892A8F8D9400E4696C /* Setting */,
 			);
 			path = Screen;
@@ -701,7 +679,6 @@
 				F919A9122ACEA09600D02125 /* progress.json in Resources */,
 				F9387BC62AD569D9000A5121 /* alarmSound.mp3 in Resources */,
 				F982EB252BE34AC100392314 /* Config.xcconfig in Resources */,
-				F931405B2A8FB014000FB717 /* Group.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -727,7 +704,6 @@
 				F98600F42AAEF3E900595646 /* MissionModel.swift in Sources */,
 				F945D14F2AA4AA1E0093F896 /* WithdrawlModel.swift in Sources */,
 				F98600F62AAF701E00595646 /* AlarmListCollectionViewCell.swift in Sources */,
-				F931405A2A8FAFE2000FB717 /* GroupListViewController.swift in Sources */,
 				F96B32682A8A002800BD3BF9 /* AlarmListViewController.swift in Sources */,
 				F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */,
 				F9DA5D862AC16526008E16A6 /* CapturedImageViewController.swift in Sources */,
@@ -780,14 +756,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F931405D2A8FB014000FB717 /* Group.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F931405C2A8FB014000FB717 /* Base */,
-			);
-			name = Group.storyboard;
-			sourceTree = "<group>";
-		};
 		F93140692A8FBD30000FB717 /* Home.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
