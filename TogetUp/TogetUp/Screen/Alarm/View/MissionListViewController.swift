@@ -37,9 +37,10 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? MissionListDetailViewController else { return }
         vc.missionId = 2
         
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        vc.navigationController?.isNavigationBarHidden = false
+        vc.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        vc.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        vc.navigationItem.title = "사물 인식 미션"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -48,9 +49,10 @@ class MissionListViewController: UIViewController, UIGestureRecognizerDelegate {
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ObjectMissionListViewController") as? MissionListDetailViewController else { return }
         vc.missionId = 3
         
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        vc.navigationController?.isNavigationBarHidden = false
+        vc.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        vc.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        vc.navigationItem.title = "표정 인식 미션"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
