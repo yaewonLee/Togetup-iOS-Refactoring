@@ -92,7 +92,6 @@
 		F9E50D182A95E6BE0076FEF1 /* EditAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E50D172A95E6BE0076FEF1 /* EditAlarmViewController.swift */; };
 		F9E6D2DB2ABFCDEE009004D9 /* MissionPerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E6D2DA2ABFCDEE009004D9 /* MissionPerformViewController.swift */; };
 		F9EAA56E2B1B0CA80087734E /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */; };
-		F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -174,6 +173,10 @@
 		F99D0E942BB8418600437025 /* 1_onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 1_onboarding.json; sourceTree = "<group>"; };
 		F99D0E982BB84B8100437025 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		F9A7CC322B8DA36600C73401 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		F9BCC93A2BFF014400B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		F9BCC93B2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F9BCC93C2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Home.strings; sourceTree = "<group>"; };
+		F9BCC93D2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Alarm.strings; sourceTree = "<group>"; };
 		F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupAlarmListCollectionViewCell.swift; path = "/Users/yaewon/Desktop/Togetup-iOS-Refatoring/TogetUp/TogetUp/Screen/Alarm/View/Cell/GroupAlarmListCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFloatingPanelLayout.swift; sourceTree = "<group>"; };
 		F9C8ADC72A9CDF7500F541FD /* MissionListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionListDetailViewController.swift; sourceTree = "<group>"; };
@@ -187,7 +190,6 @@
 		F9E50D172A95E6BE0076FEF1 /* EditAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlarmViewController.swift; sourceTree = "<group>"; };
 		F9E6D2DA2ABFCDEE009004D9 /* MissionPerformViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPerformViewController.swift; sourceTree = "<group>"; };
 		F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
-		F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -400,7 +402,6 @@
 				F9387BC52AD569D9000A5121 /* alarmSound.mp3 */,
 				F96B32632A8A002800BD3BF9 /* AppDelegate.swift */,
 				F96B32652A8A002800BD3BF9 /* SceneDelegate.swift */,
-				F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */,
 				F96B32712A8A002900BD3BF9 /* Info.plist */,
 			);
 			path = Supports;
@@ -633,11 +634,12 @@
 			};
 			buildConfigurationList = F96B325B2A8A002800BD3BF9 /* Build configuration list for PBXProject "TogetUp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = F96B32572A8A002800BD3BF9;
 			packageReferences = (
@@ -667,7 +669,6 @@
 			files = (
 				F9614A4C2A8FAC0A00610784 /* Alarm.storyboard in Resources */,
 				F96B32702A8A002900BD3BF9 /* LaunchScreen.storyboard in Resources */,
-				F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */,
 				F96B326D2A8A002900BD3BF9 /* Assets.xcassets in Resources */,
 				F915EA1A2BF21EDD002B84BC /* IconAssets.xcassets in Resources */,
 				F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */,
@@ -760,6 +761,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F93140682A8FBD30000FB717 /* Base */,
+				F9BCC93C2BFF014500B6A7F9 /* ko */,
 			);
 			name = Home.storyboard;
 			sourceTree = "<group>";
@@ -768,6 +770,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F9614A4D2A8FAC0A00610784 /* Base */,
+				F9BCC93D2BFF014500B6A7F9 /* ko */,
 			);
 			name = Alarm.storyboard;
 			sourceTree = "<group>";
@@ -776,6 +779,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F96B326A2A8A002800BD3BF9 /* Base */,
+				F9BCC93A2BFF014400B6A7F9 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -784,6 +788,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F96B326F2A8A002900BD3BF9 /* Base */,
+				F9BCC93B2BFF014500B6A7F9 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -797,6 +802,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BASE_URL = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -863,6 +869,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BASE_URL = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -932,7 +939,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9HP6SS4WYV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetUp/Resource/Supports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "'We need access to the camera to capture the image.'";
+				INFOPLIST_KEY_NSCameraUsageDescription = "TogetUp에서 미션을 수행하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -979,7 +986,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9HP6SS4WYV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetUp/Resource/Supports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "'We need access to the camera to capture the image.'";
+				INFOPLIST_KEY_NSCameraUsageDescription = "TogetUp에서 미션을 수행하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

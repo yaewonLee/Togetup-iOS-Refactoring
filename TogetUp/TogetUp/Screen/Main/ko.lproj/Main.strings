@@ -1,0 +1,132 @@
+
+/* Class = "UIViewController"; title = "SettingViewController"; ObjectID = "0Uh-Dr-UHK"; */
+"0Uh-Dr-UHK.title" = "SettingViewController";
+
+/* Class = "UILabel"; text = "기기 설정 > 알림 > TogetUp"; ObjectID = "0tY-F7-qcC"; */
+"0tY-F7-qcC.text" = "기기 설정 > 알림 > TogetUp";
+
+/* Class = "UILabel"; text = "객체를 인식했어요"; ObjectID = "2Nq-fn-74p"; */
+"2Nq-fn-74p.text" = "객체를 인식했어요";
+
+/* Class = "UILabel"; text = "새로운 캐릭터를 사용할 수 있어요"; ObjectID = "2vY-4C-crS"; */
+"2vY-4C-crS.text" = "새로운 캐릭터를 사용할 수 있어요";
+
+/* Class = "UILabel"; text = "개인정보처리방침"; ObjectID = "3G5-h9-u63"; */
+"3G5-h9-u63.text" = "개인정보처리방침";
+
+/* Class = "UILabel"; text = "6월 5일 월요일"; ObjectID = "5xy-RX-doN"; */
+"5xy-RX-doN.text" = "6월 5일 월요일";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6AE-ii-6UQ"; */
+"6AE-ii-6UQ.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "서비스 탈퇴"; ObjectID = "6T3-WO-6nL"; */
+"6T3-WO-6nL.configuration.title" = "서비스 탈퇴";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6T3-WO-6nL"; */
+"6T3-WO-6nL.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6a0-g1-Hki"; */
+"6a0-g1-Hki.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "yw9903@naver.com"; ObjectID = "7Sc-sq-oKE"; */
+"7Sc-sq-oKE.text" = "yw9903@naver.com";
+
+/* Class = "UIViewController"; title = "CapturedImageViewController"; ObjectID = "8B9-mG-ox2"; */
+"8B9-mG-ox2.title" = "CapturedImageViewController";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "9HM-mf-bNg"; */
+"9HM-mf-bNg.normalTitle" = "Button";
+
+/* Class = "UIViewController"; title = "LoginViewController"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "LoginViewController";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "FSs-Tt-R8i"; */
+"FSs-Tt-R8i.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Fti-gd-VsN"; */
+"Fti-gd-VsN.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "+ 25 Exp"; ObjectID = "HLL-MA-e7G"; */
+"HLL-MA-e7G.text" = "+ 25 Exp";
+
+/* Class = "UILabel"; text = "인식중"; ObjectID = "HgF-cq-gzV"; */
+"HgF-cq-gzV.text" = "인식중";
+
+/* Class = "UILabel"; text = "0:00"; ObjectID = "JQr-AU-9hv"; */
+"JQr-AU-9hv.text" = "0:00";
+
+/* Class = "UIPageViewController"; title = "OnboardingViewController"; ObjectID = "LMh-Bw-q9h"; */
+"LMh-Bw-q9h.title" = "OnboardingViewController";
+
+/* Class = "UILabel"; text = " 2 ⭢ 3 "; ObjectID = "Nox-4h-J1Q"; */
+"Nox-4h-J1Q.text" = " 2 ⭢ 3 ";
+
+/* Class = "UIButton"; configuration.title = "로그아웃"; ObjectID = "OYu-N1-iWT"; */
+"OYu-N1-iWT.configuration.title" = "로그아웃";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "OYu-N1-iWT"; */
+"OYu-N1-iWT.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "남은 시간"; ObjectID = "Oxc-ac-1gA"; */
+"Oxc-ac-1gA.text" = "남은 시간";
+
+/* Class = "UILabel"; text = "마우스"; ObjectID = "Peg-AA-8e4"; */
+"Peg-AA-8e4.text" = "마우스";
+
+/* Class = "UIViewController"; title = "MissionPerformViewController"; ObjectID = "R2n-of-ACS"; */
+"R2n-of-ACS.title" = "MissionPerformViewController";
+
+/* Class = "UILabel"; text = "축하합니다👏"; ObjectID = "RKF-hP-I6d"; */
+"RKF-hP-I6d.text" = "축하합니다👏";
+
+/* Class = "UIButton"; disabledTitle = "미션을 수행할 수 있는 시간이 끝났어요"; ObjectID = "RiV-XE-ef5"; */
+"RiV-XE-ef5.disabledTitle" = "미션을 수행할 수 있는 시간이 끝났어요";
+
+/* Class = "UIButton"; normalTitle = "미션 촬영하기"; ObjectID = "RiV-XE-ef5"; */
+"RiV-XE-ef5.normalTitle" = "미션 촬영하기";
+
+/* Class = "UILabel"; text = "알림 수신 동의"; ObjectID = "Z5y-a5-xQq"; */
+"Z5y-a5-xQq.text" = "알림 수신 동의";
+
+/* Class = "UILabel"; text = "이름"; ObjectID = "azb-Gv-a7Q"; */
+"azb-Gv-a7Q.text" = "이름";
+
+/* Class = "UITabBarController"; title = "TabBarViewController"; ObjectID = "cco-v3-mNY"; */
+"cco-v3-mNY.title" = "TabBarViewController";
+
+/* Class = "UILabel"; text = "8:00"; ObjectID = "cr7-PL-zNu"; */
+"cr7-PL-zNu.text" = "8:00";
+
+/* Class = "UILabel"; text = "MISSION"; ObjectID = "dFV-zL-4nM"; */
+"dFV-zL-4nM.text" = "MISSION";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "drr-bJ-Tsh"; */
+"drr-bJ-Tsh.normalTitle" = "Button";
+
+/* Class = "UIViewController"; title = "SplashViewController"; ObjectID = "fOT-YW-3c0"; */
+"fOT-YW-3c0.title" = "SplashViewController";
+
+/* Class = "UILabel"; text = "설정"; ObjectID = "gcr-zj-wol"; */
+"gcr-zj-wol.text" = "설정";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "h24-fJ-g8u"; */
+"h24-fJ-g8u.normalTitle" = "Button";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "hbG-oz-IeS"; */
+"hbG-oz-IeS.title" = "Item";
+
+/* Class = "UILabel"; text = "함께라면 할 수 있어"; ObjectID = "kCn-F4-MU2"; */
+"kCn-F4-MU2.text" = "함께라면 할 수 있어";
+
+/* Class = "UILabel"; text = "출석체크"; ObjectID = "mKd-bk-YwS"; */
+"mKd-bk-YwS.text" = "출석체크";
+
+/* Class = "UILabel"; text = "⏰"; ObjectID = "nXE-GS-vdX"; */
+"nXE-GS-vdX.text" = "⏰";
+
+/* Class = "UIViewController"; title = "WebkitViewController"; ObjectID = "nbV-Zh-O3S"; */
+"nbV-Zh-O3S.title" = "WebkitViewController";
+
+/* Class = "UILabel"; text = "이용약관"; ObjectID = "ydE-pb-7Jt"; */
+"ydE-pb-7Jt.text" = "이용약관";
