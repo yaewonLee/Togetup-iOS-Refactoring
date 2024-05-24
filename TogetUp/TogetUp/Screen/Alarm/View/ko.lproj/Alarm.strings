@@ -1,0 +1,156 @@
+
+/* Class = "UILabel"; text = "사물 인식"; ObjectID = "1E4-Jl-VhQ"; */
+"1E4-Jl-VhQ.text" = "사물 인식";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "1XX-zt-sQT"; */
+"1XX-zt-sQT.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "알람"; ObjectID = "2K7-A0-IUO"; */
+"2K7-A0-IUO.text" = "알람";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3fC-ee-adQ"; */
+"3fC-ee-adQ.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "취소"; ObjectID = "3pn-Ct-tTJ"; */
+"3pn-Ct-tTJ.normalTitle" = "취소";
+
+/* Class = "UILabel"; text = "👤"; ObjectID = "3xo-pT-KEj"; */
+"3xo-pT-KEj.text" = "👤";
+
+/* Class = "UIViewController"; title = "EditAlarmViewController"; ObjectID = "5JN-bL-AHe"; */
+"5JN-bL-AHe.title" = "EditAlarmViewController";
+
+/* Class = "UILabel"; text = "am 7:30"; ObjectID = "7DJ-co-fU0"; */
+"7DJ-co-fU0.text" = "am 7:30";
+
+/* Class = "UILabel"; text = "알람을 설정해주세요"; ObjectID = "7oe-4B-CTF"; */
+"7oe-4B-CTF.text" = "알람을 설정해주세요";
+
+/* Class = "UIButton"; normalTitle = "화"; ObjectID = "9MM-EE-Sxa"; */
+"9MM-EE-Sxa.normalTitle" = "화";
+
+/* Class = "UIButton"; selectedTitle = "화"; ObjectID = "9MM-EE-Sxa"; */
+"9MM-EE-Sxa.selectedTitle" = "화";
+
+/* Class = "UILabel"; text = "⏰"; ObjectID = "9To-ix-gaG"; */
+"9To-ix-gaG.text" = "⏰";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "9c3-r1-n8m"; */
+"9c3-r1-n8m.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "토"; ObjectID = "Ccb-Yw-Yxw"; */
+"Ccb-Yw-Yxw.normalTitle" = "토";
+
+/* Class = "UIButton"; selectedTitle = "토"; ObjectID = "Ccb-Yw-Yxw"; */
+"Ccb-Yw-Yxw.selectedTitle" = "토";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "D9C-KR-faE"; */
+"D9C-KR-faE.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "촬영 미션"; ObjectID = "Dpj-vh-M2x"; */
+"Dpj-vh-M2x.title" = "촬영 미션";
+
+/* Class = "UIButton"; normalTitle = "일"; ObjectID = "EvP-wA-ikw"; */
+"EvP-wA-ikw.normalTitle" = "일";
+
+/* Class = "UIButton"; selectedTitle = "일"; ObjectID = "EvP-wA-ikw"; */
+"EvP-wA-ikw.selectedTitle" = "일";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "F1S-Vb-CZW"; */
+"F1S-Vb-CZW.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "표정 인식"; ObjectID = "F5B-mH-c8j"; */
+"F5B-mH-c8j.text" = "표정 인식";
+
+/* Class = "UILabel"; text = "내 표정을 촬영하기"; ObjectID = "HiJ-LU-O9R"; */
+"HiJ-LU-O9R.text" = "내 표정을 촬영하기";
+
+/* Class = "UILabel"; text = "사람"; ObjectID = "Igz-4O-PIC"; */
+"Igz-4O-PIC.text" = "사람";
+
+/* Class = "UILabel"; text = "0/10"; ObjectID = "JoX-uU-eOm"; */
+"JoX-uU-eOm.text" = "0/10";
+
+/* Class = "UILabel"; text = "지정한 사물을 촬영하기"; ObjectID = "Pru-3d-Yd3"; */
+"Pru-3d-Yd3.text" = "지정한 사물을 촬영하기";
+
+/* Class = "UILabel"; text = "진동"; ObjectID = "QU7-tc-fE6"; */
+"QU7-tc-fE6.text" = "진동";
+
+/* Class = "UIViewController"; title = "ObjectMissionListViewController"; ObjectID = "Qh1-cY-nMV"; */
+"Qh1-cY-nMV.title" = "ObjectMissionListViewController";
+
+/* Class = "UIButton"; configuration.title = "알람 삭제하기"; ObjectID = "TI5-Xl-Ydi"; */
+"TI5-Xl-Ydi.configuration.title" = "알람 삭제하기";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "TI5-Xl-Ydi"; */
+"TI5-Xl-Ydi.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "⏰"; ObjectID = "VsC-rp-pZh"; */
+"VsC-rp-pZh.text" = "⏰";
+
+/* Class = "UIViewController"; title = "MissionListViewController"; ObjectID = "W6W-6V-e6G"; */
+"W6W-6V-e6G.title" = "MissionListViewController";
+
+/* Class = "UIButton"; normalTitle = "월"; ObjectID = "Y3c-pO-fCe"; */
+"Y3c-pO-fCe.normalTitle" = "월";
+
+/* Class = "UIButton"; selectedTitle = "월"; ObjectID = "Y3c-pO-fCe"; */
+"Y3c-pO-fCe.selectedTitle" = "월";
+
+/* Class = "UIButton"; normalTitle = "저장"; ObjectID = "Zdd-NW-g87"; */
+"Zdd-NW-g87.normalTitle" = "저장";
+
+/* Class = "UILabel"; text = "직접 등록"; ObjectID = "Zkg-MG-gYa"; */
+"Zkg-MG-gYa.text" = "직접 등록";
+
+/* Class = "UIButton"; normalTitle = "수"; ObjectID = "aKU-Wq-E5Y"; */
+"aKU-Wq-E5Y.normalTitle" = "수";
+
+/* Class = "UIButton"; selectedTitle = "수"; ObjectID = "aKU-Wq-E5Y"; */
+"aKU-Wq-E5Y.selectedTitle" = "수";
+
+/* Class = "UILabel"; text = "예정된 알람이 없어요!"; ObjectID = "bAe-d5-LuO"; */
+"bAe-d5-LuO.text" = "예정된 알람이 없어요!";
+
+/* Class = "UIButton"; normalTitle = "금"; ObjectID = "cRX-yB-13g"; */
+"cRX-yB-13g.normalTitle" = "금";
+
+/* Class = "UIButton"; selectedTitle = "금"; ObjectID = "cRX-yB-13g"; */
+"cRX-yB-13g.selectedTitle" = "금";
+
+/* Class = "UIButton"; normalTitle = "목"; ObjectID = "eSh-ns-iCb"; */
+"eSh-ns-iCb.normalTitle" = "목";
+
+/* Class = "UIButton"; selectedTitle = "목"; ObjectID = "eSh-ns-iCb"; */
+"eSh-ns-iCb.selectedTitle" = "목";
+
+/* Class = "UINavigationItem"; title = "사물 인식 미션"; ObjectID = "eZn-Az-kob"; */
+"eZn-Az-kob.title" = "사물 인식 미션";
+
+/* Class = "UITextField"; placeholder = "알람명"; ObjectID = "fNc-g4-mhU"; */
+"fNc-g4-mhU.placeholder" = "알람명";
+
+/* Class = "UILabel"; text = "미션"; ObjectID = "gFY-QH-yJd"; */
+"gFY-QH-yJd.text" = "미션";
+
+/* Class = "UILabel"; text = "원하는 사진으로 인증하기"; ObjectID = "jV9-zc-E5E"; */
+"jV9-zc-E5E.text" = "원하는 사진으로 인증하기";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "jbQ-lh-B0Q"; */
+"jbQ-lh-B0Q.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "k3J-lA-913"; */
+"k3J-lA-913.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "qCE-dj-afe"; */
+"qCE-dj-afe.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "출석체크, 월, 화, 수, 월, 화, 수, 목, 일 ,목, 일 | 키보드"; ObjectID = "yWy-Qd-HlM"; */
+"yWy-Qd-HlM.text" = "출석체크, 월, 화, 수, 월, 화, 수, 목, 일 ,목, 일 | 키보드";
+
+/* Class = "UILabel"; text = "숟가락"; ObjectID = "zM4-JG-HFJ"; */
+"zM4-JG-HFJ.text" = "숟가락";
+
+/* Class = "UILabel"; text = "알람을 끌 때 촬영할 물건을 지정해주세요"; ObjectID = "zse-yb-F5e"; */
+"zse-yb-F5e.text" = "알람을 끌 때 촬영할 물건을 지정해주세요";

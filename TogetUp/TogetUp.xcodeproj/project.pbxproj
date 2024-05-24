@@ -17,11 +17,7 @@
 		F91AA8882AB890BE00BDA437 /* AppStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91AA8872AB890BE00BDA437 /* AppStatusManager.swift */; };
 		F91B2C0F2BDEA40100A23A59 /* Jua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */; };
 		F91BEF132AF503D3003395A0 /* FloatingPannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91BEF122AF503D3003395A0 /* FloatingPannelViewController.swift */; };
-		F91C791C2AF4F64400D4E34D /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F91C791B2AF4F64400D4E34D /* FloatingPanel */; };
 		F91D01962AC2C74F003841D8 /* AlarmScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */; };
-		F93012B02ADEBD180086C348 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = F93012AF2ADEBD180086C348 /* FSCalendar */; };
-		F931405A2A8FAFE2000FB717 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140592A8FAFE2000FB717 /* GroupListViewController.swift */; };
-		F931405B2A8FB014000FB717 /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F931405D2A8FB014000FB717 /* Group.storyboard */; };
 		F93140642A8FBB43000FB717 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140632A8FBB43000FB717 /* HomeViewController.swift */; };
 		F93140662A8FBBFB000FB717 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93140652A8FBBFB000FB717 /* TabBarViewController.swift */; };
 		F93140672A8FBD30000FB717 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F93140692A8FBD30000FB717 /* Home.storyboard */; };
@@ -67,7 +63,6 @@
 		F98600F82AB038FF00595646 /* AlarmListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600F72AB038FF00595646 /* AlarmListViewModel.swift */; };
 		F98600FE2AB0B07E00595646 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600FD2AB0B07E00595646 /* Alarm.swift */; };
 		F98601002AB2EDAD00595646 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600FF2AB2EDAD00595646 /* SplashViewController.swift */; };
-		F986010B2AB868B900595646 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = F986010A2AB868B900595646 /* RxGesture */; };
 		F991D0D32BC5107B00893E67 /* 3_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F991D0D22BC5107B00893E67 /* 3_onboarding.json */; };
 		F991D0D52BC55F9600893E67 /* 2_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F991D0D42BC55F9600893E67 /* 2_onboarding.json */; };
 		F9944F242ACD8FD800B39476 /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9944F232ACD8FD800B39476 /* UIImageView + Extension.swift */; };
@@ -79,11 +74,11 @@
 		F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D0E942BB8418600437025 /* 1_onboarding.json */; };
 		F99D0E992BB84B8100437025 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99D0E982BB84B8100437025 /* ContentViewController.swift */; };
 		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
-		F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9BF13822AE2D4CF006A262A /* Kingfisher */; };
 		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
+		F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226BF2BF652A700B14D11 /* FloatingPanel */; };
+		F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C22BF652D500B14D11 /* SnapKit */; };
+		F9C226C62BF65CAC00B14D11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C52BF65CAC00B14D11 /* Then */; };
 		F9C602302B72044D008A43A0 /* CustomFloatingPanelLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */; };
-		F9C8ADC42A98BDF000F541FD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */; };
-		F9C8ADC62A98BDF000F541FD /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */; };
 		F9C8ADC82A9CDF7500F541FD /* MissionListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C8ADC72A9CDF7500F541FD /* MissionListDetailViewController.swift */; };
 		F9C8ADCA2A9CE56700F541FD /* MissionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C8ADC92A9CE56700F541FD /* MissionListViewController.swift */; };
 		F9C9C1FF2BEE3C5400A6C66E /* WebkitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C9C1FE2BEE3C5400A6C66E /* WebkitViewController.swift */; };
@@ -97,12 +92,6 @@
 		F9E50D182A95E6BE0076FEF1 /* EditAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E50D172A95E6BE0076FEF1 /* EditAlarmViewController.swift */; };
 		F9E6D2DB2ABFCDEE009004D9 /* MissionPerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E6D2DA2ABFCDEE009004D9 /* MissionPerformViewController.swift */; };
 		F9EAA56E2B1B0CA80087734E /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */; };
-		F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */; };
-		F9F3859B2AD7B97B009D15EF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */; };
-		F9F3859D2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */; };
-		F9F3859F2AD7B97B009D15EF /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */; };
-		F9F385A12AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		F9F385A32AD7B97B009D15EF /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,8 +119,6 @@
 		F91B2C0E2BDEA3EB00A23A59 /* Jua-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jua-Regular.ttf"; sourceTree = "<group>"; };
 		F91BEF122AF503D3003395A0 /* FloatingPannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPannelViewController.swift; sourceTree = "<group>"; };
 		F91D01952AC2C74F003841D8 /* AlarmScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduleManager.swift; sourceTree = "<group>"; };
-		F93140592A8FAFE2000FB717 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
-		F931405C2A8FB014000FB717 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Group.storyboard; sourceTree = "<group>"; };
 		F93140632A8FBB43000FB717 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F93140652A8FBBFB000FB717 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F93140682A8FBD30000FB717 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Home.storyboard; sourceTree = "<group>"; };
@@ -186,6 +173,10 @@
 		F99D0E942BB8418600437025 /* 1_onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 1_onboarding.json; sourceTree = "<group>"; };
 		F99D0E982BB84B8100437025 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		F9A7CC322B8DA36600C73401 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		F9BCC93A2BFF014400B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		F9BCC93B2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F9BCC93C2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Home.strings; sourceTree = "<group>"; };
+		F9BCC93D2BFF014500B6A7F9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Alarm.strings; sourceTree = "<group>"; };
 		F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupAlarmListCollectionViewCell.swift; path = "/Users/yaewon/Desktop/Togetup-iOS-Refatoring/TogetUp/TogetUp/Screen/Alarm/View/Cell/GroupAlarmListCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		F9C6022F2B72044D008A43A0 /* CustomFloatingPanelLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFloatingPanelLayout.swift; sourceTree = "<group>"; };
 		F9C8ADC72A9CDF7500F541FD /* MissionListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionListDetailViewController.swift; sourceTree = "<group>"; };
@@ -199,7 +190,6 @@
 		F9E50D172A95E6BE0076FEF1 /* EditAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlarmViewController.swift; sourceTree = "<group>"; };
 		F9E6D2DA2ABFCDEE009004D9 /* MissionPerformViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPerformViewController.swift; sourceTree = "<group>"; };
 		F9EAA56D2B1B0CA80087734E /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
-		F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,23 +198,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9E46C472BE3881600BBC221 /* RealmSwift in Frameworks */,
-				F9F385A32AD7B97B009D15EF /* FirebaseAppCheck in Frameworks */,
-				F9F385A12AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				F9C8ADC62A98BDF000F541FD /* FirebaseMessaging in Frameworks */,
+				F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */,
 				F939222A2B73486300BAA171 /* KeychainAccess in Frameworks */,
-				F9F3859B2AD7B97B009D15EF /* FirebaseAnalytics in Frameworks */,
-				F9F3859D2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
-				F91C791C2AF4F64400D4E34D /* FloatingPanel in Frameworks */,
-				F9F3859F2AD7B97B009D15EF /* FirebaseAnalyticsSwift in Frameworks */,
-				F986010B2AB868B900595646 /* RxGesture in Frameworks */,
-				F9C8ADC42A98BDF000F541FD /* FirebaseAnalytics in Frameworks */,
 				F96B32A12A8E8BD300BD3BF9 /* KeychainAccess in Frameworks */,
 				F9D679D92AC1BD2E006B1643 /* Lottie in Frameworks */,
-				F9BF13832AE2D4CF006A262A /* Kingfisher in Frameworks */,
-				F93012B02ADEBD180086C348 /* FSCalendar in Frameworks */,
+				F9C226C62BF65CAC00B14D11 /* Then in Frameworks */,
 				F96B327F2A8A358000BD3BF9 /* RxMoya in Frameworks */,
 				F96B32872A8A3BD200BD3BF9 /* MCEmojiPicker in Frameworks */,
 				F96B32942A8CB57C00BD3BF9 /* RxKakaoSDK in Frameworks */,
+				F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,14 +221,6 @@
 				F931405E2A8FBAD7000FB717 /* ViewModel */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		F915B3882A8F8D8D00E4696C /* Group */ = {
-			isa = PBXGroup;
-			children = (
-				F93140552A8FAFAF000FB717 /* View */,
-			);
-			path = Group;
 			sourceTree = "<group>";
 		};
 		F915B3892A8F8D9400E4696C /* Setting */ = {
@@ -314,15 +288,6 @@
 				F98600F32AAEF3E900595646 /* MissionModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		F93140552A8FAFAF000FB717 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				F931405D2A8FB014000FB717 /* Group.storyboard */,
-				F93140592A8FAFE2000FB717 /* GroupListViewController.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		F931405E2A8FBAD7000FB717 /* ViewModel */ = {
@@ -394,7 +359,6 @@
 				F96B32972A8CBA6200BD3BF9 /* Login */,
 				F915B3872A8F8D6900E4696C /* Home */,
 				F96B327C2A8A025800BD3BF9 /* Alarm */,
-				F915B3882A8F8D8D00E4696C /* Group */,
 				F915B3892A8F8D9400E4696C /* Setting */,
 			);
 			path = Screen;
@@ -438,7 +402,6 @@
 				F9387BC52AD569D9000A5121 /* alarmSound.mp3 */,
 				F96B32632A8A002800BD3BF9 /* AppDelegate.swift */,
 				F96B32652A8A002800BD3BF9 /* SceneDelegate.swift */,
-				F9F385982AD79DFD009D15EF /* GoogleService-Info.plist */,
 				F96B32712A8A002900BD3BF9 /* Info.plist */,
 			);
 			path = Supports;
@@ -643,20 +606,12 @@
 				F96B32862A8A3BD200BD3BF9 /* MCEmojiPicker */,
 				F96B32932A8CB57C00BD3BF9 /* RxKakaoSDK */,
 				F96B32A02A8E8BD300BD3BF9 /* KeychainAccess */,
-				F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */,
-				F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */,
-				F986010A2AB868B900595646 /* RxGesture */,
 				F9D679D82AC1BD2E006B1643 /* Lottie */,
-				F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */,
-				F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */,
-				F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */,
-				F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */,
-				F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */,
-				F93012AF2ADEBD180086C348 /* FSCalendar */,
-				F9BF13822AE2D4CF006A262A /* Kingfisher */,
-				F91C791B2AF4F64400D4E34D /* FloatingPanel */,
 				F93922292B73486300BAA171 /* KeychainAccess */,
 				F9E46C462BE3881600BBC221 /* RealmSwift */,
+				F9C226BF2BF652A700B14D11 /* FloatingPanel */,
+				F9C226C22BF652D500B14D11 /* SnapKit */,
+				F9C226C52BF65CAC00B14D11 /* Then */,
 			);
 			productName = TogetUp;
 			productReference = F96B32602A8A002800BD3BF9 /* TogetUp.app */;
@@ -679,11 +634,12 @@
 			};
 			buildConfigurationList = F96B325B2A8A002800BD3BF9 /* Build configuration list for PBXProject "TogetUp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = F96B32572A8A002800BD3BF9;
 			packageReferences = (
@@ -691,13 +647,11 @@
 				F96B32852A8A3BD200BD3BF9 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				F96B32922A8CB57C00BD3BF9 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */,
 				F9D679D72AC1BD2E006B1643 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */,
-				F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				F9E46C432BE3881600BBC221 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = F96B32612A8A002800BD3BF9 /* Products */;
 			projectDirPath = "";
@@ -715,7 +669,6 @@
 			files = (
 				F9614A4C2A8FAC0A00610784 /* Alarm.storyboard in Resources */,
 				F96B32702A8A002900BD3BF9 /* LaunchScreen.storyboard in Resources */,
-				F9F385992AD79DFD009D15EF /* GoogleService-Info.plist in Resources */,
 				F96B326D2A8A002900BD3BF9 /* Assets.xcassets in Resources */,
 				F915EA1A2BF21EDD002B84BC /* IconAssets.xcassets in Resources */,
 				F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */,
@@ -727,7 +680,6 @@
 				F919A9122ACEA09600D02125 /* progress.json in Resources */,
 				F9387BC62AD569D9000A5121 /* alarmSound.mp3 in Resources */,
 				F982EB252BE34AC100392314 /* Config.xcconfig in Resources */,
-				F931405B2A8FB014000FB717 /* Group.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,7 +705,6 @@
 				F98600F42AAEF3E900595646 /* MissionModel.swift in Sources */,
 				F945D14F2AA4AA1E0093F896 /* WithdrawlModel.swift in Sources */,
 				F98600F62AAF701E00595646 /* AlarmListCollectionViewCell.swift in Sources */,
-				F931405A2A8FAFE2000FB717 /* GroupListViewController.swift in Sources */,
 				F96B32682A8A002800BD3BF9 /* AlarmListViewController.swift in Sources */,
 				F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */,
 				F9DA5D862AC16526008E16A6 /* CapturedImageViewController.swift in Sources */,
@@ -806,18 +757,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F931405D2A8FB014000FB717 /* Group.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F931405C2A8FB014000FB717 /* Base */,
-			);
-			name = Group.storyboard;
-			sourceTree = "<group>";
-		};
 		F93140692A8FBD30000FB717 /* Home.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F93140682A8FBD30000FB717 /* Base */,
+				F9BCC93C2BFF014500B6A7F9 /* ko */,
 			);
 			name = Home.storyboard;
 			sourceTree = "<group>";
@@ -826,6 +770,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F9614A4D2A8FAC0A00610784 /* Base */,
+				F9BCC93D2BFF014500B6A7F9 /* ko */,
 			);
 			name = Alarm.storyboard;
 			sourceTree = "<group>";
@@ -834,6 +779,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F96B326A2A8A002800BD3BF9 /* Base */,
+				F9BCC93A2BFF014400B6A7F9 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -842,6 +788,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F96B326F2A8A002900BD3BF9 /* Base */,
+				F9BCC93B2BFF014500B6A7F9 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -855,6 +802,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BASE_URL = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -921,6 +869,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BASE_URL = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -990,7 +939,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9HP6SS4WYV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetUp/Resource/Supports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "'We need access to the camera to capture the image.'";
+				INFOPLIST_KEY_NSCameraUsageDescription = "TogetUp에서 미션을 수행하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1037,7 +986,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9HP6SS4WYV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetUp/Resource/Supports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "'We need access to the camera to capture the image.'";
+				INFOPLIST_KEY_NSCameraUsageDescription = "TogetUp에서 미션을 수행하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1090,22 +1039,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scenee/FloatingPanel#swift-package-manager";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.0;
-			};
-		};
-		F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.4;
-			};
-		};
 		F96B327D2A8A358000BD3BF9 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -1138,28 +1071,28 @@
 				kind = branch;
 			};
 		};
-		F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+		F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
+			repositoryURL = "https://github.com/scenee/FloatingPanel";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 2.8.2;
 			};
 		};
-		F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 7.9.1;
+				minimumVersion = 5.7.1;
 			};
 		};
-		F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			repositoryURL = "https://github.com/devxoul/Then";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 		F9D679D72AC1BD2E006B1643 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
@@ -1181,16 +1114,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F91C791B2AF4F64400D4E34D /* FloatingPanel */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F91C791A2AF4F64400D4E34D /* XCRemoteSwiftPackageReference "FloatingPanel" */;
-			productName = FloatingPanel;
-		};
-		F93012AF2ADEBD180086C348 /* FSCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F93012AE2ADEBD180086C348 /* XCRemoteSwiftPackageReference "FSCalendar" */;
-			productName = FSCalendar;
-		};
 		F93922292B73486300BAA171 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
@@ -1216,25 +1139,20 @@
 			package = F96B329F2A8E8BD300BD3BF9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
 		};
-		F986010A2AB868B900595646 /* RxGesture */ = {
+		F9C226BF2BF652A700B14D11 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F98601092AB868B800595646 /* XCRemoteSwiftPackageReference "RxGesture" */;
-			productName = RxGesture;
+			package = F9C226BE2BF652A600B14D11 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
 		};
-		F9BF13822AE2D4CF006A262A /* Kingfisher */ = {
+		F9C226C22BF652D500B14D11 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F9BF13812AE2D4CF006A262A /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
+			package = F9C226C12BF652D500B14D11 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
-		F9C8ADC32A98BDF000F541FD /* FirebaseAnalytics */ = {
+		F9C226C52BF65CAC00B14D11 /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		F9C8ADC52A98BDF000F541FD /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
+			package = F9C226C42BF65CAC00B14D11 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 		F9D679D82AC1BD2E006B1643 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1245,31 +1163,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F9E46C432BE3881600BBC221 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
-		};
-		F9F3859A2AD7B97B009D15EF /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		F9F3859C2AD7B97B009D15EF /* FirebaseAnalyticsOnDeviceConversion */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsOnDeviceConversion;
-		};
-		F9F3859E2AD7B97B009D15EF /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
-		F9F385A02AD7B97B009D15EF /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		F9F385A22AD7B97B009D15EF /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9C8ADC22A98BDF000F541FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

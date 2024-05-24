@@ -65,7 +65,6 @@ class FloatingPannelViewController: UIViewController {
                 case .success(let timelineResult):
                     if let timelineResult = timelineResult {
                         self?.updateUI(with: timelineResult)
-                        self?.setNextAlarmUI(timelineResult: timelineResult)
                         self?.bindCollectionView(with: timelineResult.todayAlarmList ?? [])
                     }
                 case .failure(let error):
@@ -73,7 +72,18 @@ class FloatingPannelViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+
+        viewModel.dataLoaded
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                if let timelineResult = try? self.viewModel.timelineData.value().get() {
+                    self.setNextAlarmUI(timelineResult: timelineResult)
+                }
+            })
+            .disposed(by: disposeBag)
     }
+
     
     private func bindCollectionView(with alarms: [AlarmModel]) {
         timeLineCollectionView.delegate = nil
@@ -116,13 +126,14 @@ class FloatingPannelViewController: UIViewController {
     
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: timeLineCollectionView.bounds.width, height: 70)
+        layout.itemSize = CGSize(width: self.view.frame.width - 72, height: 70)
         layout.minimumLineSpacing = 16
         timeLineCollectionView.collectionViewLayout = layout
     }
     
     private func setNextAlarmUI(timelineResult: TimeLineResult?) {
         viewModel.checkIfTodayAlarmListIsEmpty()
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { isEmpty in
                 if isEmpty {
                     self.configureNextAlarmViewUIWithNoData()

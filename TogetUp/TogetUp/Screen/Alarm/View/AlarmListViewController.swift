@@ -12,10 +12,8 @@ import RealmSwift
 
 class AlarmListViewController: UIViewController {
     // MARK: - UI Components
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var personalCollectionView: UICollectionView!
     @IBOutlet weak var addAlarmButton: UIButton!
-    @IBOutlet weak var groupLockerView: UIView!
     @IBOutlet weak var noExistingAlarmLabel: UILabel!
     @IBOutlet weak var setAlarmLabel: UILabel!
     
@@ -23,25 +21,14 @@ class AlarmListViewController: UIViewController {
     private let viewModel = AlarmListViewModel()
     private let disposeBag = DisposeBag()
     private let realmManger = RealmAlarmDataManager()
-    private lazy var leadingDistance: NSLayoutConstraint = {
-        return underLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
-    }()
-    private lazy var underLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "primary300")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     var selectedAlarmId = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        customUI()
         bindLabels()
         fetchAndSaveAlarmsIfFirstLogin()
         setUpNavigationBar()
-        customSegmentedControl()
         setCollectionViewFlowLayout()
         personalCollectionViewItemSelected()
     }
@@ -53,9 +40,6 @@ class AlarmListViewController: UIViewController {
     }
     
     // MARK: - Custom Method
-    private func customUI () {
-        groupLockerView.layer.cornerRadius = 12
-    }
     private func bindLabels() {
         viewModel.isAlarmEmpty
             .map { !$0 }
@@ -110,7 +94,7 @@ class AlarmListViewController: UIViewController {
     }
     
     private func editIsActivatedToggle(for alarm: Alarm) {
-        viewModel.deactivateAlarm(alarmId: alarm.id)
+        viewModel.toggleAlarm(alarmId: alarm.id)
     }
     
     private func showDeleteAlert(for alarm: Alarm) {
@@ -142,7 +126,7 @@ class AlarmListViewController: UIViewController {
     
     private func setCollectionViewFlowLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: personalCollectionView.bounds.width, height: 124)
+        layout.itemSize = CGSize(width: self.view.frame.width - 40, height: 124)
         layout.minimumLineSpacing = 16
         personalCollectionView.collectionViewLayout = layout
     }
@@ -155,51 +139,7 @@ class AlarmListViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
     }
     
-    private func customSegmentedControl() {
-        segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
-        segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
-        segmentedControl.setTitleTextAttributes([
-            NSAttributedString.Key.foregroundColor: UIColor(named: "neutral400")!,
-            NSAttributedString.Key.font: UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16)!
-        ], for: .normal)
-        segmentedControl.setTitleTextAttributes([
-            NSAttributedString.Key.foregroundColor: UIColor.black,
-            NSAttributedString.Key.font: UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16)!
-        ], for: .selected)
-        
-        self.view.addSubview(underLineView)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        underLineView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            underLineView.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
-            underLineView.heightAnchor.constraint(equalToConstant: 2),
-            leadingDistance,
-            underLineView.widthAnchor.constraint(equalTo: segmentedControl.widthAnchor, multiplier: 1 / CGFloat(segmentedControl.numberOfSegments))
-        ])
-    }
-    
     // MARK: - @
-    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
-        let segmentIndex = CGFloat(sender.selectedSegmentIndex)
-        let segmentWidth = sender.frame.width / CGFloat(sender.numberOfSegments)
-        let leadingDistance = segmentWidth * segmentIndex
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            self?.leadingDistance.constant = leadingDistance
-            self?.view.layoutIfNeeded()
-        })
-        
-        if sender.selectedSegmentIndex == 0 {
-            self.personalCollectionView.isHidden = false
-            self.addAlarmButton.isHidden = false
-            self.groupLockerView.isHidden = true
-        } else {
-            self.personalCollectionView.isHidden = true
-            self.addAlarmButton.isHidden = true
-            self.groupLockerView.isHidden = false
-        }
-    }
-    
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
         if realmManger.countActivatedAlarms() > 32 {
             showAlertForExcessiveAlarms()

@@ -102,15 +102,15 @@ class EditAlarmViewController: UIViewController, UIGestureRecognizerDelegate, UI
         configureMission(with: result)
         
         alarmNameTextField.text = result.name
+        alarmNameCountLabel.text = "\(result.name.count)/10"
         alarmIconLabel.text = result.icon
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        if let alarmTimeString = response.result?.alarmTime,
-           let alarmTimeDate = formatter.date(from: alarmTimeString) {
-            timePicker.date = alarmTimeDate
-        }
-        
+        let alarmTimeDate = formatter.date(from: result.alarmTime)
+        timePicker.date = alarmTimeDate!
+        self.alarmTimeString = String(result.alarmTime.prefix(5))
+
         isVibrate.isOn = result.isVibrate
         sunday.isSelected = result.sunday
         monday.isSelected = result.monday

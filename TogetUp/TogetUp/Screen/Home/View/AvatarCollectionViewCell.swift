@@ -18,7 +18,7 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var unlockLabelStackView: UIStackView!
     @IBOutlet weak var newLabel: UIImageView!
     @IBOutlet weak var avatarNameLabel: UILabel!
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         customUI()
@@ -36,8 +36,7 @@ class AvatarCollectionViewCell: UICollectionViewCell {
         if let theme = ThemeManager.shared.themes.first(where: { $0.avatarId == model.avatarId }) {
             newLabel.isHidden = !theme.isNew
             
-            let currentUserLevel = UserDataManager.shared.currentUserData?.userStat.level ?? 1
-            let image = UIImage(named: isSelected ? theme.collectionViewAvatarName : theme.collectionViewAvatarName)
+            let image = UIImage(named: theme.collectionViewAvatarName)
             
             if currentUserLevel < model.unlockLevel {
                 avatarImageView.image = image.map { convertToBlackAndWhite(image: $0) ?? UIImage() }

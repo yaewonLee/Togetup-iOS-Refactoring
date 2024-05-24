@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 import RxMoya
+import RxCocoa
 
 class HomeViewModel {
     private let userProvider = MoyaProvider<UserService>()
@@ -20,6 +21,7 @@ class HomeViewModel {
     private let networkManager = NetworkManager()
     private let realmManager = RealmAlarmDataManager()
     private let disposeBag = DisposeBag()
+    var avatarSpeech: BehaviorSubject<String> = BehaviorSubject(value: "")
     
     func loadAvatars() -> Observable<AvatarResponse> {
         return userProvider.rx.request(.getAvatarList)
@@ -79,7 +81,7 @@ class HomeViewModel {
             .filterSuccessfulStatusCodes()
             .subscribe { response in
                 switch response {
-                case .success(let result):
+                case .success(_):
                     self.realmManager.deactivateAlarms()
                 case .failure(let error):
                     print(error.localizedDescription)

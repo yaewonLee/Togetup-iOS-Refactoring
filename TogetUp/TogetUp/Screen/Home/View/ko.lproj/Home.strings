@@ -1,0 +1,57 @@
+
+/* Class = "UIButton"; configuration.title = "저장"; ObjectID = "2RY-Ec-Ea2"; */
+"2RY-Ec-Ea2.configuration.title" = "저장";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "2RY-Ec-Ea2"; */
+"2RY-Ec-Ea2.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "2rB-4J-qdc"; */
+"2rB-4J-qdc.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3Zn-ur-C4a"; */
+"3Zn-ur-C4a.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "오늘은 일정이 비어있어요"; ObjectID = "5Hb-My-AzP"; */
+"5Hb-My-AzP.text" = "오늘은 일정이 비어있어요";
+
+/* Class = "UINavigationItem"; title = "루틴 형성 51일째"; ObjectID = "EBK-Wj-nrb"; */
+"EBK-Wj-nrb.title" = "루틴 형성 51일째";
+
+/* Class = "UILabel"; text = "눈을 반짝이는 곰"; ObjectID = "F8J-hr-1xB"; */
+"F8J-hr-1xB.text" = "눈을 반짝이는 곰";
+
+/* Class = "UIButton"; configuration.title = "취소"; ObjectID = "Idd-jL-gkb"; */
+"Idd-jL-gkb.configuration.title" = "취소";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Idd-jL-gkb"; */
+"Idd-jL-gkb.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "2023년 9월 23일 (월)"; ObjectID = "Jd0-Xx-Ue1"; */
+"Jd0-Xx-Ue1.text" = "2023년 9월 23일 (월)";
+
+/* Class = "UILabel"; text = "운동가자｜직접 등록 미션"; ObjectID = "KLv-wx-pNM"; */
+"KLv-wx-pNM.text" = "운동가자｜직접 등록 미션";
+
+/* Class = "UILabel"; text = "🪴"; ObjectID = "KYv-Lq-UAi"; */
+"KYv-Lq-UAi.text" = "🪴";
+
+/* Class = "UILabel"; text = "아바타 변경"; ObjectID = "NJQ-1B-Mny"; */
+"NJQ-1B-Mny.text" = "아바타 변경";
+
+/* Class = "UIViewController"; title = "FloatingPannelViewController"; ObjectID = "NPm-6r-ecT"; */
+"NPm-6r-ecT.title" = "FloatingPannelViewController";
+
+/* Class = "UILabel"; text = "pm 6:00"; ObjectID = "VVz-9q-YCQ"; */
+"VVz-9q-YCQ.text" = "pm 6:00";
+
+/* Class = "UILabel"; text = "Lv. 2"; ObjectID = "dV2-u1-BUr"; */
+"dV2-u1-BUr.text" = "Lv. 2";
+
+/* Class = "UILabel"; text = "Lv.10"; ObjectID = "jYa-jS-ebg"; */
+"jYa-jS-ebg.text" = "Lv.10";
+
+/* Class = "UIViewController"; title = "HomeViewController"; ObjectID = "mrA-Cz-560"; */
+"mrA-Cz-560.title" = "HomeViewController";
+
+/* Class = "UILabel"; text = "이름"; ObjectID = "vHT-wd-8Fj"; */
+"vHT-wd-8Fj.text" = "이름";

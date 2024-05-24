@@ -93,7 +93,7 @@ class MissionPerformViewController: UIViewController {
     }
     
     private func deactivateAlarm(_ alarm: Alarm) {
-        alarmListViewModel.deactivateAlarm(alarmId: alarm.id)
+        alarmListViewModel.toggleAlarm(alarmId: alarm.id)
     }
     
     private func customUI() {
@@ -198,12 +198,7 @@ class MissionPerformViewController: UIViewController {
     // MARK: - @
     @IBAction func performButtonTapped(_ sender: UIButton) {
         stopSoundAndVibrate()
-        
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .camera
-        imagePickerController.allowsEditing = true
-        self.present(imagePickerController, animated: true, completion: nil)
+        checkCameraAuthorizationStatus()
     }
     
     @IBAction func dismissMissionPage(_ sender: UIButton) {
@@ -218,6 +213,48 @@ class MissionPerformViewController: UIViewController {
 }
 
 extension MissionPerformViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    private func checkCameraAuthorizationStatus() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    self.presentImagePickerController()
+                }
+            }
+        case .authorized:
+            presentImagePickerController()
+        case .restricted, .denied:
+            showCameraAccessDeniedAlert()
+        @unknown default:
+            fatalError("Unknown camera authorization status")
+        }
+    }
+    
+    private func showCameraAccessDeniedAlert() {
+        let alert = UIAlertController(title: "카메라 권한이 거부되었습니다",
+                                      message: "설정으로 이동해 카메라 권한을 허용해 주세요",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            if let appSettingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettingsURL)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    private func presentImagePickerController() {
+        DispatchQueue.main.async {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .camera
+            imagePickerController.allowsEditing = true
+            self.present(imagePickerController, animated: true, completion: nil)
+        }
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true) {
             if let capturedImage = info[.editedImage] as? UIImage {

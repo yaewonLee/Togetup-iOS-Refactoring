@@ -97,7 +97,7 @@ class AlarmScheduleManager {
         }
     }
     
-    func removeNotification(for alarmId: Int) {
+    func removeNotification(for alarmId: Int, completion: @escaping () -> Void) {
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
             let identifiersToRemove = requests.filter { request in
@@ -110,6 +110,7 @@ class AlarmScheduleManager {
             } else {
                 print("No notifications found for alarm ID: \(alarmId)")
             }
+            completion()
         }
     }
     
@@ -122,7 +123,7 @@ class AlarmScheduleManager {
         if alarm.isActivated {
             scheduleAlarmById(with: alarmId)
         } else {
-            removeNotification(for: alarmId)
+            removeNotification(for: alarmId) {}
         }
     }
     

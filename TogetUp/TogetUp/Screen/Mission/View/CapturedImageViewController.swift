@@ -22,7 +22,8 @@ class CapturedImageViewController: UIViewController {
     @IBOutlet weak var successLabelTopMargin: NSLayoutConstraint!
     @IBOutlet weak var levelUpLabel: UILabel!
     @IBOutlet weak var congratLabel: UILabel!
-    
+    @IBOutlet weak var levelUpView: UIView!
+    @IBOutlet weak var newAvatarAvailabelLabel: UILabel!
     // MARK: - Properties
     var image = UIImage()
     var missionId = 0
@@ -48,8 +49,8 @@ class CapturedImageViewController: UIViewController {
         
         pointLabel.layer.cornerRadius = 12
         pointLabel.layer.masksToBounds = true
-        levelUpLabel.layer.cornerRadius = 12
-        levelUpLabel.layer.masksToBounds = true
+        levelUpView.layer.cornerRadius = 12
+        levelUpView.layer.masksToBounds = true
     }
     
     // MARK: - Custom Method
@@ -126,18 +127,23 @@ class CapturedImageViewController: UIViewController {
                 self.statusLabel.text = "LEVEL UP"
                 self.successLabel.isHidden = true
                 self.pointLabel.isHidden = true
+                self.levelUpView.isHidden = false
                 self.levelUpLabel.isHidden = false
                 self.congratLabel.isHidden = false
                 self.configureLevelUpLabel(userLevel: response.result?.userStat.level ?? 0)
+                if response.result?.avatarUnlockAvailable ?? false {
+                    self.newAvatarAvailabelLabel.isHidden = false
+                    self.congratLabel.isHidden = true
+                }
             }
         }
     }
     
     private func configureLevelUpLabel(userLevel: Int) {
-        let text = "  \(userLevel - 1) ⭢ \(userLevel)   "
+        let text = "\(userLevel - 1) ⭢ \(userLevel)"
         let attributedString = NSMutableAttributedString(string: text)
         let textLength = text.count
-        let startLocation = 5
+        let startLocation = 4
         
         let range = NSRange(location: startLocation, length: textLength - startLocation)
         attributedString.addAttribute(.foregroundColor, value: UIColor(named: "secondary500")!, range: range)

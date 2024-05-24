@@ -21,24 +21,23 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     func configurePages() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pageData = [
-            (lottieFileName: "1_onboarding", currentPageNumber: 1, label1String: "찰칵 찍어서 알람 종료", label2String: "지정한 물체를 촬영하면 \nAI가 인식해서 알람을 꺼줘요", buttonTitle: "다음"),
-            (lottieFileName: "2_onboarding", currentPageNumber: 2, label1String: "친구와 함께 목표를 향해", label2String: "같은 미션을 수행하는 그룹에 참여해 \n다른 친구의 기록을 보며 의욕 충전", buttonTitle: "다음"),
-            (lottieFileName: "3_onboarding", currentPageNumber: 3, label1String: "내 스타일로 앱꾸하기", label2String: "특정 레벨마다 해금되는 다양한 캐릭터와 \n테마로 원하는 화면을 꾸며봐요", buttonTitle: "시작하기")
+            (lottieFileName: "1_onboarding", currentPageNumber: 1, label1String: "찰칵 찍어서 알람 종료", label2String: "지정한 물체를 촬영하면 \nAI가 인식해서 알람을 꺼줘요", buttonTitle: "다음", backgroundColor: UIColor(named: "onboardingFirstColor")),
+            (lottieFileName: "2_onboarding", currentPageNumber: 2, label1String: "친구와 함께 목표를 향해", label2String: "같은 미션을 수행하는 그룹에 참여해 \n다른 친구의 기록을 보며 의욕 충전", buttonTitle: "다음", backgroundColor: UIColor(named: "onboardingSecondColor")),
+            (lottieFileName: "3_onboarding", currentPageNumber: 3, label1String: "내 스타일로 앱꾸하기", label2String: "특정 레벨마다 해금되는 다양한 캐릭터와 \n테마로 원하는 화면을 꾸며봐요", buttonTitle: "시작하기", backgroundColor: UIColor(named: "secondary100"))
         ]
         
         for (index, data) in pageData.enumerated() {
-            if let pageContentVC = storyboard.instantiateViewController(withIdentifier: "ContentViewController") as? ContentViewController {
-                pageContentVC.delegate = self
-                pageContentVC.lottieFileName = data.lottieFileName
-                pageContentVC.currentPageNumber = data.currentPageNumber
-                pageContentVC.label1String = data.label1String
-                pageContentVC.label2String = data.label2String
-                pageContentVC.buttonTitle = data.buttonTitle
-                pageContentVC.isLastPage = index == pageData.count - 1
-                pages.append(pageContentVC)
-            }
+            let pageContentVC = ContentViewController()
+            pageContentVC.delegate = self
+            pageContentVC.lottieFileName = data.lottieFileName
+            pageContentVC.currentPageNumber = data.currentPageNumber
+            pageContentVC.label1String = data.label1String
+            pageContentVC.label2String = data.label2String
+            pageContentVC.buttonTitle = data.buttonTitle
+            pageContentVC.isLastPage = index == pageData.count - 1
+            pageContentVC.backgroundColor = data.backgroundColor
+            pages.append(pageContentVC)
         }
     }
     
@@ -59,6 +58,7 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
 
 extension OnboardingViewController: ContentViewControllerDelegate {
     func didFinishOnboarding() {
+        AppStatusManager.shared.markAsLaunched()
         if let loginViewController = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
             loginViewController.modalPresentationStyle = .fullScreen
             present(loginViewController, animated: true)

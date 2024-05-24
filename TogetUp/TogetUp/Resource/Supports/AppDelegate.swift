@@ -7,13 +7,11 @@
 
 import UIKit
 import RxKakaoSDKCommon
-import FirebaseCore
 import UserNotifications
-import FirebaseMessaging
 import RxSwift
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     private let pushAlarmViewModel = PushAlarmViewModel()
     private let disposeBag = DisposeBag()
     
@@ -26,26 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KakaoAppKey") as? String {
             RxKakaoSDK.initSDK(appKey: kakaoAppKey)
         }
-        FirebaseApp.configure()
-        Messaging.messaging().delegate = self
-        Messaging.messaging().isAutoInitEnabled = true
         
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
         return true
-    }
-
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-    }
-    
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        //        print("fcmToken: \(fcmToken)")
-        //        pushAlarmViewModel.sendFcmToken(token: fcmToken ?? "")
-        //            .subscribe(onNext: { response in
-        //                print(response)
-        //            })
-        //            .disposed(by: disposeBag)
     }
     
     // MARK: UISceneSession Lifecycle
