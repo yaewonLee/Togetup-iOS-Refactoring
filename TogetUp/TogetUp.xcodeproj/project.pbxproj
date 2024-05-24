@@ -54,7 +54,6 @@
 		F97CDC262B1458E10057AA82 /* AvatarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC252B1458E10057AA82 /* AvatarModel.swift */; };
 		F97CDC282B14CA220057AA82 /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC272B14CA220057AA82 /* AvatarCollectionViewCell.swift */; };
 		F97CDC2A2B15DDA50057AA82 /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97CDC292B15DDA50057AA82 /* TimelineViewModel.swift */; };
-		F982EB252BE34AC100392314 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F982EB242BE34AC100392314 /* Config.xcconfig */; };
 		F98600EE2AAE289200595646 /* ObjectMissionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600ED2AAE289200595646 /* ObjectMissionCollectionViewCell.swift */; };
 		F98600F02AAEC04A00595646 /* MissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600EF2AAEC04A00595646 /* MissionViewModel.swift */; };
 		F98600F22AAEC1A400595646 /* MissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98600F12AAEC1A400595646 /* MissionService.swift */; };
@@ -625,7 +624,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					F96B325F2A8A002800BD3BF9 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -679,7 +678,6 @@
 				F91B2C0F2BDEA40100A23A59 /* Jua-Regular.ttf in Resources */,
 				F919A9122ACEA09600D02125 /* progress.json in Resources */,
 				F9387BC62AD569D9000A5121 /* alarmSound.mp3 in Resources */,
-				F982EB252BE34AC100392314 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
