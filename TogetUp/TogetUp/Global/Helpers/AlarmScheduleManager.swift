@@ -34,15 +34,9 @@ class AlarmScheduleManager {
         let calendar = Calendar.current
         let components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0)
         var nextDate = referenceDate
-        
-        let currentDateComponents = calendar.dateComponents([.hour, .minute, .second], from: referenceDate)
-        let currentHour = currentDateComponents.hour!
-        let currentMinute = currentDateComponents.minute!
-        let currentSecond = currentDateComponents.second!
-        
-        if currentHour > alarm.alarmHour || (currentHour == alarm.alarmHour && currentMinute > alarm.alarmMinute) ||
-            (currentHour == alarm.alarmHour && currentMinute == alarm.alarmMinute && currentSecond > 0) {
-            nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
+
+        if calendar.compare(referenceDate, to: calendar.date(bySettingHour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0, of: referenceDate)!, toGranularity: .minute) == .orderedDescending {
+            nextDate = calendar.date(byAdding: .day, value: 1, to: referenceDate)!
         }
         
         while true {
@@ -55,6 +49,7 @@ class AlarmScheduleManager {
             nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
         }
     }
+
     
     private func getNextSingleAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
         let calendar = Calendar.current
