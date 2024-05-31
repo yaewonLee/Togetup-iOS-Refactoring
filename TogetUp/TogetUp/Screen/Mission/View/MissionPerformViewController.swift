@@ -70,28 +70,11 @@ class MissionPerformViewController: UIViewController {
         let realm = try! Realm()
         guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else { return }
         
-        if alarm.isRepeatAlarm() {
-            rescheduleAlarm(for: alarmId)
-        } else {
+        if !alarm.isRepeatAlarm() {
             deactivateAlarm(alarm)
         }
     }
-    
-    private func rescheduleAlarm(for alarmId: Int) {
-        let realm = try? Realm()
-        guard let alarm = realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
-            print("Alarm with ID \(alarmId) not found in Realm")
-            return
-        }
-        
-        guard let nextAlarmDate = AlarmScheduleManager.shared.getNextAlarmDate(for: alarm, from: Date()) else {
-            print("No valid next alarm date found")
-            return
-        }
-        AlarmScheduleManager.shared.scheduleAlarmById(with: alarm.id)
-        print("Alarm rescheduled for: \(nextAlarmDate)")
-    }
-    
+
     private func deactivateAlarm(_ alarm: Alarm) {
         alarmListViewModel.toggleAlarm(alarmId: alarm.id)
     }
