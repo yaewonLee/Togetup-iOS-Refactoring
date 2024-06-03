@@ -13,69 +13,76 @@ import AudioToolbox
 class AlarmScheduleManager {
     static let shared = AlarmScheduleManager()
     
-    func scheduleAlarmById(with alarmId: Int) {
-        let realm = try! Realm()
-        guard let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId), alarm.isActivated else { return }
+    func scheduleNotification(for alarmId: Int) {
+        let realm = try? Realm()
+        guard let alarm = realm?.object(ofType: Alarm.self, forPrimaryKey: alarmId), alarm.isActivated else { return }
         
-        if let nextAlarmTime = getNextAlarmDate(for: alarm, from: Date()) {
-            scheduleNotification(at: nextAlarmTime, with: alarm)
-        }
-    }
-    
-    func getNextAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
+        let content = self.createNotificationContent(for: alarm)
+        let notificationCenter = UNUserNotificationCenter.current()
+        
         if alarm.isRepeatAlarm() {
-            return getNextRepeatAlarmDate(for: alarm, from: referenceDate)
+            self.scheduleRepeatingAlarms(for: alarm, with: content, using: notificationCenter)
         } else {
-            return getNextSingleAlarmDate(for: alarm, from: referenceDate)
+            self.scheduleSingleAlarm(for: alarm, with: content, using: notificationCenter)
         }
     }
     
-    private func getNextRepeatAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
-        let calendar = Calendar.current
-        let components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0)
-        var nextDate = referenceDate
-
-        if calendar.compare(referenceDate, to: calendar.date(bySettingHour: alarm.alarmHour, minute: alarm.alarmMinute, second: 0, of: referenceDate)!, toGranularity: .minute) == .orderedDescending {
-            nextDate = calendar.date(byAdding: .day, value: 1, to: referenceDate)!
-        }
-        
-        while true {
-            if let alarmDate = calendar.nextDate(after: nextDate, matching: components, matchingPolicy: .strict) {
-                let weekday = calendar.component(.weekday, from: alarmDate)
-                if alarm.isActive(on: weekday) {
-                    return alarmDate
-                }
-            }
-            nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
-        }
-    }
-
-    
-    private func getNextSingleAlarmDate(for alarm: Alarm, from referenceDate: Date) -> Date? {
-        let calendar = Calendar.current
-        let components = DateComponents(hour: alarm.alarmHour, minute: alarm.alarmMinute)
-        
-        if let nextDate = calendar.nextDate(after: referenceDate, matching: components, matchingPolicy: .nextTime) {
-            return nextDate > referenceDate ? nextDate : nil
-        }
-        return nil
-    }
-    
-    
-    private func scheduleNotification(at date: Date, with alarm: Alarm) {
+    private func createNotificationContent(for alarm: Alarm) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = "알람이 울리고 있어요!"
         content.body = "\(alarm.missionName)찍기 미션을 수행해주세요!"
         content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarmSound.mp3"))
         content.userInfo = ["alarmId": alarm.id]
+        return content
+    }
+    
+    private func scheduleSingleAlarm(for alarm: Alarm, with content: UNMutableNotificationContent, using notificationCenter: UNUserNotificationCenter) {
+        DispatchQueue.main.async {
+            var dateComponents = DateComponents()
+            dateComponents.hour = alarm.alarmHour
+            dateComponents.minute = alarm.alarmMinute
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            let request = UNNotificationRequest(identifier: "\(alarm.id)", content: content, trigger: trigger)
+            
+            notificationCenter.add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func scheduleRepeatingAlarms(for alarm: Alarm, with content: UNMutableNotificationContent, using notificationCenter: UNUserNotificationCenter) {
+        let weekdays = [
+            (alarm.monday, 2), // 월
+            (alarm.tuesday, 3), // 화
+            (alarm.wednesday, 4), // 수
+            (alarm.thursday, 5), // 목
+            (alarm.friday, 6), // 금
+            (alarm.saturday, 7), // 토
+            (alarm.sunday, 1)  // 일
+        ]
         
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        weekdays.forEach { isScheduled, weekday in
+            if isScheduled {
+                scheduleAlarmOnWeekday(for: alarm, weekday: weekday, with: content, using: notificationCenter)
+            }
+        }
+    }
+    
+    private func scheduleAlarmOnWeekday(for alarm: Alarm, weekday: Int, with content: UNMutableNotificationContent, using notificationCenter: UNUserNotificationCenter) {
+        var dateComponents = DateComponents()
+        dateComponents.hour = alarm.alarmHour
+        dateComponents.minute = alarm.alarmMinute
+        dateComponents.weekday = weekday
         
-        let request = UNNotificationRequest(identifier: "\(alarm.id)", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request) { error in
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        let request = UNNotificationRequest(identifier: "\(alarm.id)-\(weekday)", content: content, trigger: trigger)
+        
+        notificationCenter.add(request) { error in
             if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
+                print("Error scheduling notification: \(error)")
             }
         }
     }
@@ -96,7 +103,7 @@ class AlarmScheduleManager {
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
             let identifiersToRemove = requests.filter { request in
-                request.identifier == "\(alarmId)"
+                request.identifier.starts(with: "\(alarmId)")
             }.map { $0.identifier }
             
             if !identifiersToRemove.isEmpty {
@@ -116,7 +123,7 @@ class AlarmScheduleManager {
             return
         }
         if alarm.isActivated {
-            scheduleAlarmById(with: alarmId)
+            scheduleNotification(for: alarm.id)
         } else {
             removeNotification(for: alarmId) {}
         }
@@ -125,7 +132,7 @@ class AlarmScheduleManager {
     func refreshAllScheduledNotifications() {
         guard let allAlarms = fetchAllAlarmsFromDatabase() else { return }
         for alarm in allAlarms where alarm.isActivated {
-            scheduleAlarmById(with: alarm.id)
+            scheduleNotification(for: alarm.id)
         }
     }
     
@@ -143,6 +150,29 @@ class AlarmScheduleManager {
             print("Error accessing Realm: \(error)")
             return nil
         }
+    }
+    
+    func printAllScheduledNotifications() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getPendingNotificationRequests { requests in
+            for request in requests {
+                print("Notification ID: \(request.identifier)")
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                    if let nextTriggerDate = trigger.nextTriggerDate() {
+                        let description = self.dateDescription(from: nextTriggerDate)
+                        print("Scheduled for: \(description)")
+                    }
+                } else {
+                    print("Scheduled for a single time")
+                }
+            }
+        }
+    }
+    
+    private func dateDescription(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+        return formatter.string(from: date)
     }
 }
 

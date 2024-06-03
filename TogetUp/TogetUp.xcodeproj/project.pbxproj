@@ -73,7 +73,6 @@
 		F99D0E972BB8418600437025 /* 1_onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F99D0E942BB8418600437025 /* 1_onboarding.json */; };
 		F99D0E992BB84B8100437025 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99D0E982BB84B8100437025 /* ContentViewController.swift */; };
 		F9A7CC332B8DA36600C73401 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A7CC322B8DA36600C73401 /* ThemeManager.swift */; };
-		F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BF13852AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift */; };
 		F9C226C02BF652A700B14D11 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226BF2BF652A700B14D11 /* FloatingPanel */; };
 		F9C226C32BF652D500B14D11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C22BF652D500B14D11 /* SnapKit */; };
 		F9C226C62BF65CAC00B14D11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = F9C226C52BF65CAC00B14D11 /* Then */; };
@@ -704,7 +703,6 @@
 				F945D14F2AA4AA1E0093F896 /* WithdrawlModel.swift in Sources */,
 				F98600F62AAF701E00595646 /* AlarmListCollectionViewCell.swift in Sources */,
 				F96B32682A8A002800BD3BF9 /* AlarmListViewController.swift in Sources */,
-				F9BF13862AE3FEDF006A262A /* GroupAlarmListCollectionViewCell.swift in Sources */,
 				F9DA5D862AC16526008E16A6 /* CapturedImageViewController.swift in Sources */,
 				F98600EE2AAE289200595646 /* ObjectMissionCollectionViewCell.swift in Sources */,
 				F9E6D2DB2ABFCDEE009004D9 /* MissionPerformViewController.swift in Sources */,
@@ -951,7 +949,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-Xlinker",
 					"-no_warn_duplicate_libraries",
@@ -998,7 +996,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yaewon.TogetUp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

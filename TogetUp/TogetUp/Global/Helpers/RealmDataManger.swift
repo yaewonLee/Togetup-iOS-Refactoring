@@ -95,7 +95,7 @@ class RealmAlarmDataManager {
             print("Error deactivating alarms: \(error)")
         }
     }
-
+    
     func deactivateAlarmRequest(alarmId: Int) -> CreateOrEditAlarmRequest {
         guard let storedAlarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) else {
             fatalError("Alarm not found")
@@ -124,6 +124,13 @@ class RealmAlarmDataManager {
             isActivated: !storedAlarm.isActivated,
             roomId: nil
         )
+    }
+    
+    func isAlarmRepeat(alarmId: Int) -> Bool? {
+        if let alarm = realm.object(ofType: Alarm.self, forPrimaryKey: alarmId) {
+            return alarm.isRepeatAlarm()
+        }
+        return nil
     }
     
     func toggleActivationStatus(for alarmId: Int) -> Bool? {

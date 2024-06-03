@@ -48,7 +48,7 @@ class AlarmListViewModel {
     private func scheduleActiveAlarms() {
         let alarms = realmInstance.objects(Alarm.self).filter("isActivated == true")
         for alarm in alarms {
-            AlarmScheduleManager.shared.scheduleAlarmById(with: alarm.id)
+            AlarmScheduleManager.shared.scheduleNotification(for: alarm.id)
         }
     }
     
@@ -114,9 +114,11 @@ class AlarmListViewModel {
                 switch result {
                 case .success(_):
                     if self?.realmManager.toggleActivationStatus(for: alarmId) ?? false {
-                        AlarmScheduleManager.shared.scheduleAlarmById(with: alarmId)
+                        AlarmScheduleManager.shared.scheduleNotification(for: alarmId)
                     } else {
-                        AlarmScheduleManager.shared.removeNotification(for: alarmId) {}
+                        if self?.realmManager.isAlarmRepeat(alarmId: alarmId) ?? false {
+                            AlarmScheduleManager.shared.removeNotification(for: alarmId) {}
+                        }
                     }
                     self?.fetchAlarmsFromRealm()
                 case .failure(let error):

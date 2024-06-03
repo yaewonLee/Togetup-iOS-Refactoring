@@ -37,6 +37,7 @@ class AlarmListViewController: UIViewController {
         super.viewWillAppear(animated)
         viewModel.fetchAlarmsFromRealm()
         setCollectionView()
+        AlarmScheduleManager.shared.printAllScheduledNotifications()
     }
     
     // MARK: - Custom Method
@@ -141,7 +142,7 @@ class AlarmListViewController: UIViewController {
     
     // MARK: - @
     @IBAction func createAlarmBtnTapped(_ sender: Any) {
-        if realmManger.countActivatedAlarms() > 32 {
+        if realmManger.countActivatedAlarms() > 64 {
             showAlertForExcessiveAlarms()
         } else {
             guard let vc = storyboard?.instantiateViewController(identifier: "EditAlarmViewController") as? EditAlarmViewController else { return }
