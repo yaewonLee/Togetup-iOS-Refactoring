@@ -1,4 +1,4 @@
-# TogetUp: 1.0.2
+# TogetUp: 1.0.3
 ![](https://github.com/Wake-up-together-TogetUp/Togetup-iOS-Refactoring/assets/78905994/5af4b461-1fc5-4854-9bb1-aba8d65cd2b8)
 ![](https://github.com/Wake-up-together-TogetUp/Togetup-iOS-Refactoring/assets/78905994/72b58941-826e-4301-9d1e-6a84f910be94)
 
